@@ -1,0 +1,30 @@
+:host {
+  height: 100%;
+  display: block;
+}
+
+.empty-cart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;  
+  background-color: #ef806a6e;
+  color: white;
+}
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+  margin-top: 1rem;  
+  background-color: #ff6647;
+}
+
+.icon-back {
+  margin-right: 0.5rem;
+  font-size: 1.2rem;
+}
+

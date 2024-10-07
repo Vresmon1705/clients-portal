@@ -1,0 +1,31 @@
+:host {
+  height: 100vh;
+  display: block;
+  background-size: cover;
+  background-image: url("../../../assets/images/image.png");
+
+}
+
+.container-card-login {
+  margin: auto;
+  opacity: 0.9;
+}
+
+.btn-login {
+  border: none;
+  background-color: #ff6647;
+}
+
+.title-login {
+  color: #ff6647;
+  font-weight: 500;
+  font-size: 45px;
+  @media (max-width: 500.2px) {
+    font-size: 26px;
+  }
+}
+
+.btn-loading {
+  border: none;
+  font-size: 20px;
+}

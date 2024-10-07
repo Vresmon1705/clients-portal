@@ -1,0 +1,141 @@
+:host {
+  height: 100%;
+  display: block;
+}
+ 
+.mdc-list-item__content {
+  border-radius: 10px;
+}
+ 
+.dropdown-position {
+  width: 225px;
+  cursor: pointer;
+  margin-left: 30px;
+ 
+  @media (max-width: 600.2px) {
+    width: 160px;
+    margin-left: -85px;
+  }
+ 
+  .dropdown-item {
+    border-radius: 5px;
+    transition: background-color 0.5s, color 0.5s;
+    &:hover {
+      color: #fff;
+      background-color: #ff6647;
+    }
+  }
+ 
+  .dropdown-item-roles {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
+    overflow-x: auto;
+  }
+  .dropdown-item-roles::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+    border-radius: 5px;
+    background-color: #fff;
+  }
+  .dropdown-item-roles::-webkit-scrollbar-thumb {
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: #ff6647;
+  }
+}
+ 
+.container-table-indicators {
+  min-height: 89%;
+  @media (max-width: 1600.2px) {
+    min-height: 86%;
+  }
+}
+ 
+.item-content-menu {
+  color: #282c3f;
+  background-color: #fff;
+}
+ 
+.item-content-menu.active {
+  color: #ff6647;
+  font-weight: 500;
+  border-left: 2px solid;
+  background-color: #fff;
+}
+ 
+.content-sidebar {
+  box-shadow: 25px 35px 25px -30px #282c3f;
+ 
+  .side-nav {
+    --mat-toolbar-container-background-color: #fff;
+  }
+}
+ 
+.side-menu {
+  --mat-toolbar-container-background-color: #282c3f;
+  box-shadow: 2px 3px 9px 0px #282c3f;
+  color: #fff;
+ 
+  .btn-logout {
+    color: #fff !important;
+  }
+  .dropdown {
+    &:hover{
+      .dropdown-position {
+        display: block !important;
+      }
+    }
+  }
+}
+ 
+
+.accordion-button:not(.collapsed)::after {
+  background-image: url("../../../assets/images/sidebar-arrow-orange.svg") !important;
+}
+ 
+.accordion-button:not(.collapsed) {
+    box-shadow: none;
+  font-weight: 500;
+  color: #ff6647 !important;
+  background-color: #ffff !important;
+}
+ 
+.accordion-button:focus {
+  box-shadow: 0 0 0 0.1rem rgba(40, 44, 63, 0.73);
+}
+ 
+.logo-nuvant {
+  cursor: pointer;
+}
+ 
+.img-fluid {
+  max-width: 75%;
+}
+ 
+.two-letters {
+  margin-right: 5px;
+  border-radius: 50px;
+  background: #ff6647;
+  padding: 9.5px 5px 9.5px 10px;
+}
+ 
+.responsive-user {
+  @media (max-width: 600.2px) {
+    display: none;
+  }
+}
+ 
+.disabled-div {
+  pointer-events: none;
+  opacity: 0.5;
+}
+ 
+.btn-dark{
+  color: #fff;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}

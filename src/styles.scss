@@ -1,1 +1,394 @@
-/* You can add global styles to this file, and also import other style files */
+html,
+body {
+  height: 100%;
+  --mdc-plain-tooltip-supporting-text-size: 14px;
+  --mdc-plain-tooltip-container-color: #282c3f;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+body.mat-typography.swal2-shown.swal2-height-auto {
+  height: 100% !important;
+}
+.mat-mdc-form-field-bottom-align {
+  display: none !important;
+}
+.mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::after {
+  border-bottom-color: #ff6647 !important;
+}
+.mdc-text-field--filled {
+  border-radius: 8px 0px 0px 8px !important;
+}
+.dropdown-table-machines {
+  .mdc-text-field--filled {
+    border-radius: 0px !important;
+    background-color: #ffff !important;
+  }
+}
+.mdc-text-field--filled:not(.mdc-text-field--disabled).mdc-text-field--focused
+  .mdc-floating-label--float-above {
+  color: #ff6647 !important;
+}
+.swal2-cancel.btn.btn-danger {
+  margin: 5px !important;
+}
+.swal2-confirm.btn.btn-success {
+  margin: 5px !important;
+}
+.btn-confirm-delete {
+  border: none !important;
+  background-color: #ff6647 !important;
+}
+.btn-cancel-delete {
+  border: none !important;
+  background-color: #282c3f !important;
+}
+ng-multiselect-dropdown {
+  .multiselect-dropdown {
+    .dropdown-btn {
+      border: none !important;
+      padding: 25px 10px 6px !important;
+    }
+  }
+  .dropdown-list {
+    margin-top: 0px !important;
+  }
+  .selected-item {
+    width: auto !important;
+    max-width: none !important;
+  }
+  .multiselect-item-checkbox {
+    div::before {
+      border: 2px solid #ff6647 !important;
+      border-radius: 4px !important;
+    }
+    input:checked + div:before {
+      animation: none !important;
+      background-color: #ff6647 !important;
+    }
+    input:checked + div::after {
+      left: 3.5px !important;
+    }
+  }
+}
+.multiselect-dropdown {
+  .dropdown-btn {
+    .dropdown-multiselect__caret {
+      height: 100% !important;
+    }
+    .selected-item-container {
+      .selected-item {
+        background-color: #ff6647 !important;
+        border: 1px solid #ff6647 !important;
+        border-radius: 4px !important;
+      }
+    }
+  }
+}
+ 
+.scrollable-list {
+  max-height: 150px;
+  overflow-y: auto;
+  padding-left: 20px;
+  margin: 20px 0px 0px 0px;
+}
+ 
+.scrollable-list::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+  border-radius: 5px;
+  background-color: #fff;
+}
+ 
+.scrollable-list::-webkit-scrollbar-thumb {
+  cursor: pointer;
+  border-radius: 10px;
+  background-color: #ff6647;
+}
+ 
+.mat-drawer-side {
+  border-right-width: 0px !important;
+}
+ 
+.mat-drawer {
+  @media (max-width: 720.2px) {
+    width: 240px !important;
+  }
+  @media (max-width: 500.2px) {
+    width: 230px !important;
+  }
+}
+ 
+.modal-backdrop {
+  z-index: 0 !important;
+}
+ 
+.mat-mdc-paginator-container {
+  justify-content: center !important;
+  .mat-mdc-icon-button.mat-mdc-button-base {
+    @media (max-width: 500.2px) {
+      padding: 6px;
+      --mdc-icon-button-state-layer-size: 35px;
+    }
+  }
+}
+ 
+.mat-mdc-paginator-range-label {
+  margin: 0 !important;
+  @media (max-width: 500.2px) {
+    display: none !important;
+  }
+}
+ 
+.form-field-ntp {
+  .mat-mdc-text-field-wrapper {
+    background-color: #fff !important;
+    border-radius: 6px 6px 0px 0px !important;
+  }
+}
+ 
+.btn-close-material {
+  width: 30px;
+  height: 30px;
+  color: #fff;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 25px;
+  align-content: center;
+  background-color: #ff6647;
+  transition: box-shadow 0.5s;
+  &:hover {
+    box-shadow: 0px 0px 5px 2.5px #282c3f;
+  }
+}
+ 
+.mat-drawer-content,
+.mat-drawer-inner-container {
+  --background-color: #ffffff;
+  --text-color: #000000;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+ 
+.dark-mode {
+  --background-color: #282c3f !important;
+  --text-color: #e0e0e0 !important;
+  background-color: var(--background-color) !important;
+  color: var(--text-color) !important;
+  --mat-paginator-container-text-color: #fff;
+ 
+  .table {
+    --bs-table-bg: #282c3f !important;
+    color: #fff !important;
+    --bs-body-color: #fff;
+  }
+ 
+  .table > :not(caption) > * > * {
+    --bs-body-color: #fff;
+    color: #fff !important;
+  }
+  .card {
+    background-color: #282c3f;
+    border: #ffffff45 0.01rem solid;
+  }
+ 
+  .content-sidebar {
+    .side-nav {
+      --mat-toolbar-container-background-color: #d5d5d5 !important;
+    }
+  }
+ 
+  .item-content-menu {
+    background-color: #d5d5d5 !important;
+  }
+ 
+  .mat-drawer-inner-container {
+    --background-color: #d5d5d5 !important;
+    --text-color: #282c3f !important;
+    background-color: var(--background-color) !important;
+    color: var(--text-color) !important;
+    --mat-paginator-container-text-color: #fff;
+  }
+ 
+  .accordion-button-menu-dark {
+    background-color: #d5d5d5 !important;
+    color: #282c3f !important;
+  }
+ 
+  .side-nav {
+    background-color: #d5d5d5 !important;
+  }
+ 
+  input,
+  textarea {
+    background-color: #d5d5d5;
+    &::placeholder {
+      color: #282c3f;
+    }
+  }
+ 
+  .mat-mdc-tooltip-trigger:hover {
+    cursor: pointer;
+    background: transparent;
+  }
+ 
+  .table-text-title-table{
+    .text-title-table {
+      font-weight: 500;
+      color: #ff6647 !important;
+    }
+  }
+ 
+  .status-element-green.mat-mdc-tooltip-trigger:hover{
+    cursor: pointer;
+    background: linear-gradient(310deg, #17ad37 0%, #98ec2d 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+  }
+ 
+  .status-element-red.mat-mdc-tooltip-trigger:hover{
+    cursor: pointer;
+    background: linear-gradient(310deg, #ea0606 0%, #ff667c 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+  }
+ 
+  .mat-mdc-paginator-icon {
+    fill: #d5d5d5 !important;
+  }
+ 
+  .mat-mdc-icon-button[disabled] .mat-mdc-paginator-icon {
+    fill: #d5d5d53a !important;
+  }
+ 
+  .btn-create-new-detail {
+    background-color: #d5d5d5 !important;
+    color: #282c3f !important;
+  }
+ 
+  .mat-mdc-text-field-wrapper {
+    background-color: #d5d5d5 !important;
+  }
+ 
+  label {
+    color: #282c3f;
+  }
+ 
+  .offcanvas {
+    background-color: #282c3f !important;
+    color: #fff !important;
+    label {
+      color: #fff;
+    }
+    .form-floating {
+      label {
+        color: #282c3f !important;
+      }
+    }
+  }
+ 
+  h2 {
+    color: #e0e0e0 !important;
+  }
+ 
+  ng-multiselect-dropdown,
+  select {
+    background-color: #d5d5d5 !important;
+    color: #282c3f !important;
+  }
+ 
+  .card-title-container {
+    color: #282c3f !important;
+    background-color: #d5d5d5 !important;
+    box-shadow: 13px 14px 13px -13px #282c3f !important;
+  }
+ 
+  .modal-content {
+    --background-color: #282c3f !important;
+    --text-color: #e0e0e0 !important;
+    background-color: var(--background-color) !important;
+    color: var(--text-color) !important;
+    label {
+      color: #282c3f;
+    }
+  }
+ 
+  .label-recipes {
+    background-color: #282c3f !important;
+    h1 {
+      background-color: #282c3f !important;
+      color: #e0e0e0 !important;
+    }
+  }
+ 
+  h1 {
+    background-color: #282c3f !important;
+    color: #e0e0e0 !important;
+  }
+ 
+  .download-format-background {
+    background-color: #282c3f !important;
+  }
+ 
+  .mat-mdc-table {
+    background-color: #282c3f !important;
+    color: #fff !important;
+    --text-color: #e0e0e0 !important;
+    border: #ffffff45 0.01rem solid;
+  }
+  mat-cell {
+    color: #fff !important;
+  }
+  tr:hover {
+    .middle-line-hierarchy {
+      --bs-table-hover-bg: #282c3f !important;
+    }
+  }
+ 
+  .text-primary {
+    th {
+      font-weight: 500 !important;
+      color: #ff6647 !important;
+    }
+  }
+ 
+  .card-home-router {
+    background-color: #535663 !important;
+    &:hover {
+      transform: scale(1.03);
+      transition: transform 0.7s;
+      .card-text {
+        font-weight: 500;
+        color: #d5d5d5 !important;
+      }
+      .card-title {
+        color: #ff6647;
+      }
+      mat-icon {
+        color: #ff6647;
+        transform: scale(1.03);
+      }
+    }
+  }
+ 
+  .label-storage {
+    background-color: #282c3f !important;
+    color: #e0e0e0 !important;
+  }
+ 
+  .label-releases{
+    background-color: #282c3f !important;
+    color: #e0e0e0 !important;
+  }
+ 
+  .label-machine{
+    color: #e0e0e0;
+  }
+ 
+  .side-menu {
+    box-shadow: -2px -2px 6px 0px #d5d5d5 !important;
+  }
+}

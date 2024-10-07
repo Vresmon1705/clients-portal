@@ -1,0 +1,131 @@
+<mat-drawer-container autosize class="h-100">
+  <mat-drawer class="content-sidebar" #drawer mode="side" [ngStyle]="{width: '275px'}" [opened]="isDrawerOpen">
+    <mat-toolbar class="side-nav pe-1">
+      <span class="w-100"><img class="img-fluid logo-nuvant" [routerLink]="['/home']"
+          src="../../../assets/images/nuvant_logo.svg" alt="logoNuvant"></span>
+      <button mat-icon-button (click)="drawer.toggle(); toggleDrawer()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <span class="spacer"></span>
+
+
+    </mat-toolbar>
+    <div>
+      <h2 class="mb-1">
+        <button class="accordion-button accordion-button-menu-dark px-3 py-2 collapsed" type="button"
+          data-bs-toggle="collapse" aria-expanded="true" [routerLink]="['/home/shopping']">
+          <!-- <mat-icon>shopping_cart</mat-icon> -->
+          Compras
+        </button>
+      </h2>
+    </div>
+
+    <div>
+      <h2 class="mb-1">
+        <button class="accordion-button accordion-button-menu-dark px-3 py-2 collapsed" type="button"
+          data-bs-toggle="collapse" aria-expanded="true" [routerLink]="['/home/purchase-status']">
+          Estado del pedido
+        </button>
+      </h2>
+    </div>
+
+    <div>
+      <h2 class="mb-1">
+        <button class="accordion-button accordion-button-menu-dark px-3 py-2 collapsed" type="button"
+          data-bs-toggle="collapse" aria-expanded="true" [routerLink]="['/home/portfolio-status']">
+          Estado de cartera
+        </button>
+      </h2>
+    </div>
+<!-- 
+    <div class="accordion" id="accordionExample">
+      <div>
+        <h2 class="accordion-header mb-1">
+          <button class="accordion-button accordion-button-menu-dark px-3 py-2 collapsed" type="button"
+            data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            KPI
+          </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div class="accordion-body p-0">
+            <mat-nav-list>
+              @for(itemMenu of sidebaMenuKpi; track $index){
+              <mat-list-item disableRipple [routerLink]="[itemMenu.url]" class="mat-mdc-focus-indicator px-2">
+
+                <div routerLinkActive="active" class="d-flex p-2 mb-3 m-2 item-content-menu">
+                  <mat-icon matListItemIcon>
+                    {{ itemMenu.icon }}
+                  </mat-icon>
+                  <p class="m-0 px-2">
+                    {{ itemMenu.label }}
+                  </p>
+                </div>
+
+              </mat-list-item>
+              }
+            </mat-nav-list>
+          </div>
+        </div>
+      </div>
+    </div> 
+-->
+  </mat-drawer>
+
+  <mat-toolbar class="side-menu justify-content-between">
+    <div class="d-flex">
+      @if(!isDrawerOpen){
+      <button mat-icon-button (click)="drawer.toggle(); toggleDrawer()">
+        <div class="pe-4">
+          <mat-icon>menu</mat-icon>
+        </div>
+      </button>
+      }
+    </div>
+
+    <span class="spacer"></span>
+
+    <div class="d-flex">
+      @if(isDarkMode){
+      <button class="btn btn-dark d-grid" (click)="toggleDarkMode()"><mat-icon>wb_sunny</mat-icon></button>
+      }@else {
+      <button class="btn btn-dark d-grid" (click)="toggleDarkMode()"><mat-icon>brightness_3</mat-icon></button>
+      }
+
+      <div class="d-flex">
+        <button class="btn btn-dark d-grid" [routerLink]="['/home/shopping-cart']"><mat-icon>shopping_cart</mat-icon></button>
+      </div>
+
+
+      <div class="dropdown">
+
+        <button class="btn dropdown-toggle btn-logout" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false" (click)="toogleSesion()">
+          <span class="two-letters">
+            {{TwoLettersOfEmail(user())}}
+          </span>
+          <span class="responsive-user">
+            {{ user() }}
+          </span>
+        </button>
+        <div class="dropdown-menu dropdown-position px-2" aria-labelledby="dropdownMenuButton">
+          <div class="dropdown-item text-center d-flex justify-content-center" (click)="onLogout()">
+            <p class="m-0 pe-1">Cerrar Sesión</p>
+            <div class="align-items-center d-grid">
+              <mat-icon>exit_to_app</mat-icon>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+  </mat-toolbar>
+
+  <div class="p-2 container-table-indicators">
+    <router-outlet></router-outlet>
+  </div>
+
+  <!-- <app-footer class="container"></app-footer> -->
+
+</mat-drawer-container>

@@ -1,0 +1,30 @@
+<div class="container mt-4">
+    <h2 class="text-center">Carrito de Compras</h2>
+
+    <div *ngIf="cart.length === 0" class="alert alert-info empty-cart">
+        <p>Tu carrito está vacío.</p>
+        <button class="btn btn-primary btn-back" [routerLink]="['/home/shopping']">
+            <mat-icon>arrow_back</mat-icon>
+            Volver a comprar
+        </button>
+    </div>
+
+    <div *ngFor="let product of cart; let i = index" class="row mb-3 align-items-center">
+        <div class="col-12 col-sm-4 col-md-3 col-lg-2 mb-2">
+            <img src="../../../../assets/images/image.png" class="img-fluid img-thumbnail" alt="{{ product.name }}">
+        </div>
+        <div class="col-12 col-sm-8 col-md-6 col-lg-4 mb-2">
+            <h5>{{ product.name }}</h5>
+            <p>{{ product.description }}</p>
+            <p class="text-success">{{ product.price * product.quantity | currency:'USD' }}</p>
+        </div>
+        <div class="col-12 col-sm-4 col-md-3 col-lg-2 mb-2">
+            <input type="number" class="form-control" [(ngModel)]="product.quantity" (change)="updateQuantity(product.id, product.quantity)" min="1" />
+        </div>
+
+        <div class="col-12 col-sm-8 col-md-12 col-lg-4 text-end mb-2">
+            <button class="btn btn-danger" (click)="removeFromCart(i)">Eliminar</button>
+        </div>
+    </div>
+
+</div>
