@@ -39,7 +39,7 @@ export class AppComponent {
         return;
  
       case AuthStatus.authenticated:
-        this.router.navigateByUrl('/home');
+        this.router.navigateByUrl('/home/shopping');
         return;
  
       case AuthStatus.notAuthenticated:

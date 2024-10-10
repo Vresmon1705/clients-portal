@@ -1,20 +1,48 @@
 <div class="container">
-    <div class="row">
-        @for(product of products; track $index){
-            <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
-              <div class="card h-100">
-                <img src="../../../../assets/images/image.png" class="card-img-top" alt="{{ product.name }}">
-                <div class="card-body">
-                  <h5 class="card-title">{{ product.name }}</h5>
-                  <p class="card-text">{{ product.description }}</p>
-                  <p class="card-text text-success">{{ product.price | currency:'USD' }}</p>
-                </div>
-                <div class="card-footer text-center">
-                  <button class="btn btn-primary btn-add" (click)="addToCart(product)">Añadir al carrito</button>
-                </div>
-              </div>
-            </div>
-        }
+  <div class="row">
+    <h1 class="text-center mb-1 title-login">Client Jamar</h1>
+    <div class="d-flex align-items-start">
+      <div class="dropdown me-2">
+        <button class="btn btn-primary btn-nuvant dropdown-toggle" type="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Direcciones
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">Action</a></li>
+          <li><a class="dropdown-item" href="#">Another action</a></li>
+          <li><a class="dropdown-item" href="#">Something else here</a></li>
+        </ul>
+      </div>
+
+      <app-sidebar-cart [cart]="products"></app-sidebar-cart>
+
+      <div class="input-group">
+        <input type="text" class="form-control ml-5" placeholder="Buscar productos" aria-label="Buscar productos"
+          aria-describedby="button-addon2">
+        <button class="btn btn-outline-secondary btn-nuvant" type="button" id="button-addon2">
+          <mat-icon class="text-white d-flex justify-content-center align-items-center">
+            search
+          </mat-icon>
+        </button>
+      </div>
     </div>
+
+
+    @for(product of products; track $index){
+    <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+      <div class="card h-100">
+        <img src="../../../../assets/images/image.png" class="card-img-top" alt="{{ product.name }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <p class="card-text">{{ product.description }}</p>
+          <p class="card-text text-success">{{ product.price | currency:'USD' }}</p>
+        </div>
+        
+        <div class="card-footer text-center">
+          <button class="btn btn-primary btn-nuvant" (click)="addToCart(product)">Añadir al carrito</button>
+        </div>
+      </div>
+    </div>
+    }
   </div>
-  
+</div>

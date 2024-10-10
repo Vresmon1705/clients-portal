@@ -8,13 +8,11 @@
       </button>
       <span class="spacer"></span>
 
-
     </mat-toolbar>
     <div>
       <h2 class="mb-1">
         <button class="accordion-button accordion-button-menu-dark px-3 py-2 collapsed" type="button"
           data-bs-toggle="collapse" aria-expanded="true" [routerLink]="['/home/shopping']">
-          <!-- <mat-icon>shopping_cart</mat-icon> -->
           Compras
         </button>
       </h2>
@@ -37,7 +35,7 @@
         </button>
       </h2>
     </div>
-<!-- 
+    <!-- 
     <div class="accordion" id="accordionExample">
       <div>
         <h2 class="accordion-header mb-1">
@@ -91,13 +89,7 @@
       <button class="btn btn-dark d-grid" (click)="toggleDarkMode()"><mat-icon>brightness_3</mat-icon></button>
       }
 
-      <div class="d-flex">
-        <button class="btn btn-dark d-grid" [routerLink]="['/home/shopping-cart']"><mat-icon>shopping_cart</mat-icon></button>
-      </div>
-
-
       <div class="dropdown">
-
         <button class="btn dropdown-toggle btn-logout" type="button" id="dropdownMenuButton" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false" (click)="toogleSesion()">
           <span class="two-letters">
@@ -114,18 +106,13 @@
               <mat-icon>exit_to_app</mat-icon>
             </div>
           </div>
-
         </div>
       </div>
     </div>
-
-
   </mat-toolbar>
 
   <div class="p-2 container-table-indicators">
     <router-outlet></router-outlet>
   </div>
-
   <!-- <app-footer class="container"></app-footer> -->
-
 </mat-drawer-container>

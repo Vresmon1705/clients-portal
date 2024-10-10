@@ -24,60 +24,60 @@ import { RouterModule } from '@angular/router';
 })
 export class ShoppingCartComponent {
 
-  cart: Product[] = [];
+  // cart: Product[] = [];
 
-  loadCart() {
-    this.cart = this.cartService.getCart();
-  }
+  // loadCart() {
+  //   this.cart = this.cartService.getCart();
+  // }
 
-  constructor(
-    private cartService: ShoppingCartService,
-    private cdr: ChangeDetectorRef
-  ) {
-    this.loadCart();
-  }
+  // constructor(
+  //   private cartService: ShoppingCartService,
+  //   private cdr: ChangeDetectorRef
+  // ) {
+  //   this.loadCart();
+  // }
 
-  removeFromCart(index: number) {
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success',
-        cancelButton: 'btn btn-danger'
-      },
-      buttonsStyling: false
-    });
+  // removeFromCart(index: number) {
+  //   const swalWithBootstrapButtons = Swal.mixin({
+  //     customClass: {
+  //       confirmButton: 'btn btn-success',
+  //       cancelButton: 'btn btn-danger'
+  //     },
+  //     buttonsStyling: false
+  //   });
 
-    swalWithBootstrapButtons.fire({
-      title: '¿Estás seguro de eliminar el producto?',
-      text: '¡No podrás revertir esto!',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'No, cancelar',
-      reverseButtons: true
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.cartService.removeFromCart(index);
-        this.loadCart();
-        this.cdr.detectChanges();
-        swalWithBootstrapButtons.fire(
-          'Eliminado',
-          'El producto ha sido eliminado del carrito.',
-          'success'
-        );
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        swalWithBootstrapButtons.fire(
-          'Cancelado',
-          'El producto sigue en tu carrito :)',
-          'error'
-        );
-      }
-    });
-  }
+  //   swalWithBootstrapButtons.fire({
+  //     title: '¿Estás seguro de eliminar el producto?',
+  //     text: '¡No podrás revertir esto!',
+  //     icon: 'warning',
+  //     showCancelButton: true,
+  //     confirmButtonText: 'Sí, eliminar',
+  //     cancelButtonText: 'No, cancelar',
+  //     reverseButtons: true
+  //   }).then((result) => {
+  //     if (result.isConfirmed) {
+  //       this.cartService.removeFromCart(index);
+  //       this.loadCart();
+  //       this.cdr.detectChanges();
+  //       swalWithBootstrapButtons.fire(
+  //         'Eliminado',
+  //         'El producto ha sido eliminado del carrito.',
+  //         'success'
+  //       );
+  //     } else if (result.dismiss === Swal.DismissReason.cancel) {
+  //       swalWithBootstrapButtons.fire(
+  //         'Cancelado',
+  //         'El producto sigue en tu carrito :)',
+  //         'error'
+  //       );
+  //     }
+  //   });
+  // }
 
-  updateQuantity(productId: number, quantity: number) {
-    if (quantity > 0) {
-      this.cartService.updateQuantity(productId, quantity);
-      this.loadCart();
-    }
-  }
+  // updateQuantity(productId: number, quantity: number) {
+  //   if (quantity > 0) {
+  //     this.cartService.updateQuantity(productId, quantity);
+  //     this.loadCart();
+  //   }
+  // }
  }
