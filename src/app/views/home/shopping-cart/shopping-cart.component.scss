@@ -17,14 +17,21 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 1.5rem;
-  font-size: 1.1rem;
-  margin-top: 1rem;  
+  padding: 0.60rem 1rem;
+  font-size: 1rem;
+  margin-top: 0.5rem;  
   background-color: #ff6647;
+  color: white;
 }
 
 .icon-back {
   margin-right: 0.5rem;
   font-size: 1.2rem;
+}
+
+.btn-nuvant {
+  border: none;
+  background-color: #ff6647;
+  margin-bottom: 1rem;
 }
 

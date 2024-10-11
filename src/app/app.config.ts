@@ -16,6 +16,6 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(HttpClientModule),
     provideClientHydration(withHttpTransferCacheOptions({
       includePostRequests: true
-    })),
+    })), provideAnimationsAsync(),
   ]
 };

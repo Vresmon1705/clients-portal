@@ -18,11 +18,7 @@ import { SidebarCartComponent } from "./sidebar-cart/sidebar-cart.component";
   styleUrl: './shopping.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ShoppingComponent { 
-
-  
-  constructor(private cartService: ShoppingCartService) {}
-
+export class ShoppingComponent {
   products = [
     {
       id: 1,
@@ -49,20 +45,15 @@ export class ShoppingComponent {
       quantity: 1
     },
   ];
+  
+  cart: Product[] = [];
 
-  productsInCart: Product[] = [];
+  constructor(private cartService: ShoppingCartService) {
+    this.cartService.cart$.subscribe(cart => this.cart = cart);
+  }
 
   addToCart(product: Product) {
-    const existingProduct = this.productsInCart.find(p => p.id === product.id);    
-    if (existingProduct) {
-      existingProduct.quantity += 1;
-    } else {
-      this.productsInCart.push({ ...product });
-    }
-
     this.cartService.addToCart(product);
-    console.log('Producto añadido al carrito:', product); 
-
     const Toast = Swal.mixin({
       toast: true,
       position: "top-end",

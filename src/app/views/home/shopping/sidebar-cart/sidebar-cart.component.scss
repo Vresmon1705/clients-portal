@@ -3,10 +3,11 @@
   display: block;
 }
 
-.btn-nuvant{  
+.btn-nuvant {
   border: none;
   background-color: #ff6647;
   margin-bottom: 1rem;
+  color: white;
 }
 
 .btn-next {
@@ -15,6 +16,34 @@
   justify-content: center;
   padding: 0.75rem 1.5rem;
   font-size: 1.1rem;
-  margin-top: 1rem;  
-  background-color: #ff6647;
+  margin-top: 1rem;
+  background-color: #ff6647;  
+  color: white;
+}
+
+.sidebar-cart {
+  border-radius: 8px 8px 8px 8px;
+  margin: 20px;
+  background: #fff;
+}
+
+button .badge {
+  font-size: 0.75rem;
+  padding: 0.5em 0.6em;
+  transform: translate(-50%, -50%);
+}
+
+.custom-badge {
+  background-color: #34ff33 !important;
+  color: white;
+}
+
+.empty-cart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;  
+  background-color: #f47b626e;
+  color: white;
 }

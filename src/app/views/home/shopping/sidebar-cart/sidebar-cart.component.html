@@ -1,43 +1,55 @@
-<button class="btn btn-primary btn-nuvant mx-2" type="button" data-bs-toggle="offcanvas"
+<button class="btn btn-primary btn-nuvant mx-2 position-relative" type="button" data-bs-toggle="offcanvas"
     data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
     <mat-icon class="text-white d-flex justify-content-center align-items-center">shopping_cart</mat-icon>
+    @if (getTotalItems() > 0) {
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill custom-badge">
+        {{ getTotalItems() }}
+        <span class="visually-hidden">products in cart</span>
+    </span>
+    }
 </button>
 
-<div class="offcanvas offcanvas-end mr-3" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-    <div class="offcanvas-header">
-        <h4 class="mt-2">Carrito</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-        <div class="cart-items px-3">
-            @for (product of cart; track $index) {
+<div class="container mt-4">
+    <div class="offcanvas offcanvas-end sidebar-cart mr-3" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+            <h4 class="mt-2">Carrito</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="cart-items px-3">
+                <!--  -->
+                @for (product of cart; track $index; let i = $index) {
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div class="d-flex align-items-center">
-                        <img src="../../../../assets/images/image.png" class="img-thumbnail me-3" alt="{{ product.name }}" style="width: 50px;">
+                        <img src="../../../../assets/images/image.png" class="img-thumbnail me-3" alt="{{ product.name }}"
+                            style="width: 50px;">
                         <div>
                             <h6>{{ product.name }} (x{{ product.quantity }})</h6>
                             <p class="text-muted">{{ product.price * product.quantity | currency:'USD' }}</p>
                         </div>
-    
-                        <div class="col-12 col-sm-4 col-md-3 col-lg-2 mb-2">
-                            <input type="number" class="form-control" [(ngModel)]="product.quantity"
-                                (change)="updateQuantity(product.id, product.quantity)" min="1" />
-                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn-nuvant" (click)="removeFromCart(i)">
+                            <mat-icon
+                                class="text-white d-flex justify-content-center align-items-center">remove_shopping_cart</mat-icon>
+                        </button>
                     </div>
                 </div>
-            }            
-        </div>
-
-        <div class="cart-total px-3 py-2 d-flex justify-content-between align-items-center">
-            <h5>Total:</h5>
-            <h5 class="text-success">{{ getTotal() | currency:'USD' }}</h5>
-        </div>
-
-
-        <div class="cart-footer p-3">
-            <button class="btn btn-primary btn-next w-100" (click)="goToCart()">
-                <mat-icon>arrow_forward </mat-icon> Ir al carrito completo
-            </button>
+                }
+            </div>    
+            @if (cart.length > 0) {
+                    <div class="cart-total px-3 py-2 d-flex justify-content-between align-items-center">
+                        <h5>Total:</h5>
+                        <h5 class="text-success">{{ getTotal() | currency:'USD' }}</h5>
+                    </div>
+                    <div class="cart-footer p-3">
+                        <button class="btn btn-next w-100" (click)="goToCart()">Ir al carrito completo</button>
+                    </div>                
+                }@else{
+                <div class="alert alert-info empty-cart">
+                    <p>Tu carrito está vacío.</p>
+                </div>
+            } 
         </div>
     </div>
 </div>

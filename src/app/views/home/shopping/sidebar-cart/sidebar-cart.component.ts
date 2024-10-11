@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Product } from '../../../../auth/interfaces/product';
-import { AuthService } from '../../../../auth/services/auth.service';
 import { ShoppingCartService } from '../../../../auth/services/shopping-cart.service';
 import { Router, RouterModule } from '@angular/router';
-import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-sidebar-cart',
@@ -14,22 +14,32 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     MatIconModule,
-    FormsModule
+    FormsModule,
+    MatButtonModule,
+    
   ],
   templateUrl: './sidebar-cart.component.html',
   styleUrl: './sidebar-cart.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarCartComponent {
-
   @Input() cart: Product[] = [];
+  hidden = false;
 
+  loadCart() {
+    this.cart = this.cartService.getCart();
+  }
 
   constructor(
-    private cartService: ShoppingCartService,
-    private cdr: ChangeDetectorRef,    
-    private router: Router
-  ) {  }
+    private cartService: ShoppingCartService, 
+    private router: Router,
+    private cdr: ChangeDetectorRef) {
+      this.loadCart();
+     }
+
+  getTotal(): number {
+    return this.cart.reduce((total, product) => total + product.price * product.quantity, 0);
+  }
 
   removeFromCart(index: number) {
     const swalWithBootstrapButtons = Swal.mixin({
@@ -39,7 +49,6 @@ export class SidebarCartComponent {
       },
       buttonsStyling: false
     });
-
     swalWithBootstrapButtons.fire({
       title: '¿Estás seguro de eliminar el producto?',
       text: '¡No podrás revertir esto!',
@@ -51,6 +60,7 @@ export class SidebarCartComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         this.cartService.removeFromCart(index);
+        this.loadCart();
         this.cdr.detectChanges();
         swalWithBootstrapButtons.fire(
           'Eliminado',
@@ -67,17 +77,12 @@ export class SidebarCartComponent {
     });
   }
 
-  updateQuantity(productId: number, quantity: number) {
-    if (quantity > 0) {
-      console.log(this.cart) 
-    }
-  }
-
-  getTotal(): number {
-    return this.cart.reduce((total, product) => total + product.price * product.quantity, 0);
-  }
-
   goToCart() {
     this.router.navigate(['/home/shopping-cart']);
   }
+
+  getTotalItems(): number {
+    return this.cart.reduce((total, product) => total + product.quantity, 0);
+  }
+  
 }

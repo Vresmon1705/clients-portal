@@ -11,6 +11,7 @@ import { AuthStatus } from './auth/interfaces/auth.status.enum';
   imports: [
     RouterOutlet,
     SidebarComponent,
+    
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
