@@ -7,40 +7,41 @@
           Direcciones
         </button>
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">Action</a></li>
-          <li><a class="dropdown-item" href="#">Another action</a></li>
-          <li><a class="dropdown-item" href="#">Something else here</a></li>
+          <li><button class="dropdown-item" type="button">Action</button></li>
+          <li><button class="dropdown-item" type="button">Another action</button></li>
+          <li><button class="dropdown-item" type="button">Something else here</button></li>
         </ul>
       </div>
 
       <app-sidebar-cart [cart]="cart"></app-sidebar-cart>
 
       <div class="input-group mx-2">
-        <input type="text" class="form-control ml-5" placeholder="Buscar productos" aria-label="Buscar productos" aria-describedby="button-addon2">
-        <button class="btn btn-outline-secondary btn-nuvant" type="button" id="button-addon2">
+        <input type="text" class="form-control ml-5" placeholder="Buscar productos" aria-label="Buscar productos"
+          aria-describedby="button-addon2">
+        <button class="btn btn-nuvant" type="button" id="button-addon2">
           <mat-icon class="text-white d-flex justify-content-center align-items-center">search</mat-icon>
         </button>
       </div>
     </div>
 
-    <div class="row">
+    <div class="row justify-content-center">
       @for (product of products; track $index) {
-        <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
-          <div class="card h-100">
-            <img src="../../../../assets/images/image.png" class="card-img-top" alt="{{ product.name }}">
-            <div class="card-body">
-              <h5 class="card-title">{{ product.name }}</h5>
-              <p class="card-text text-success">{{ product.price | currency:'USD' }}</p>
-            </div>
-            <div class="card-footer text-center">
-              <button class="btn btn-nuvant mx-2" (click)="addToCart(product)">Agegar al carrito</button>
-              <button class="btn btn-nuvant" [routerLink]="['/home/product-detail', product.id]">
-                Ver Detalle
-              </button>
-            </div>
+      <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+        <div class="card h-100">
+          <img src="../../../../assets/images/image.png" class="card-img-top" alt="{{ product.name }}">
+          <div class="card-body">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text text-success">{{ product.price | currency:'USD' }}</p>
+          </div>
+          <div class="card-footer text-center">
+            <button class="btn btn-nuvant mx-2" (click)="addToCart(product)">Agegar al carrito</button>
+            <button class="btn btn-nuvant" [routerLink]="['/home/product-detail', product.id]">
+              Ver Detalle
+            </button>
           </div>
         </div>
-      }      
+      </div>
+      }
     </div>
   </div>
 </div>

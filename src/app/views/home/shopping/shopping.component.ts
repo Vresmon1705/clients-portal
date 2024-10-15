@@ -8,6 +8,7 @@ import { SidebarCartComponent } from "./sidebar-cart/sidebar-cart.component";
 import { RouterModule } from '@angular/router';
 import { ProductDetailComponent } from '../product-detail/product-detail.component';
 import { ProductService } from '../../../auth/services/product.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-shopping',
@@ -17,7 +18,8 @@ import { ProductService } from '../../../auth/services/product.service';
     MatIconModule,
     SidebarCartComponent,
     RouterModule,
-    ProductDetailComponent
+    ProductDetailComponent,
+    FormsModule
 ],
   templateUrl: './shopping.component.html',
   styleUrl: './shopping.component.scss',

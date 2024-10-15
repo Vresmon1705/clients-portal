@@ -3,8 +3,14 @@
   display: block;
 }
 
+.card:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
+}
+
 .card{
   background-color: white;
+  transition: transform 0.3s ease-in-out;
 }
 
 .btn-nuvant{  

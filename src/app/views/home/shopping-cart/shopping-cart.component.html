@@ -1,21 +1,21 @@
 <div class="container mt-4">
     @if (cart.length > 0) {
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2 class="text-center">Carrito de Compras</h2>
-            <button class="btn btn-sm btn-back" [routerLink]="['/home/shopping']">
-                <mat-icon>arrow_back</mat-icon>
-                Volver
-            </button>
-        </div>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-center">Carrito de Compras</h2>
+        <button class="btn btn-sm btn-back" [routerLink]="['/home/shopping']">
+            <mat-icon>arrow_back</mat-icon>
+            Volver
+        </button>
+    </div>
     }@else{
-        <div class="alert alert-info empty-cart">
-            <p>Tu carrito está vacío.</p>
-            <button class="btn btn-back" [routerLink]="['/home/shopping']">
-                <mat-icon>arrow_back</mat-icon>
-                Volver a comprar
-            </button>
-        </div>
-        }
+    <div class="alert alert-info empty-cart">
+        <p>Tu carrito está vacío.</p>
+        <button class="btn btn-back" [routerLink]="['/home/shopping']">
+            <mat-icon>arrow_back</mat-icon>
+            Volver a comprar
+        </button>
+    </div>
+    }
 
     @for (product of cart; track $index; let i = $index) {
     <div class="row mb-3 align-items-center">
@@ -24,7 +24,6 @@
         </div>
         <div class="col-12 col-sm-8 col-md-6 col-lg-4 mb-2">
             <h5>{{ product.name }}</h5>
-            <p>{{ product.description }}</p>
             <p class="text-success">{{ product.price * product.quantity | currency:'USD' }}</p>
         </div>
         <div class="col-12 col-sm-4 col-md-3 col-lg-2 mb-2">
@@ -41,13 +40,13 @@
         </div>
     </div>
     }
+    @if (cart.length > 0) {
     <div class="mt-4">
         <h3 class="text-center">Factura</h3>
         <table class="table table-bordered table-responsive">
             <thead>
                 <tr>
                     <th>Producto</th>
-                    <th>Descripción</th>
                     <th>Cantidad</th>
                     <th>Precio Unitario</th>
                     <th>Total</th>
@@ -57,7 +56,6 @@
                 @for (product of cart; track $index) {
                 <tr>
                     <td>{{ product.name }}</td>
-                    <td>{{ product.description }}</td>
                     <td>{{ product.quantity }}</td>
                     <td>{{ product.price | currency:'USD' }}</td>
                     <td>{{ product.price * product.quantity | currency:'USD' }}</td>
@@ -70,4 +68,11 @@
             </tbody>
         </table>
     </div>
+    
+    <div class="d-flex justify-content-center align-items-center mb-3">
+        <button class="btn btn-back mx-2" (click)="clearCart()">Vaciar</button>
+        <button class="btn btn-back mx-2">Pagar</button>
+    </div>
+    
+    }
 </div>
