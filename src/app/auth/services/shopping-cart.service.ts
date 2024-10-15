@@ -45,4 +45,8 @@ export class ShoppingCartService{
     this.cart = [];
     this.cartSubject.next([...this.cart]); 
   }
+
+  getTotalItems(): number {
+    return this.cart.reduce((total, product) => total + product.quantity, 0);
+  }
 }

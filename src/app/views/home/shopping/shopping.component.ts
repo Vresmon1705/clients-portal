@@ -5,6 +5,9 @@ import { Product } from '../../../auth/interfaces/product';
 import Swal from 'sweetalert2';
 import { MatIconModule } from '@angular/material/icon';
 import { SidebarCartComponent } from "./sidebar-cart/sidebar-cart.component";
+import { RouterModule } from '@angular/router';
+import { ProductDetailComponent } from '../product-detail/product-detail.component';
+import { ProductService } from '../../../auth/services/product.service';
 
 @Component({
   selector: 'app-shopping',
@@ -13,43 +16,26 @@ import { SidebarCartComponent } from "./sidebar-cart/sidebar-cart.component";
     CommonModule,
     MatIconModule,
     SidebarCartComponent,
+    RouterModule,
+    ProductDetailComponent
 ],
   templateUrl: './shopping.component.html',
   styleUrl: './shopping.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShoppingComponent {
-  products = [
-    {
-      id: 1,
-      name: 'Producto 1',
-      description: 'Descripción del Producto 1',
-      price: 100,
-      image: 'image-url-1',
-      quantity: 1 
-    },
-    {
-      id: 2,
-      name: 'Producto 2',
-      description: 'Descripción del Producto 2',
-      price: 200,
-      image: 'image-url-2',
-      quantity: 1
-    },
-    {
-      id: 3,
-      name: 'Producto 3',
-      description: 'Descripción del Producto 3',
-      price: 300,
-      image: 'image-url-3',
-      quantity: 1
-    },
-  ];
-  
+  products: Product[] = [];
   cart: Product[] = [];
 
-  constructor(private cartService: ShoppingCartService) {
+  constructor(
+    private cartService: ShoppingCartService,
+    private productService: ProductService
+  ) {
     this.cartService.cart$.subscribe(cart => this.cart = cart);
+  }
+
+  ngOnInit(): void {
+    this.products = this.productService.getProducts();
   }
 
   addToCart(product: Product) {

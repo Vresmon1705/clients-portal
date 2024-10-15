@@ -1,0 +1,69 @@
+<div class="container my-5" *ngIf="product; else loading">
+    <div class="row">
+        <div class="col-md-6">
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    @for (image of product.images; track $index; let i = $index) {
+                    <div class="carousel-item active">
+                        <img src="../../../../assets/images/image.png" class="d-block w-100" alt="{{product.name}}">
+                    </div>
+                    <div class="carousel-item">
+                        <video class="d-block w-100" controls>
+                            <source src="assets/videos/video1.mp4" class="d-block w-100" type="video/mp4">
+                            Tu navegador no soporta el video.
+                        </video>
+                    </div>
+                    }
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h1>{{ product.name }}</h1>
+            <p class="lead">{{ product.description }}</p>
+            <h4>{{ product.price | currency }}</h4>
+            <div class="mb-3">
+                <label for="quantity" class="form-label">Cantidad</label>
+                <input type="number" id="quantity" class="form-control" [(ngModel)]="quantity" min="1" />
+            </div>
+
+            <button class="btn btn-nuvant" (click)="addToCart(product)">Agregar al carrito</button>
+            <button class="btn btn-nuvant mx-2" [routerLink]="['/home/shopping']">
+                <mat-icon>arrow_back</mat-icon>
+                Volver
+            </button>
+            <app-sidebar-cart [cart]="cart"></app-sidebar-cart>
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <h3>Productos similares</h3>
+        <div class="row">
+            <div class="col-md-3" *ngFor="let similarProduct of similarProducts">
+                <div class="card mb-4">
+                    <img src="../../../../assets/images/image.png" class="card-img-top" alt="{{similarProduct.name}}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{similarProduct.name}}</h5>
+                        <p class="card-text">{{similarProduct.price | currency}}</p>
+                        <button class="btn btn-nuvant" [routerLink]="['/home/product-detail', product.id]">
+                            Ver Detalle
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #loading>
+    <div class="alert alert-warning">Cargando producto...</div>
+</ng-template>
