@@ -25,6 +25,7 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductDetailComponent implements OnInit {
+  
   product: Product | undefined;
   similarProducts: Product[] = [];
   cart: Product[] = [];

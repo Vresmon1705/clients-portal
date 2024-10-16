@@ -24,6 +24,7 @@ import { Subscription } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarCartComponent implements OnInit {
+  
   @Input() cart: Product[] = [];
   hidden = false;
   private cartSubscription: Subscription | undefined;

@@ -25,8 +25,6 @@ export class ProductService {
     },
   ];
 
-  constructor() { }
-
   getProductById(id: number): Product | undefined {
     return this.products.find(product => product.id === id);
   }

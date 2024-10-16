@@ -20,12 +20,13 @@ import { FormsModule } from '@angular/forms';
     RouterModule,
     ProductDetailComponent,
     FormsModule
-],
+  ],
   templateUrl: './shopping.component.html',
   styleUrl: './shopping.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShoppingComponent {
+
   products: Product[] = [];
   cart: Product[] = [];
 

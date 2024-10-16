@@ -9,6 +9,8 @@
 .container-card-login {
   margin: auto;
   opacity: 0.9;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .btn-login {
@@ -25,8 +27,20 @@
   }
 }
 
+@media (max-width: 500.2px) {
+  .title-login {
+    font-size: 26px;
+  }
+}
+
 .btn-loading {
   border: none;
   font-size: 20px;
+}
+
+.media-responsive {
+  max-width: 100%;
+  height: auto;
+  max-height: 175px; 
 }
 

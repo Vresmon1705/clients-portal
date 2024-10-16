@@ -33,7 +33,6 @@ import { SidebarCartComponent } from '../../views/home/shopping/sidebar-cart/sid
 })
 export class SidebarComponent {
 
-
   TwoLetters: string = '';
   isCartOpen = false;
   cart: Product[] = [];
@@ -41,8 +40,7 @@ export class SidebarComponent {
   constructor(
     private authService: AuthService,
     private cartService: ShoppingCartService,
-    private router: Router
-  ) {  }
+    private router: Router) {}
 
   public user = computed(() => this.authService.currentUser());
 
@@ -64,7 +62,6 @@ export class SidebarComponent {
   ]
 
   public isDrawerOpen = true;
-
 
   toggleDrawer() {
     this.isDrawerOpen = !this.isDrawerOpen;
