@@ -9,11 +9,29 @@
   color: white;  
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center;  
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+
+.btn-nuvant:hover {
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+}
+
+.mat-icon {
+  font-size: 1.5rem; 
+  transition: transform 0.3s ease;
+}
+
+.mat-icon:hover {
+  transform: scale(1.1);
 }
 
 .card{
   background-color: white;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 1rem;
 }
 
 .button-container {
@@ -24,3 +42,4 @@
   float: right;
   margin-right: 10px;
 }
+

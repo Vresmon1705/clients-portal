@@ -29,7 +29,6 @@ export class ProductDetailComponent implements OnInit {
   product: Product | undefined;
   similarProducts: Product[] = [];
   cart: Product[] = [];
-  cart$: Observable<Product[]>;
   quantity: number = 1;
 
   constructor(
@@ -37,19 +36,24 @@ export class ProductDetailComponent implements OnInit {
     private productService: ProductService,
     private cartService: ShoppingCartService
   ) {
-    this.cart$ = this.cartService.cart$;
+    this.cartService.cart$.subscribe(cart => this.cart = cart);
   }
 
   ngOnInit(): void {
-    this.loadCart();
-    const productId = Number(this.route.snapshot.paramMap.get('id'));
-  
-    if (productId) {
-      this.product = this.productService.getProductById(productId);
-      this.similarProducts = this.productService.getSimilarProducts(productId);
-    }
+    this.route.paramMap.subscribe(params => {
+      const productId = Number(params.get('id'));
+      if (productId) {
+        const product = this.productService.getProductById(productId);
+        if (product) {
+          this.product = product;
+          this.similarProducts = this.productService.getSimilarProducts(productId) ?? [];
+        } else {
+          console.error('Producto no encontrado');
+        }
+      }
+    });
   }
-
+  
   loadCart(): void {
     this.cartService.cart$.subscribe(cart => {
       this.cart = cart;

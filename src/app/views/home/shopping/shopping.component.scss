@@ -3,14 +3,67 @@
   display: block;
 }
 
+h1.title-login {
+  font-size: 3rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 5rem;
+  color: #fff;
+  background: linear-gradient(90deg, #ff7e5f, #feb47b);
+  padding: 1rem 2rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  h1.title-login {
+    font-size: 2rem;
+  }
+}
+
+.dropdown .btn-nuvant {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+
+.dropdown .btn-nuvant:hover {
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+}
+
+#button-addon2 {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+
+#button-addon2:hover {
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+}
+
+#button-addon2 mat-icon {
+  font-size: 1.5rem;
+}
+
+.mat-icon {
+  font-size: 1.5rem; 
+  transition: transform 0.3s ease;
+}
+
+.mat-icon:hover {
+  transform: scale(1.1);
+}
+
 .card:hover {
   transform: scale(1.05);
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;  
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .card{
   background-color: white;
   transition: transform 0.3s ease-in-out;
+  
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .btn-nuvant{  

@@ -7,7 +7,19 @@
   border: none;
   background-color: #ff6647;
   margin-bottom: 1rem;
-  color: white;
+  color: white;  
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+
+
+.btn-nuvant.position-relative {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+
+.btn-nuvant.position-relative:hover {
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
 }
 
 .btn-next {
@@ -19,6 +31,13 @@
   margin-top: 1rem;
   background-color: #ff6647;  
   color: white;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+
+.btn-next:hover {
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
 }
 
 .sidebar-cart {
@@ -35,7 +54,11 @@ button .badge {
 
 .custom-badge {
   background-color: #34ff33 !important;
-  color: white;
+  color: white;  
+  padding: 5px 10px;
+  font-size: 0.9rem;
+  border-radius: 50px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .empty-cart {
@@ -46,4 +69,13 @@ button .badge {
   padding: 2rem;  
   background-color: #f47b626e;
   color: white;
+}
+
+.mat-icon {
+  font-size: 1.5rem; 
+  transition: transform 0.3s ease;
+}
+
+.mat-icon:hover {
+  transform: scale(1.1);
 }
