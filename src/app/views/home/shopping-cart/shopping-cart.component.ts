@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { HelpComponent } from '../../../shared/help/help.component';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -18,6 +19,7 @@ import { Subscription } from 'rxjs';
     FormsModule,
     MatIconModule,
     RouterModule,
+    HelpComponent
   ],
   templateUrl: './shopping-cart.component.html',
   styleUrl: './shopping-cart.component.scss',

@@ -34,8 +34,8 @@
             <p class="card-text text-success">{{ product.price | currency:'USD' }}</p>
           </div>
           <div class="card-footer text-center">
-            <button class="btn btn-nuvant mx-2" (click)="addToCart(product)">Agegar al carrito</button>
-            <button class="btn btn-nuvant" [routerLink]="['/home/product-detail', product.id]">
+            <button class="btn btn-sm btn-nuvant mx-2" (click)="addToCart(product)">Agegar al carrito</button>
+            <button class="btn btn-sm btn-nuvant" [routerLink]="['/home/product-detail', product.id]">
               Ver Detalle
             </button>
           </div>
@@ -45,3 +45,4 @@
     </div>
   </div>
 </div>
+<app-help></app-help>

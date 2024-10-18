@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { ProductDetailComponent } from '../product-detail/product-detail.component';
 import { ProductService } from '../../../auth/services/product.service';
 import { FormsModule } from '@angular/forms';
+import { HelpComponent } from '../../../shared/help/help.component';
 
 @Component({
   selector: 'app-shopping',
@@ -19,7 +20,8 @@ import { FormsModule } from '@angular/forms';
     SidebarCartComponent,
     RouterModule,
     ProductDetailComponent,
-    FormsModule
+    FormsModule,
+    HelpComponent
   ],
   templateUrl: './shopping.component.html',
   styleUrl: './shopping.component.scss',

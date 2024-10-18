@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { MatIconModule } from '@angular/material/icon';
 import { SidebarCartComponent } from '../shopping/sidebar-cart/sidebar-cart.component';
 import { Observable } from 'rxjs';
+import { HelpComponent } from '../../../shared/help/help.component';
 
 @Component({
   selector: 'app-product-detail',
@@ -18,7 +19,8 @@ import { Observable } from 'rxjs';
     RouterModule,
     FormsModule,
     MatIconModule,
-    SidebarCartComponent
+    SidebarCartComponent,
+    HelpComponent
   ],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.scss',
