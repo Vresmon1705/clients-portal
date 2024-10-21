@@ -1,10 +1,8 @@
-<!-- Botón flotante principal -->
 <div class="floating-button">
     <button class="btn btn-main" (click)="toggleMenu()">
-      <mat-icon>help_outline</mat-icon>
+      <mat-icon class="text-white d-flex justify-content-center align-items-center">help_outline</mat-icon>
     </button>
   
-    <!-- Submenú desplegable con opciones -->
     <div class="submenu" [ngClass]="{ 'open': menuOpen }">
       <button class="btn btn-option" (click)="openChatbot()">Chatbot</button>
       <button class="btn btn-option" (click)="openWhatsApp()">WhatsApp</button>
