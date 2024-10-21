@@ -30,9 +30,16 @@
 .card{
   background-color: white;
   max-width: 400px;
+  min-width: 200px;
   margin: 0 auto;
   padding: 1rem;
 }
+@media (max-width: 768px) {
+  .card {
+      width: 150px;
+  }
+}
+
 
 .button-container {
   text-align: center;

@@ -23,12 +23,10 @@ export class HelpComponent {
   }
 
   openChatbot() {
-    // Acción para abrir el Chatbot
     console.log('Abrir Chatbot');
   }
 
   openWhatsApp() {
-    // Acción para abrir WhatsApp
     console.log('Abrir WhatsApp');
   }
 }

@@ -48,8 +48,9 @@
     </div>
     <div class="row mt-5">
         <h2>Productos Similares</h2>
-        @for (similarProduct of similarProducts; track $index) {
-            <div class="col-md-3">
+        <div class="d-flex overflow-auto" style="white-space: nowrap;">
+            @for (similarProduct of similarProducts; track $index) {
+            <div class="col-md-3" style="flex: 0 0 auto; margin-right: 15px;">
                 <div class="card">
                     <img src="../../../../assets/images/image.png" class="card-img-top" alt="{{similarProduct.name}}">
                     <div class="card-body">
@@ -61,7 +62,8 @@
                     </div>
                 </div>
             </div>
-        }        
+            }
+        </div>
     </div>
 </div>
 }@else{
@@ -69,7 +71,4 @@
     <div class="alert alert-warning">Cargando producto...</div>
 </ng-template>
 }
-
-
-
 <app-help></app-help>
