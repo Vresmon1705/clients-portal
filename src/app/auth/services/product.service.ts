@@ -9,7 +9,7 @@ export class ProductService {
   private products: Product[] = [
     {
       id: 1, name: 'Producto 1',
-      description: 'Su socio confiable, enfocado en ofrecer la más alta calidad y servicio. Nuvant atiende a los diferentes mercados a nivel mundial y se esfuerza constantemente por desarrollar nuevos productos de alta especificación técnica. Nuestros productos con su excelente desempeño y durabilidad, pueden ser utilizados en una amplia gama de aplicaciones, cumpliendo con los requisitos de los respectivos mercados. Nuestra mayor fortaleza es la relación con nuestros clientes junto a un equipo de personas altamente capacitadas que trabajan hacia la excelencia y los más altos estándares de calidad.',
+      description: 'Descripción del producto 1',
       price: 100, image: 'path_to_image',
       quantity: 1,
       images: ['url-imagen-3.jpg', 'url-imagen-4.jpg'],
@@ -18,6 +18,38 @@ export class ProductService {
     {
       id: 2, name: 'Producto 2',
       description: 'Descripción del producto 2',
+      price: 150, image: 'path_to_image',
+      quantity: 1,
+      images: ['url-imagen-3.jpg', 'url-imagen-4.jpg'],
+      videos: ['url-video-2.mp4']
+    },
+    {
+      id: 3, name: 'Producto 3',
+      description: 'Descripción del producto 3',
+      price: 300, image: 'path_to_image',
+      quantity: 1,
+      images: ['url-imagen-3.jpg', 'url-imagen-4.jpg'],
+      videos: ['url-video-2.mp4']
+    },
+    {
+      id: 4, name: 'Producto 4',
+      description: 'Descripción del producto 4',
+      price: 150, image: 'path_to_image',
+      quantity: 1,
+      images: ['url-imagen-3.jpg', 'url-imagen-4.jpg'],
+      videos: ['url-video-2.mp4']
+    },
+    {
+      id: 5, name: 'Producto 5',
+      description: 'Descripción del producto 5',
+      price: 500, image: 'path_to_image',
+      quantity: 1,
+      images: ['url-imagen-3.jpg', 'url-imagen-4.jpg'],
+      videos: ['url-video-2.mp4']
+    },
+    {
+      id: 6, name: 'Producto 6',
+      description: 'Descripción del producto 6',
       price: 150, image: 'path_to_image',
       quantity: 1,
       images: ['url-imagen-3.jpg', 'url-imagen-4.jpg'],
