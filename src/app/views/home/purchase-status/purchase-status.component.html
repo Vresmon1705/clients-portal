@@ -1,1 +1,43 @@
-<p>purchase-status works!</p>
+<div class="container mt-5">
+    <h2 class="text-center">Seguimiento de Pedido</h2>
+
+    <div class="order-status-container mt-4">
+        <div class="row">
+            <div class="col-md-6 col-sm-12 mb-3">
+                <div class="order-details p-3">
+                    <h5 class="text-center"><strong>Detalles del Pedido</strong></h5>
+                    <p><strong>Número de pedido:</strong> 123456789</p>
+                    <p><strong>Fecha:</strong> 20 de octubre de 2024</p>
+                    <p><strong>Estado:</strong> En proceso</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12 mb-3">
+                <div class="progress-container p-3">
+                    <h5 class="text-center"><strong>Estado del Pedido</strong></h5>
+                    <ul class="timeline-icons d-flex justify-content-between">
+                        <li class="active">
+                            <mat-icon>check_circle</mat-icon>
+                            <p class="status-label">Pedido realizado</p>
+                        </li>
+                        <li class="active">
+                            <mat-icon>schedule</mat-icon>
+                            <p class="status-label">Procesando</p>
+                        </li>
+                        <li class="pending">
+                            <mat-icon>local_shipping</mat-icon>
+                            <p class="status-label">En camino</p>
+                        </li>
+                        <li class="pending">
+                            <mat-icon>check</mat-icon>
+                            <p class="status-label">Entregado</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4 text-center">
+            <button class="btn btn-nuvant" [routerLink]="['/home/shopping']">Volver a la Tienda</button>
+        </div>
+    </div>
+</div>
