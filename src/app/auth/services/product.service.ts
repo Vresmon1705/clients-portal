@@ -8,49 +8,19 @@ export class ProductService {
 
   private products: Product[] = [
     {
-      id: 1, name: 'Producto 1',
+      id: 1, name: 'Bali Amarillo',
       description: 'Descripción del producto 1',
-      price: 100, image: 'path_to_image',
+      price: 27231.58, 
+      image: 'assets/images/image2.png',
       quantity: 1,
       images: ['url-imagen-3.jpg', 'url-imagen-4.jpg'],
       videos: ['url-video-2.mp4']
     },
     {
-      id: 2, name: 'Producto 2',
+      id: 2, name: 'Alaska',
       description: 'Descripción del producto 2',
-      price: 150, image: 'path_to_image',
-      quantity: 1,
-      images: ['url-imagen-3.jpg', 'url-imagen-4.jpg'],
-      videos: ['url-video-2.mp4']
-    },
-    {
-      id: 3, name: 'Producto 3',
-      description: 'Descripción del producto 3',
-      price: 300, image: 'path_to_image',
-      quantity: 1,
-      images: ['url-imagen-3.jpg', 'url-imagen-4.jpg'],
-      videos: ['url-video-2.mp4']
-    },
-    {
-      id: 4, name: 'Producto 4',
-      description: 'Descripción del producto 4',
-      price: 150, image: 'path_to_image',
-      quantity: 1,
-      images: ['url-imagen-3.jpg', 'url-imagen-4.jpg'],
-      videos: ['url-video-2.mp4']
-    },
-    {
-      id: 5, name: 'Producto 5',
-      description: 'Descripción del producto 5',
-      price: 500, image: 'path_to_image',
-      quantity: 1,
-      images: ['url-imagen-3.jpg', 'url-imagen-4.jpg'],
-      videos: ['url-video-2.mp4']
-    },
-    {
-      id: 6, name: 'Producto 6',
-      description: 'Descripción del producto 6',
-      price: 150, image: 'path_to_image',
+      price: 13863.16, 
+      image: 'assets/images/image.png',
       quantity: 1,
       images: ['url-imagen-3.jpg', 'url-imagen-4.jpg'],
       videos: ['url-video-2.mp4']

@@ -50,7 +50,7 @@ export class LoginComponent {
         .subscribe({
           
           next: () => {
-            this.router.navigateByUrl('/home');
+            this.router.navigateByUrl('/home/shopping');
           },
           error: (err) => {
             let errorMessage = 'Error al iniciar sesión, vuelve a intentarlo';

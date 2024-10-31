@@ -15,6 +15,12 @@ export const environment = {
  
     //DCS
     baseUrlDCS: 'https://ccwhqcbjae.execute-api.us-east-1.amazonaws.com/api/dcs',
+
+    //CUSTOMERS
+    baseUrlCustomers: 'https://ccwhqcbjae.execute-api.us-east-1.amazonaws.com/api/sales-app-seller/customers',
+
+    //ARTICLES
+    baseUrlArticles: 'https://ccwhqcbjae.execute-api.us-east-1.amazonaws.com/api/sales-app-seller/articles'
  
  
     //PRODUCCION

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { ShoppingCartService } from '../../../auth/services/shopping-cart.service';
 import { Product } from '../../../auth/interfaces/product';
 import Swal from 'sweetalert2';
@@ -10,6 +10,8 @@ import { ProductDetailComponent } from '../product-detail/product-detail.compone
 import { ProductService } from '../../../auth/services/product.service';
 import { FormsModule } from '@angular/forms';
 import { HelpComponent } from '../../../shared/help/help.component';
+import { CustomerService } from '../../../auth/services/customer.service';
+import { Customer } from '../../../auth/interfaces/customer';
 
 @Component({
   selector: 'app-shopping',
@@ -31,17 +33,40 @@ export class ShoppingComponent {
 
   products: Product[] = [];
   cart: Product[] = [];
+  customer: Customer | null = null;
+  addresses: string[] = []; 
+  taxId = '901592529-1';
 
   constructor(
     private cartService: ShoppingCartService,
-    private productService: ProductService
+    private productService: ProductService,
+    private customerService: CustomerService,    
+    private cdr: ChangeDetectorRef
   ) {
     this.cartService.cart$.subscribe(cart => this.cart = cart);
   }
 
   ngOnInit(): void {
     this.products = this.productService.getProducts();
+    
+    this.customerService.getCustomerByTaxId(this.taxId).subscribe((data: Customer[]) => {
+      if (data.length > 0) {
+        this.customer = data[0];
+        this.addresses = this.extractAddresses(data);
+        this.cdr.detectChanges();
+      } else {
+        console.warn('No se encontraron datos para este NIT');
+      }
+    });
   }
+
+private extractAddresses(customers: Customer[]): string[] {
+  return customers
+    .map((customer) => customer.address) 
+    .filter((address, index, self) => address && self.indexOf(address) === index);
+}
+
+  
 
   addToCart(product: Product) {
     this.cartService.addToCart(product);

@@ -17,9 +17,9 @@
   color: white;
   border: none;
   padding: 15px;
-  width: 60px;  /* Ancho del botón */
-  height: 60px; /* Alto del botón */
-  border-radius: 50%; /* Hace que el botón sea redondo */
+  width: 60px;  
+  height: 60px;   
+  border-radius: 50%;  
   font-size: 1.5rem;
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
@@ -34,7 +34,7 @@
   background-color: #e0533d;
 }
 
-/* Estilos del submenú */
+
 .submenu {
   display: none;
   flex-direction: column;
@@ -46,7 +46,7 @@
 }
 
 .btn-option {
-  background-color: #25d366; /* Color de WhatsApp o Chatbot */
+  background-color: #25d366;  
   color: white;
   border: none;
   padding: 10px 15px;
@@ -69,8 +69,8 @@
   }
 
   .btn-main {
-    width: 50px;  /* Ancho ajustado para móviles */
-    height: 50px; /* Alto ajustado para móviles */
+    width: 50px;    
+    height: 50px;    
     font-size: 1.2rem;
   }
 
