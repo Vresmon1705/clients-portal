@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ShoppingCartService } from '../../../auth/services/shopping-cart.service';
 import { Product } from '../../../auth/interfaces/product';
 import Swal from 'sweetalert2';
@@ -29,26 +29,34 @@ import { Customer } from '../../../auth/interfaces/customer';
   styleUrl: './shopping.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ShoppingComponent {
+export class ShoppingComponent implements OnInit {
 
-  products: Product[] = [];
   cart: Product[] = [];
   customer: Customer | null = null;
-  addresses: string[] = []; 
+  addresses: string[] = [];
   taxId = '901592529-1';
+  products: Product[] = [];
+  searchTerm: string = '';
+
+  currentPage: number = 1;
+  itemsPerPage: number = 3;
+  totalItems: number = 0;
+  filteredProducts: Product[] = [];
+
+  trackByProductId(index: number, product: Product): number {
+    return typeof product.id === 'number' ? product.id : index;
+  }
 
   constructor(
     private cartService: ShoppingCartService,
     private productService: ProductService,
-    private customerService: CustomerService,    
+    private customerService: CustomerService,
     private cdr: ChangeDetectorRef
   ) {
     this.cartService.cart$.subscribe(cart => this.cart = cart);
   }
 
   ngOnInit(): void {
-    this.products = this.productService.getProducts();
-    
     this.customerService.getCustomerByTaxId(this.taxId).subscribe((data: Customer[]) => {
       if (data.length > 0) {
         this.customer = data[0];
@@ -60,13 +68,53 @@ export class ShoppingComponent {
     });
   }
 
-private extractAddresses(customers: Customer[]): string[] {
-  return customers
-    .map((customer) => customer.address) 
-    .filter((address, index, self) => address && self.indexOf(address) === index);
-}
+  private extractAddresses(customers: Customer[]): string[] {
+    return customers
+      .map((customer) => customer.address)
+      .filter((address, index, self) => address && self.indexOf(address) === index);
+  }
 
-  
+  searchProducts(): void {
+    if (this.searchTerm.trim()) {
+      this.productService.searchProductsByDescription(this.searchTerm)
+        .subscribe((data: Product[]) => {
+          this.products = data;
+          this.totalItems = data.length;
+          this.currentPage = 1;
+          this.updatePaginatedProducts();
+          this.cdr.detectChanges();
+        });
+    } else {
+      this.products = [];
+      this.filteredProducts = [];
+      this.totalItems = 0;
+    }
+  }
+
+  getPaginatedProducts(products: Product[]): Product[] {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    return products.slice(startIndex, startIndex + this.itemsPerPage);
+  }
+
+  nextPage(): void {
+    const totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+    if (this.currentPage < totalPages) {
+      this.currentPage++;
+      this.updatePaginatedProducts();
+    }
+  }
+
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePaginatedProducts();
+    }
+  }
+
+  updatePaginatedProducts(): void {
+    this.filteredProducts = this.getPaginatedProducts(this.products);
+  }
+
 
   addToCart(product: Product) {
     this.cartService.addToCart(product);

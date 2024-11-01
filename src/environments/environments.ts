@@ -6,21 +6,23 @@ export const environment = {
  
     // AUTH
     baseUrlAuth: 'https://ccwhqcbjae.execute-api.us-east-1.amazonaws.com/api/auth/v1',
- 
-    // KPI
-    baseUrlIndicators: 'https://ccwhqcbjae.execute-api.us-east-1.amazonaws.com/api/kpi',
- 
-    // NTP
-    baseUrlNTP: 'https://ccwhqcbjae.execute-api.us-east-1.amazonaws.com/api/ntp',
- 
-    //DCS
-    baseUrlDCS: 'https://ccwhqcbjae.execute-api.us-east-1.amazonaws.com/api/dcs',
 
     //CUSTOMERS
     baseUrlCustomers: 'https://ccwhqcbjae.execute-api.us-east-1.amazonaws.com/api/sales-app-seller/customers',
 
     //ARTICLES
     baseUrlArticles: 'https://ccwhqcbjae.execute-api.us-east-1.amazonaws.com/api/sales-app-seller/articles'
+
+    
+
+    // // KPI
+    // baseUrlIndicators: 'https://ccwhqcbjae.execute-api.us-east-1.amazonaws.com/api/kpi',
+ 
+    // // NTP
+    // baseUrlNTP: 'https://ccwhqcbjae.execute-api.us-east-1.amazonaws.com/api/ntp',
+ 
+    // //DCS
+    // baseUrlDCS: 'https://ccwhqcbjae.execute-api.us-east-1.amazonaws.com/api/dcs',
  
  
     //PRODUCCION

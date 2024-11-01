@@ -1,42 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../interfaces/product';
+import { environment } from '../../../environments/environments';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {
+export class ProductService {  
+  private apiUrl = `${environment.baseUrlArticles}`;
 
-  private products: Product[] = [
-    {
-      id: 1, name: 'Bali Amarillo',
-      description: 'Descripción del producto 1',
-      price: 27231.58, 
-      image: 'assets/images/image2.png',
-      quantity: 1,
-      images: ['url-imagen-3.jpg', 'url-imagen-4.jpg'],
-      videos: ['url-video-2.mp4']
-    },
-    {
-      id: 2, name: 'Alaska',
-      description: 'Descripción del producto 2',
-      price: 13863.16, 
-      image: 'assets/images/image.png',
-      quantity: 1,
-      images: ['url-imagen-3.jpg', 'url-imagen-4.jpg'],
-      videos: ['url-video-2.mp4']
-    },
-  ];
+  constructor(private http: HttpClient) {}
 
-  getProductById(id: number): Product | undefined {
-    return this.products.find(product => product.id === id);
+  searchProductsByDescription(description: string): Observable<Product[]> {
+    const params = new HttpParams().set('description', description);
+    return this.http.get<Product[]>(`${this.apiUrl}`, { params });
   }
-
-  getSimilarProducts(currentProductId: number): Product[] {
-    return this.products.filter(product => product.id !== currentProductId).slice(0, 4);
-  }
-
-  getProducts(): Product[] {
-    return this.products;
-  }
-
 }

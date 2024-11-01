@@ -28,7 +28,7 @@ export class ShoppingCartService{
   }
 
   updateQuantity(productId: number, quantity: number) {
-    const product = this.cart.find(item => item.id === productId);
+    const product = this.cart.find(item => Number(item.id) === productId);
     if (product) {
       product.quantity = quantity;
     }

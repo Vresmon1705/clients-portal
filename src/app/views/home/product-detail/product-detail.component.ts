@@ -42,18 +42,18 @@ export class ProductDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      const productId = Number(params.get('id'));
-      if (productId) {
-        const product = this.productService.getProductById(productId);
-        if (product) {
-          this.product = product;
-          this.similarProducts = this.productService.getSimilarProducts(productId) ?? [];
-        } else {
-          console.error('Producto no encontrado');
-        }
-      }
-    });
+    // this.route.paramMap.subscribe(params => {
+    //   const productId = Number(params.get('id'));
+    //   if (productId) {
+    //     const product = this.productService.getProductById(productId);
+    //     if (product) {
+    //       this.product = product;
+    //       this.similarProducts = this.productService.getSimilarProducts(productId) ?? [];
+    //     } else {
+    //       console.error('Producto no encontrado');
+    //     }
+    //   }
+    // });
   }
   
   loadCart(): void {
