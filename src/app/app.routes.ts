@@ -7,7 +7,7 @@ import { ShoppingComponent } from './views/home/shopping/shopping.component';
 import { PurchaseStatusComponent } from './views/home/purchase-status/purchase-status.component';
 import { PortfolioStatusComponent } from './views/home/portfolio-status/portfolio-status.component';
 import { ShoppingCartComponent } from './views/home/shopping-cart/shopping-cart.component';
-import { ProductDetailComponent } from './views/home/product-detail/product-detail.component';
+import { ArticleDetailComponent } from './views/home/product-detail/product-detail.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent, canActivate: [isNotAuthenticatedGuard] },
@@ -20,7 +20,7 @@ export const routes: Routes = [
             { path: 'purchase-status', component: PurchaseStatusComponent },
             { path: 'portfolio-status', component: PortfolioStatusComponent },
             { path: 'shopping-cart', component: ShoppingCartComponent },
-            { path: 'product-detail/:id', component: ProductDetailComponent },
+            { path: 'article-detail/:id', component: ArticleDetailComponent },
         ]
     },
     { path: '**', redirectTo: 'login' },

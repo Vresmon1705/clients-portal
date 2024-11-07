@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, input, Input, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { Product } from '../../../../auth/interfaces/product';
+import { IArticle } from '../../../../auth/interfaces/article';
 import { ShoppingCartService } from '../../../../auth/services/shopping-cart.service';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -26,30 +26,36 @@ import { HelpComponent } from '../../../../shared/help/help.component';
 })
 export class SidebarCartComponent implements OnInit {
   
-  @Input() cart: Product[] = [];
-  hidden = false;
+  @Input()cart: IArticle[] = [];
   private cartSubscription: Subscription | undefined;
-
-  loadCart() {
-    this.cart = this.cartService.getCart();
-  }
+  totalItems: number = 0;
 
   constructor(
     private cartService: ShoppingCartService,
     private router: Router,
-    private cdr: ChangeDetectorRef) {
+    private cdr: ChangeDetectorRef
+  ) {
     this.loadCart();
   }
 
   ngOnInit(): void {
     this.cartSubscription = this.cartService.cart$.subscribe(updatedCart => {
       this.cart = updatedCart;
-      this.cdr.detectChanges();
+      this.totalItems = this.cartService.getTotalItems();
+      this.cdr.markForCheck(); 
     });
   }
 
+  loadCart() {
+    this.cart = this.cartService.getCart();
+  }
+
   getTotal(): number {
-    return this.cart.reduce((total, product) => total + product.price * product.quantity, 0);
+    return this.cartService.getTotal();
+  }
+
+  getTotalItems(): number {
+    return this.cartService.getTotalItems();
   }
 
   removeFromCart(index: number) {
@@ -71,7 +77,6 @@ export class SidebarCartComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.cartService.removeFromCart(index);
-        this.loadCart();
         this.cdr.detectChanges();
         swalWithBootstrapButtons.fire(
           'Eliminado',
@@ -128,14 +133,8 @@ export class SidebarCartComponent implements OnInit {
     this.router.navigate(['/home/shopping-cart']);
   }
 
-  getTotalItems(): number {
-    return this.cart.reduce((total, product) => total + product.quantity, 0);
-  }
-
   ngOnDestroy(): void {
-    if (this.cartSubscription) {
-      this.cartSubscription.unsubscribe();
-    }
+    this.cartSubscription?.unsubscribe();
   }
 
 }

@@ -1,39 +1,38 @@
 import { Injectable } from '@angular/core';
-import { Product } from '../interfaces/product';
+import { IArticle } from '../interfaces/article';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShoppingCartService{
-  
-  private cartSubject = new BehaviorSubject<Product[]>([]);
-  cart$ = this.cartSubject.asObservable(); 
-  private cart: Product[] = [];
+ 
+  private cartSubject = new BehaviorSubject<IArticle[]>([]);
+  cart$ = this.cartSubject.asObservable();
+  private cart: IArticle[] = [];
 
-  getCart(): Product[] {
+  getCart(): IArticle[] {
     return this.cart;
   }
 
-  addToCart(product: Product) {
-    const existingProduct = this.cart.find(item => item.id === product.id);
+  addToCart(article: IArticle) {
+    const existingProduct = this.cart.find(item => item.id === article.id);
     
     if (existingProduct) {
-      existingProduct.quantity += product.quantity;
+      existingProduct.quantity = (existingProduct.quantity || 0) + (article.quantity || 1);
     } else {
-      this.cart.push({ ...product });
+      this.cart.push({ ...article, quantity: article.quantity || 1 });
     }
-    
     this.cartSubject.next([...this.cart]); 
   }
 
-  updateQuantity(productId: number, quantity: number) {
-    const product = this.cart.find(item => Number(item.id) === productId);
-    if (product) {
-      product.quantity = quantity;
+  updateQuantity(articleId: string | number, quantity: number) {
+    const article = this.cart.find(item => item.id === articleId.toString());
+    if (article) {
+      article.quantity = quantity;
     }
     this.cartSubject.next([...this.cart]); 
-  }
+  } 
 
   removeFromCart(index: number) {
     if (index > -1 && index < this.cart.length) {
@@ -48,6 +47,14 @@ export class ShoppingCartService{
   }
 
   getTotalItems(): number {
-    return this.cart.reduce((total, product) => total + product.quantity, 0);
+    const totalItems = this.cart.reduce((total, article) => {
+      return total + (article.quantity || 0);
+    }, 0);
+    return totalItems;
+  }
+  
+
+  getTotal(): number {
+    return this.cart.reduce((total, article) => total + article.price * article.quantity, 0);
   }
 }

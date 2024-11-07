@@ -1,14 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Product } from '../../../auth/interfaces/product';
+import { IArticle } from '../../../auth/interfaces/article';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ShoppingCartService } from '../../../auth/services/shopping-cart.service';
-import { ProductService } from '../../../auth/services/product.service';
+import { ArticleService } from '../../../auth/services/article.service';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { MatIconModule } from '@angular/material/icon';
 import { SidebarCartComponent } from '../shopping/sidebar-cart/sidebar-cart.component';
-import { Observable } from 'rxjs';
 import { HelpComponent } from '../../../shared/help/help.component';
 
 @Component({
@@ -22,38 +21,38 @@ import { HelpComponent } from '../../../shared/help/help.component';
     SidebarCartComponent,
     HelpComponent
   ],
-  templateUrl: './product-detail.component.html',
-  styleUrl: './product-detail.component.scss',
+  templateUrl: './article-detail.component.html',
+  styleUrl: './article-detail.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductDetailComponent implements OnInit {
+export class ArticleDetailComponent implements OnInit {
   
-  product: Product | undefined;
-  similarProducts: Product[] = [];
-  cart: Product[] = [];
+  article: IArticle | undefined;
+  similarArticles: IArticle[] = [];
+  cart: IArticle[] = [];
   quantity: number = 1;
 
   constructor(
     private route: ActivatedRoute,
-    private productService: ProductService,
+    private articleService: ArticleService,
     private cartService: ShoppingCartService
   ) {
     this.cartService.cart$.subscribe(cart => this.cart = cart);
   }
 
   ngOnInit(): void {
-    // this.route.paramMap.subscribe(params => {
-    //   const productId = Number(params.get('id'));
-    //   if (productId) {
-    //     const product = this.productService.getProductById(productId);
-    //     if (product) {
-    //       this.product = product;
-    //       this.similarProducts = this.productService.getSimilarProducts(productId) ?? [];
-    //     } else {
-    //       console.error('Producto no encontrado');
-    //     }
-    //   }
-    // });
+    //  this.route.paramMap.subscribe(params => {
+    //    const productId = Number(params.get('id'));
+    //    if (productId) {
+    //      const product = this.articleService.getProductById(productId);
+    //      if (product) {
+    //        this.article = product;
+    //        this.similarArticles = this.articleService.getSimilarProducts(productId) ?? [];
+    //      } else {
+    //        console.error('Producto no encontrado');
+    //      }
+    //    }
+    //  });
   }
   
   loadCart(): void {
@@ -66,10 +65,10 @@ export class ProductDetailComponent implements OnInit {
     return this.cartService.getTotalItems();
   }
 
-  addToCart(product: Product | undefined): void {
-    if (product) {
-      const productToAdd = { ...product, quantity: this.quantity };
-      this.cartService.addToCart(productToAdd);
+  addToCart(article: IArticle | undefined): void {
+    if (article) {
+      const articleToAdd = { ...article, quantity: this.quantity };
+      this.cartService.addToCart(articleToAdd);
       const Toast = Swal.mixin({
         toast: true,
         position: "top-end",

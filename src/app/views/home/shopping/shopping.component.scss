@@ -57,11 +57,32 @@ h1.title-login {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
+/* Limita la cantidad de líneas de texto en el título */
+.card-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2; /* Limita a 2 líneas */
+  line-clamp: 2; /* Propiedad estándar */
+  height: 3em; /* Ajusta según el número de líneas */
+}
+
+/* Limita la cantidad de líneas de texto en el contenido */
+.card-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1; /* Limita a 1 línea */
+  line-clamp: 1; /* Propiedad estándar */
+  height: 1.5em; /* Ajusta según el número de líneas */
+}
 .card{
   background-color: white;
   transition: transform 0.3s ease-in-out, 
   box-shadow 0.3s ease-in-out;
-  min-height: 200px;
+  min-height: 250px;
   display: flex;
   flex-direction: column;
 }

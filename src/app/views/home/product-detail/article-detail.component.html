@@ -1,4 +1,4 @@
-@if(product){
+@if(article){
 <div class="container my-5">
     <div class="row">
         <div class="button-container">
@@ -11,9 +11,9 @@
         <div class="col-md-6">
             <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
-                    @for (image of product.images; track $index; let i = $index) {
+                    @for (image of article.images; track $index; let i = $index) {
                     <div class="carousel-item active">
-                        <img src="../../../../assets/images/image.png" class="d-block w-100" alt="{{product.name}}">
+                        <img src="../../../../assets/images/image.png" class="d-block w-100" alt="{{article.description}}">
                     </div>
                     <div class="carousel-item">
                         <video class="d-block w-100" controls>
@@ -35,28 +35,28 @@
             </div>
         </div>
         <div class="col-md-6">
-            <h1>{{ product.name }}</h1>
-            <p class="lead">{{ product.description }}</p>
-            <h4>{{ product.price | currency }}</h4>
+            <h1>{{ article.description }}</h1>
+            <p class="lead">{{ article.description }}</p>
+            <h4>{{ article.price | currency }}</h4>
             <div class="mb-3">
                 <label for="quantity" class="form-label">Cantidad</label>
                 <input type="number" id="quantity" class="form-control" [(ngModel)]="quantity" min="1" />
             </div>
 
-            <button class="btn btn-nuvant" (click)="addToCart(product)">Agregar al carrito</button>
+            <button class="btn btn-nuvant" (click)="addToCart(article)">Agregar al carrito</button>
         </div>
     </div>
-    <div class="row mt-5">
-        <h2>Productos Similares</h2>
+    <!-- <div class="row mt-5">
+        <h2>Articulos Similares</h2>
         <div class="d-flex overflow-auto" style="white-space: nowrap;">
-            @for (similarProduct of similarProducts; track $index) {
+            @for (similarArticle of similarArticles; track $index) {
             <div class="col-md-3" style="flex: 0 0 auto; margin-right: 15px;">
                 <div class="card">
-                    <img src="../../../../assets/images/image.png" class="card-img-top" alt="{{similarProduct.name}}">
+                    <img src="../../../../assets/images/image.png" class="card-img-top" alt="{{similarArticles.description}}">
                     <div class="card-body">
-                        <h5 class="card-title">{{ similarProduct.name }}</h5>
-                        <p class="card-text">{{ similarProduct.price | currency }}</p>
-                        <button class="btn btn-nuvant" [routerLink]="['/home/product-detail', similarProduct.id]">
+                        <h5 class="card-title">{{ similarArticles.description }}</h5>
+                        <p class="card-text">{{ similarArticles.price | currency }}</p>
+                        <button class="btn btn-nuvant" [routerLink]="['/home/product-detail', similarArticles.id]">
                             Ver Producto
                         </button>
                     </div>
@@ -64,7 +64,7 @@
             </div>
             }
         </div>
-    </div>
+    </div> -->
 </div>
 }@else{
 <ng-template #loading>

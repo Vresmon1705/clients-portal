@@ -17,18 +17,18 @@
     </div>
     }
 
-    @for (product of cart; track $index; let i = $index) {
+    @for (article of cart; track $index; let i = $index) {
     <div class="row mb-3 align-items-center">
         <div class="col-12 col-sm-4 col-md-3 col-lg-2 mb-2">
-            <img src="../../../../assets/images/image.png" class="img-fluid img-thumbnail" alt="{{ product.name }}">
+            <img class="img-fluid img-thumbnail" alt="{{ article.description }}">
         </div>
         <div class="col-12 col-sm-8 col-md-6 col-lg-4 mb-2">
-            <h5>{{ product.name }}</h5>
-            <p class="text-success">{{ product.price * product.quantity | currency:'USD' }}</p>
+            <h5>{{ article.description }}</h5>
+            <p class="text-success">{{ article.price * article.quantity | currency:'USD' }}</p>
         </div>
         <div class="col-12 col-sm-4 col-md-3 col-lg-2 mb-2">
-            <input type="number" class="form-control" [(ngModel)]="product.quantity"
-                (change)="updateQuantity(product.id, product.quantity)" min="1" />
+            <input type="number" class="form-control" [(ngModel)]="article.quantity"
+                (change)="updateQuantity(article.id, article.quantity)" min="1" />
         </div>
 
         <div class="col-12 col-sm-8 col-md-12 col-lg-4 text-end mb-2">
@@ -46,19 +46,19 @@
         <table class="table table-bordered table-responsive">
             <thead>
                 <tr>
-                    <th>Producto</th>
+                    <th>Article</th>
                     <th>Cantidad</th>
                     <th>Precio Unitario</th>
                     <th>Total</th>
                 </tr>
             </thead>
             <tbody>
-                @for (product of cart; track $index) {
+                @for (article of cart; track $index) {
                 <tr>
-                    <td>{{ product.name }}</td>
-                    <td>{{ product.quantity }}</td>
-                    <td>{{ product.price | currency:'USD' }}</td>
-                    <td>{{ product.price * product.quantity | currency:'USD' }}</td>
+                    <td>{{ article.description }}</td>
+                    <td>{{ article.quantity }}</td>
+                    <td>{{ article.price | currency:'USD' }}</td>
+                    <td>{{ article.price * article.quantity | currency:'USD' }}</td>
                 </tr>
                 }
                 <tr>

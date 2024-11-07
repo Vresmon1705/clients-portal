@@ -19,45 +19,47 @@
 
       <div class="input-group mx-2">
         <input type="text" class="form-control" placeholder="Buscar productos" [(ngModel)]="searchTerm"
-          (input)="searchProducts()">
-        <button class="btn btn-nuvant" (click)="searchProducts()">
+          (input)="searchArticles()">
+        <button class="btn btn-nuvant" (click)="searchArticles()">
           <mat-icon class="text-white d-flex justify-content-center align-items-center">search</mat-icon>
         </button>
       </div>
     </div>
 
-    @if (products.length === 0 && searchTerm.trim() === '') {
+    @if (articles.length === 0 && searchTerm.trim() === '') {
       <div>
         <div class="alert alert-info empty-cart">
-          <p>Ingresa un producto para comenzar la búsqueda.</p>
+          <p>Ingresa un articulo para comenzar la búsqueda.</p>
         </div>
       </div>
     }@else {
-      <div class="d-flex flex-wrap align-items-start mt-3">
-        @for (product of filteredProducts; track $index) {
-          <div class="col-sm-12 col-md-6 col-lg-3 mx-4 mb-4">
+      <div class="row d-flex flex-wrap align-items-start mt-3">
+        @for (article of filteredArticles; track $index) {
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
             <div class="card h-100">
-              <img src="assets/images/default-product.png" class="card-img-top" alt="{{ product.description }}">
+              <img src="assets/images/default-product.png" class="card-img-top" alt="{{ article.description }}">
               <div class="card-body d-flex flex-column">
-                <h5 class="card-title">{{ product.description }}</h5>
-                <p class="card-text text-success">{{ product.itemNumber }}</p>
-                <div class="mt-auto">
-                  <button class="btn btn-sm btn-nuvant mx-2 mb-1" (click)="addToCart(product)">Agregar al carrito</button>
-                  <button class="btn btn-sm btn-nuvant" [routerLink]="['/home/product-detail', product.id]">
+                <h5 class="card-title">{{ article.description }}</h5>
+                <p class="card-text text-success">{{ article.itemNumber }}</p>
+                <div class="mt-auto d-flex flex-wrap gap-2">
+                  <button class="btn btn-sm btn-nuvant flex-grow-1 mb-1" (click)="addToCart(article)">
+                    Agregar al carrito
+                  </button>
+                  <button class="btn btn-sm btn-nuvant flex-grow-1" [routerLink]="['/home/article-detail', article.id]">
                     Ver Detalle
                   </button>
                 </div>
               </div>
             </div>
-          </div>
-        }        
+          </div>  
+        }              
       </div>
     }    
 
-    @if (products.length === 0 && searchTerm.trim()) {
+    @if (articles.length === 0 && searchTerm.trim()) {
       <div>
         <div class="alert alert-info empty-cart">
-          <p>No se encontraron productos. Intenta con otra búsqueda.</p>
+          <p>No se encontraron articulos. Intenta con otra búsqueda.</p>
         </div>
       </div>
     }    

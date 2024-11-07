@@ -9,7 +9,7 @@ import { Router, RouterModule } from '@angular/router';
 //import { FooterComponent } from '../footer/footer.component';
 import { AuthService } from '../../auth/services/auth.service';
 import { ShoppingCartService } from '../../auth/services/shopping-cart.service';
-import { Product } from '../../auth/interfaces/product';
+import { IArticle } from '../../auth/interfaces/article';
 import { SidebarCartComponent } from '../../views/home/shopping/sidebar-cart/sidebar-cart.component';
 
 @Component({
@@ -35,7 +35,7 @@ export class SidebarComponent {
 
   TwoLetters: string = '';
   isCartOpen = false;
-  cart: Product[] = [];
+  cart: IArticle[] = [];
 
   constructor(
     private authService: AuthService,
@@ -108,7 +108,7 @@ export class SidebarComponent {
   }
 
   getTotal(): number {
-    return this.cart.reduce((total, product) => total + product.price * product.quantity, 0);
+    return this.cart.reduce((total, article) => total + article.price * article.quantity, 0);
   }
 
   goToCart() {

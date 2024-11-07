@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { SidebarComponent } from '../../../shared/sidebar/sidebar.component';
-import { Product } from '../../../auth/interfaces/product';
+import { IArticle } from '../../../auth/interfaces/article';
 import { ShoppingCartService } from '../../../auth/services/shopping-cart.service';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
@@ -27,7 +27,7 @@ import { HelpComponent } from '../../../shared/help/help.component';
 })
 export class ShoppingCartComponent implements OnInit {
 
-  cart: Product[] = [];
+  cart: IArticle[] = [];
   private cartSubscription: Subscription | undefined;
 
   loadCart() {
@@ -56,7 +56,7 @@ export class ShoppingCartComponent implements OnInit {
       buttonsStyling: false
     });
     swalWithBootstrapButtons.fire({
-      title: '¿Estás seguro de eliminar el producto?',
+      title: '¿Estás seguro de eliminar el articulo?',
       text: '¡No podrás revertir esto!',
       icon: 'warning',
       showCancelButton: true,
@@ -70,13 +70,13 @@ export class ShoppingCartComponent implements OnInit {
         this.cdr.detectChanges();
         swalWithBootstrapButtons.fire(
           'Eliminado',
-          'El producto ha sido eliminado del carrito.',
+          'El articulo ha sido eliminado del carrito.',
           'success'
         );
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         swalWithBootstrapButtons.fire(
           'Cancelado',
-          'El producto sigue en tu carrito :)',
+          'El articulo sigue en tu carrito :)',
           'error'
         );
       }
@@ -94,7 +94,7 @@ export class ShoppingCartComponent implements OnInit {
 
     swalWithBootstrapButtons.fire({
       title: '¿Estás seguro de vaciar el carrito?',
-      text: '¡Todos los productos serán eliminados!',
+      text: '¡Todos los articulos serán eliminados!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí, vaciar',
@@ -119,15 +119,14 @@ export class ShoppingCartComponent implements OnInit {
     });
   }
 
-  updateQuantity(productId: number, quantity: number) {
-    if (quantity > 0) {
-      this.cartService.updateQuantity(productId, quantity);
-      this.loadCart();
-    }
+  updateQuantity(articleId: string, quantity: number) {
+    this.cartService.updateQuantity(articleId.toString(), quantity);
+
   }
 
+
   getTotal(): number {
-    return this.cart.reduce((total, product) => total + product.price * product.quantity, 0);
+    return this.cart.reduce((total, article) => total + article.price * article.quantity, 0);
   }
 
   ngOnDestroy(): void {

@@ -1,19 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Product } from '../interfaces/product';
+import { IArticle } from '../interfaces/article';
 import { environment } from '../../../environments/environments';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {  
+export class ArticleService {  
   private apiUrl = `${environment.baseUrlArticles}`;
 
   constructor(private http: HttpClient) {}
 
-  searchProductsByDescription(description: string): Observable<Product[]> {
+  searchArticlesByDescription(description: string): Observable<IArticle[]> {
     const params = new HttpParams().set('description', description);
-    return this.http.get<Product[]>(`${this.apiUrl}`, { params });
+    return this.http.get<{ data: IArticle[] }>(`${this.apiUrl}`, { params }).pipe(
+      map(response => response.data)
+    );
   }
 }
