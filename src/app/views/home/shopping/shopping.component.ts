@@ -5,13 +5,13 @@ import { IArticle } from '../../../auth/interfaces/article';
 import Swal from 'sweetalert2';
 import { MatIconModule } from '@angular/material/icon';
 import { SidebarCartComponent } from "./sidebar-cart/sidebar-cart.component";
-import { RouterModule } from '@angular/router';
-import { ArticleDetailComponent } from '../product-detail/product-detail.component';
+import { ArticleDetailComponent } from '../article-detail/article-detail.component';
 import { ArticleService } from '../../../auth/services/article.service';
 import { FormsModule } from '@angular/forms';
 import { HelpComponent } from '../../../shared/help/help.component';
 import { CustomerService } from '../../../auth/services/customer.service';
 import { Customer } from '../../../auth/interfaces/customer';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-shopping',

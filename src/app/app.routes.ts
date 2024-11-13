@@ -7,7 +7,7 @@ import { ShoppingComponent } from './views/home/shopping/shopping.component';
 import { PurchaseStatusComponent } from './views/home/purchase-status/purchase-status.component';
 import { PortfolioStatusComponent } from './views/home/portfolio-status/portfolio-status.component';
 import { ShoppingCartComponent } from './views/home/shopping-cart/shopping-cart.component';
-import { ArticleDetailComponent } from './views/home/product-detail/product-detail.component';
+import { ArticleDetailComponent } from './views/home/article-detail/article-detail.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent, canActivate: [isNotAuthenticatedGuard] },

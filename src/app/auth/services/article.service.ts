@@ -7,10 +7,10 @@ import { map, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ArticleService {  
+export class ArticleService {
   private apiUrl = `${environment.baseUrlArticles}`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   searchArticlesByDescription(description: string): Observable<IArticle[]> {
     const params = new HttpParams().set('description', description);
@@ -18,4 +18,13 @@ export class ArticleService {
       map(response => response.data)
     );
   }
+
+  getProductById(id: string): Observable<IArticle> {
+    return this.http.get<IArticle>(`${this.apiUrl}/${id}`);
+  }
+
+  getSimilarProducts(articleId: string): Observable<IArticle[]> {
+    return this.http.get<IArticle[]>(`/api/articles/similar/${articleId}`);
+  }
+
 }

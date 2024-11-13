@@ -13,8 +13,6 @@ export const environment = {
     //ARTICLES
     baseUrlArticles: 'https://ccwhqcbjae.execute-api.us-east-1.amazonaws.com/api/sales-app-seller/articles'
 
-    
-
     // // KPI
     // baseUrlIndicators: 'https://ccwhqcbjae.execute-api.us-east-1.amazonaws.com/api/kpi',
  

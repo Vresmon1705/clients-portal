@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { IArticle } from '../../../auth/interfaces/article';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ShoppingCartService } from '../../../auth/services/shopping-cart.service';
@@ -26,7 +26,6 @@ import { HelpComponent } from '../../../shared/help/help.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArticleDetailComponent implements OnInit {
-  
   article: IArticle | undefined;
   similarArticles: IArticle[] = [];
   cart: IArticle[] = [];
@@ -35,54 +34,62 @@ export class ArticleDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private articleService: ArticleService,
-    private cartService: ShoppingCartService
+    private cartService: ShoppingCartService,
+    private cdr: ChangeDetectorRef
   ) {
     this.cartService.cart$.subscribe(cart => this.cart = cart);
   }
 
   ngOnInit(): void {
-    //  this.route.paramMap.subscribe(params => {
-    //    const productId = Number(params.get('id'));
-    //    if (productId) {
-    //      const product = this.articleService.getProductById(productId);
-    //      if (product) {
-    //        this.article = product;
-    //        this.similarArticles = this.articleService.getSimilarProducts(productId) ?? [];
-    //      } else {
-    //        console.error('Producto no encontrado');
-    //      }
-    //    }
-    //  });
-  }
-  
-  loadCart(): void {
-    this.cartService.cart$.subscribe(cart => {
-      this.cart = cart;
+    this.route.paramMap.subscribe(params => {
+      const productId = params.get('id');
+      console.log('Product ID:', productId);
+
+      if (productId) {
+        this.articleService.getProductById(productId).subscribe(
+          (product) => {
+            this.article = product;
+            console.log('Producto cargado:', this.article);
+            this.cdr.detectChanges(); 
+            this.loadSimilarArticles();
+          },
+          (error) => {
+            console.error('Error al cargar el producto:', error);
+          }
+        );
+      }
     });
+  }
+
+  loadSimilarArticles(): void {
+    if (this.article?.id) {
+      this.articleService.getSimilarProducts(this.article.id).subscribe(
+        (similarProducts) => {
+          this.similarArticles = similarProducts;
+          console.log('Productos similares cargados:', this.similarArticles);
+        },
+        (error) => {
+          console.error('Error al cargar productos similares:', error);
+        }
+      );
+    }
   }
 
   getTotalItems(): number {
     return this.cartService.getTotalItems();
   }
-
-  addToCart(article: IArticle | undefined): void {
-    if (article) {
-      const articleToAdd = { ...article, quantity: this.quantity };
+  
+  addToCart(): void {
+    if (this.article) {
+      const articleToAdd = { ...this.article, quantity: this.quantity };
       this.cartService.addToCart(articleToAdd);
-      const Toast = Swal.mixin({
+      Swal.fire({
+        icon: 'success',
+        title: 'Producto agregado al carrito',
+        position: 'top-end',
         toast: true,
-        position: "top-end",
-        showConfirmButton: false,
         timer: 1000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.onmouseenter = Swal.stopTimer;
-          toast.onmouseleave = Swal.resumeTimer;
-        }
-      });
-      Toast.fire({
-        icon: "success",
-        title: "Producto agregado al carrito"
+        showConfirmButton: false
       });
     }
   }
