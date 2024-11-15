@@ -26,9 +26,9 @@ import { HelpComponent } from '../../../shared/help/help.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArticleDetailComponent implements OnInit {
-  article: IArticle | undefined;
-  similarArticles: IArticle[] = [];
   cart: IArticle[] = [];
+  article!: IArticle;
+  similarArticles: IArticle[] = [];
   quantity: number = 1;
 
   constructor(
@@ -36,49 +36,40 @@ export class ArticleDetailComponent implements OnInit {
     private articleService: ArticleService,
     private cartService: ShoppingCartService,
     private cdr: ChangeDetectorRef
-  ) {
-    this.cartService.cart$.subscribe(cart => this.cart = cart);
-  }
+  ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const productId = params.get('id');
-      console.log('Product ID:', productId);
-
       if (productId) {
         this.articleService.getProductById(productId).subscribe(
           (product) => {
             this.article = product;
-            console.log('Producto cargado:', this.article);
-            this.cdr.detectChanges(); 
+            console.log("Producto cargado:", this.article); // Verifica que los datos del artículo sean correctos
             this.loadSimilarArticles();
+            this.cdr.detectChanges();
           },
-          (error) => {
-            console.error('Error al cargar el producto:', error);
-          }
+          (error) => console.error('Error loading product:', error)
         );
       }
     });
   }
 
   loadSimilarArticles(): void {
-    if (this.article?.id) {
-      this.articleService.getSimilarProducts(this.article.id).subscribe(
-        (similarProducts) => {
-          this.similarArticles = similarProducts;
-          console.log('Productos similares cargados:', this.similarArticles);
+    if (this.article?.catPrice) {
+      this.articleService.getArticlesByCatPrice(this.article.catPrice).subscribe(
+        (similarArticles) => {
+          this.similarArticles = similarArticles.filter(
+            article => article.id !== this.article!.id // Excluye el artículo actual
+          );
+          this.cdr.detectChanges();
         },
-        (error) => {
-          console.error('Error al cargar productos similares:', error);
-        }
+        (error) => console.error('Error loading similar articles:', error)
       );
     }
   }
-
-  getTotalItems(): number {
-    return this.cartService.getTotalItems();
-  }
   
+  // Añadir el artículo al carrito
   addToCart(): void {
     if (this.article) {
       const articleToAdd = { ...this.article, quantity: this.quantity };

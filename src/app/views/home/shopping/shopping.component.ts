@@ -20,13 +20,13 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     MatIconModule,
     SidebarCartComponent,
-    RouterModule,
     ArticleDetailComponent,
     FormsModule,
-    HelpComponent
+    HelpComponent,
+    RouterModule
   ],
   templateUrl: './shopping.component.html',
-  styleUrl: './shopping.component.scss',
+  styleUrls: ['./shopping.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShoppingComponent implements OnInit {
@@ -80,25 +80,33 @@ export class ShoppingComponent implements OnInit {
   }
 
   searchArticles(): void {
-    if (this.searchTerm.trim()) {
-      this.articleService.searchArticlesByDescription(this.searchTerm)
-        .subscribe((data: IArticle[]) => {
-          this.articles = data;
-          this.totalItems = data.length;
-          this.currentPage = 1;
-          this.updatePaginatedArticles();
-          this.cdr.detectChanges();
-        });
-    } else {
+    const description = this.searchTerm.trim();
+
+    if (!description) {
       this.articles = [];
       this.filteredArticles = [];
       this.totalItems = 0;
+      return;
     }
+
+    this.articleService.searchArticlesByDescription(description).subscribe(
+      (data: IArticle[]) => {
+        this.articles = data;
+        this.totalItems = data.length;
+        this.currentPage = 1;
+        this.updatePaginatedArticles();
+        this.cdr.detectChanges();
+      },
+      (error) => {
+        console.error('Error al buscar artículos', error);
+      }
+    );
   }
 
-  getPaginatedArticles(articles: IArticle[]): IArticle[] {
+  updatePaginatedArticles(): void {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    return articles.slice(startIndex, startIndex + this.itemsPerPage);
+    const endIndex = startIndex + this.itemsPerPage;
+    this.filteredArticles = this.articles.slice(startIndex, endIndex);
   }
 
   nextPage(): void {
@@ -116,9 +124,9 @@ export class ShoppingComponent implements OnInit {
     }
   }
 
-  updatePaginatedArticles(): void {
-    this.filteredArticles = this.getPaginatedArticles(this.articles);
-  }
+  get totalPages(): number {
+    return Math.ceil(this.totalItems / this.itemsPerPage);
+  }  
 
   addToCart(article: IArticle) {
     this.cartService.addToCart(article);

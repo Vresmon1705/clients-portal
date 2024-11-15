@@ -53,25 +53,31 @@
         </div>
 
         <div class="row mt-5">
-            <h2>Artículos Similares</h2>
-            <div class="d-flex overflow-auto" style="white-space: nowrap;">
-                @for (similarArticle of similarArticles; track $index) {
-                <div class="col-md-3" style="flex: 0 0 auto; margin-right: 15px;">
-                    <div class="card">
-                        <img src="../../../../assets/images/image.png" class="card-img-top"
-                            alt="{{ similarArticle.description }}">
+            <div *ngIf="similarArticles.length > 0">
+                <h2>Artículos Similares</h2>
+                <div class="d-flex overflow-auto" style="white-space: nowrap;">
+                  <ng-container *ngFor="let similarArticle of similarArticles">
+                    <div class="col-md-3" style="flex: 0 0 auto; margin-right: 15px;">
+                      <div class="card">
+                        <img src="../../../../assets/images/image.png" class="card-img-top" alt="{{ similarArticle.description }}">
                         <div class="card-body">
-                            <h5 class="card-title">{{ similarArticle.description }}</h5>
-                            <p class="card-text">{{ similarArticle.price | currency }}</p>
-                            <button class="btn btn-nuvant" [routerLink]="['/home/product-detail', similarArticle.id]">
-                                Ver Producto
-                            </button>
+                          <h5 class="card-title">{{ similarArticle.description }}</h5>
+                          <p class="card-text">{{ similarArticle.price | currency }}</p>
+                          <button class="btn btn-nuvant" [routerLink]="['/home/product-detail', similarArticle.id]">
+                            Ver Producto
+                          </button>
                         </div>
+                      </div>
                     </div>
+                  </ng-container>
                 </div>
-                }
-
-            </div>
+              </div>
+              
+              <!-- Mostrar un mensaje si no hay artículos similares -->
+              <div *ngIf="similarArticles.length === 0">
+                <p>No se encontraron artículos similares.</p>
+              </div>
+              
         </div>
     </div>
 </div>
