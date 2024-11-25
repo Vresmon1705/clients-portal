@@ -3,7 +3,6 @@
     <div class="col-md-7 col-lg-6 col-xl-5 card p-md-5 p-4 container-card-login justify-content-between">
       <h1 class="text-center mb-4 title-login">Bienvenidos</h1>
 
-      
       <div id="carouselExampleIndicators" class="carousel slide mb-4" data-bs-ride="carousel">
         <div class="carousel-indicators">
           <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -39,9 +38,9 @@
       </div>
 
       <div class="form-group mb-3">
-        <label for="email" class="form-label">Correo</label>
-        <input type="email" formControlName="email" class="form-control" id="email" name="email"
-          placeholder="Correo electrónico" required>
+        <label for="userNit" class="form-label">Usuario</label>
+        <input type="text" formControlName="userNit" class="form-control" id="userNit" name="userNit"
+          placeholder="Ingrese su usuario" required>
       </div>
 
       <div class="form-group mb-3">
@@ -50,27 +49,19 @@
           placeholder="Ingrese su contraseña" required>
       </div>
 
-      <div class="form-group mb-3">
-        <label for="MFA" class="form-label">Código de verificación {{myForm.value.tokenMFA.length}}/6</label>
-        <input type="text" formControlName="tokenMFA" class="form-control" id="tokenMFA" name="tokenMFA"
-          placeholder="Ingrese el código MFA" required maxlength="6" pattern="\d{6}">
-      </div>
-
-      @if(!spinnerLogin){
-      <div class="d-flex justify-content-between mb-3">
-        <button type="submit" [disabled]="myForm.invalid" class="btn btn-primary btn-login w-100">Login</button>
-      </div>
+      @if (!spinnerLogin) {
+        <div class="d-flex justify-content-between mb-3">
+          <button type="submit" [disabled]="myForm.invalid" class="btn btn-primary btn-login w-100">Login</button>
+        </div>
       }
 
-      @if(spinnerLogin){
-      <div class="text-center">
+      @if (spinnerLogin) {<div class="text-center">
         <button class="btn btn-loading" type="button" disabled>
           <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
           Cargando...
         </button>
       </div>
-      }
-
+    }      
     </div>
   </div>
 </form>

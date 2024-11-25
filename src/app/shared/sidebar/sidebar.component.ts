@@ -25,7 +25,6 @@ import { SidebarCartComponent } from '../../views/home/shopping/sidebar-cart/sid
     RouterModule,
     MatToolbarModule,
     SidebarCartComponent
-    //FooterComponent,
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
@@ -76,9 +75,10 @@ export class SidebarComponent {
   }
 
   TwoLettersOfEmail(user: any): string {
-    let email = user;
-    return email && email.length >= 2 ? email.substring(0, 2).toUpperCase() : '';
+    let name = user?.name || '';
+    return name && name.length >= 2 ? name.substring(0, 2).toUpperCase() : '';
   }
+  
 
   isDarkMode = false;
 

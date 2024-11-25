@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, OnInit } from '@angular/core';
 import { ShoppingCartService } from '../../../auth/services/shopping-cart.service';
 import { IArticle } from '../../../auth/interfaces/article';
 import Swal from 'sweetalert2';
@@ -12,6 +12,8 @@ import { HelpComponent } from '../../../shared/help/help.component';
 import { CustomerService } from '../../../auth/services/customer.service';
 import { Customer } from '../../../auth/interfaces/customer';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../../../auth/services/auth.service';
+import { AuthStatus } from '../../../auth/interfaces/auth.status.enum';
 
 @Component({
   selector: 'app-shopping',
@@ -34,7 +36,7 @@ export class ShoppingComponent implements OnInit {
   cart: IArticle[] = [];
   customer: Customer | null = null;
   addresses: string[] = [];
-  taxId = '901592529-1';
+  taxId: string | null = null;
   articles: IArticle[] = [];
   searchTerm: string = '';
 
@@ -47,30 +49,47 @@ export class ShoppingComponent implements OnInit {
     private cartService: ShoppingCartService,
     private articleService: ArticleService,
     private customerService: CustomerService,
+    private authService: AuthService,
     private cdr: ChangeDetectorRef
   ) {
     this.cartService.cart$.subscribe(cart => this.cart = cart);
   }
 
   ngOnInit(): void {
-    this.fetchCustomerData();
+    const authStatus = this.authService.authStatusRead();
+
+    if (authStatus === AuthStatus.authenticated) {
+      const currentUser = this.authService.currentUser();
+      this.taxId = currentUser?.taxIdentificationNumber ?? null;
+
+      console.log('Tax ID desde el AuthService:', this.taxId);
+
+      if (this.taxId) {
+        this.fetchCustomerData();
+      } else {
+        console.error('No se encontró el NIT del usuario');
+      }
+    }
   }
 
   private fetchCustomerData(): void {
-    this.customerService.getCustomerByTaxId(this.taxId).subscribe(
-      (data: Customer[]) => {
-        if (data.length > 0) {
-          this.customer = data[0];
-          this.addresses = this.extractAddresses(data);
-          this.cdr.detectChanges();
-        } else {
-          console.warn('No se encontraron datos para este NIT');
+    if (this.taxId) {
+      this.customerService.getCustomerByTaxId(this.taxId).subscribe(
+        (data: Customer[]) => {
+          console.log('Datos del cliente recibidos:', data);
+          if (data.length > 0) {
+            this.customer = data[0];
+            this.addresses = this.extractAddresses(data);
+            this.cdr.markForCheck();
+          } else {
+            console.warn('No se encontraron datos para este NIT');
+          }
+        },
+        error => {
+          console.error('Error fetching customer data', error);
         }
-      },
-      error => {
-        console.error('Error fetching customer data', error);
-      }
-    );
+      );
+    }
   }
 
   private extractAddresses(customers: Customer[]): string[] {
@@ -123,10 +142,9 @@ export class ShoppingComponent implements OnInit {
       this.updatePaginatedArticles();
     }
   }
-
   get totalPages(): number {
     return Math.ceil(this.totalItems / this.itemsPerPage);
-  }  
+  }
 
   addToCart(article: IArticle) {
     this.cartService.addToCart(article);

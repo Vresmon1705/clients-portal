@@ -19,40 +19,32 @@ import { AuthService } from '../services/auth.service';
 })
 export class LoginComponent {
 
-  codigoVerificacion: boolean = false;
   spinnerLogin: boolean = false;
 
-  private fb= inject(FormBuilder)
-  private router= inject(Router)
-  private authService= inject(AuthService)
+  private fb = inject(FormBuilder);
+  private router = inject(Router);
+  private authService = inject(AuthService);
 
   public myForm: FormGroup = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(4)]],
-    tokenMFA: ['', [Validators.required, Validators.minLength(6)]]
+    userNit: ['', [Validators.required]],
+    password: ['', [Validators.required, Validators.minLength(4)]]
   });
 
-  toogle() {
-    this.codigoVerificacion = true
-  }
-
   login() {
-    const { email, password, tokenMFA } = this.myForm.value;
-  
+    const { userNit, password } = this.myForm.value;
+
     if (this.myForm.valid) {
-  
       this.spinnerLogin = true;
-      setTimeout(() => {
-        this.spinnerLogin = false;
-      }, 2500);
-  
-      this.authService.login(email, password, tokenMFA)
+
+      this.authService.login(userNit, password)
         .subscribe({
-          
           next: () => {
+            this.spinnerLogin = false;
             this.router.navigateByUrl('/home/shopping');
           },
           error: (err) => {
+            this.spinnerLogin = false;
+
             let errorMessage = 'Error al iniciar sesión, vuelve a intentarlo';
 
             console.error('Error:', err);
@@ -63,13 +55,10 @@ export class LoginComponent {
               showConfirmButton: true,
               confirmButtonColor: "#157347"
             });
-  
-            this.myForm.get('email')?.setValue('');
-            this.myForm.get('password')?.setValue('');
-            this.myForm.get('tokenMFA')?.setValue('');
+
+            this.myForm.reset();
           }
         });
-  
     } else {
       Swal.fire({
         icon: "error",
@@ -79,7 +68,6 @@ export class LoginComponent {
       });
     }
   }
-
 }
 
 

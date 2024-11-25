@@ -12,21 +12,30 @@
 
             <div class="col-md-6">
                 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        @for (image of article.images; track $index) {
-                        <div>
-                            <div class="carousel-item">
-                                <img src="{{ image }}" class="d-block w-100" alt="{{ article.description }}">
-                            </div>
-                            <div class="carousel-item">
-                                <video class="d-block w-100" controls>
-                                    <source src="assets/videos/video1.mp4" class="d-block w-100" type="video/mp4">
-                                </video>
-                            </div>
-                        </div>
-                        }
-
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
                     </div>
+
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="../../../../assets/images/image2.png" class="d-block w-100" alt="Image 1"
+                                style="height: 300px; object-fit: cover;">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="../../../../assets/images/image3.png" class="d-block w-100" alt="Image 2"
+                                style="height: 300px; object-fit: cover;">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="../../../../assets/images/caracteristicas.png" class="d-block w-100" alt="Image 3"
+                                style="width: 400px; object-fit: cover;">
+                        </div>
+                    </div>
+
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
                         data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -42,52 +51,66 @@
 
             <div class="col-md-6">
                 <h1>{{ article.description }}</h1>
-                <p>{{ article.itemType }}</p>
+                <!-- <p>{{ article.itemType }}</p> -->
+                <p>Este material se encuentra elaborado a base de PVC y tela soporte tejido de punto 100 % poliéster.
+                </p>
+                <p> Diseñado con un sistema completo de protección del vinilo ADVANPROTECH, que le
+                    proporciona resistencia mejorada al manchado. Adicionalmente genera mayor facilidad de
+                    limpieza en manchas comunes y suciedad. </p>
                 <h4>{{ article.price | currency }}</h4>
+
+                <img src="../../../../assets/images/botones.jpg" alt="" style="width: 100%; max-width: 300px;">
+
                 <div class="mb-3">
                     <label for="quantity" class="form-label">Cantidad</label>
                     <input type="number" id="quantity" class="form-control" [(ngModel)]="quantity" min="1" />
                 </div>
-                <button class="btn btn-nuvant" (click)="addToCart()">Agregar al carrito</button>
+
+                <div class="mb-3">
+                    <button class="btn btn-nuvant" (click)="addToCart()">Agregar al carrito</button>
+                </div>
+
             </div>
         </div>
 
         <div class="row mt-5">
-            <div *ngIf="similarArticles.length > 0">
+            @if (similarArticles.length > 0) {
+            <div>
                 <h2>Artículos Similares</h2>
                 <div class="d-flex overflow-auto" style="white-space: nowrap;">
-                  <ng-container *ngFor="let similarArticle of similarArticles">
-                    <div class="col-md-3" style="flex: 0 0 auto; margin-right: 15px;">
-                      <div class="card">
-                        <img src="../../../../assets/images/image.png" class="card-img-top" alt="{{ similarArticle.description }}">
-                        <div class="card-body">
-                          <h5 class="card-title">{{ similarArticle.description }}</h5>
-                          <p class="card-text">{{ similarArticle.price | currency }}</p>
-                          <button class="btn btn-nuvant" [routerLink]="['/home/product-detail', similarArticle.id]">
-                            Ver Producto
-                          </button>
+                    <ng-container *ngFor="let similarArticle of similarArticles">
+                        <div class="col-md-3" style="flex: 0 0 auto; margin-right: 15px;">
+                            <div class="card">
+                                <img src="../../../../assets/images/image.png" class="card-img-top"
+                                    alt="{{ similarArticle.description }}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ similarArticle.description }}</h5>
+                                    <p class="card-text">{{ similarArticle.price | currency }}</p>
+                                    <button class="btn btn-nuvant"
+                                        [routerLink]="['/home/product-detail', similarArticle.id]">
+                                        Ver Producto
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                      </div>
-                    </div>
-                  </ng-container>
+                    </ng-container>
                 </div>
-              </div>
-              
-              <!-- Mostrar un mensaje si no hay artículos similares -->
-              <div *ngIf="similarArticles.length === 0">
+            </div>
+            }
+
+            @if (similarArticles.length === 0) {
+            <div>
                 <p>No se encontraron artículos similares.</p>
-              </div>
-              
+            </div>
+            }
         </div>
     </div>
 </div>
-}@else {
+}
+
+@if (!article) {
 <ng-template>
     <div class="alert alert-warning">Cargando producto...</div>
 </ng-template>
 }
-
-
-
-
 <app-help></app-help>

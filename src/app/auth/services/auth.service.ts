@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, throwError, of, Observable, switchMap } from 'rxjs';
 import { environment } from '../../../environments/environments';
 import { isPlatformBrowser } from '@angular/common';
+import { Customer } from '../interfaces/customer';
 
 @Injectable({
   providedIn: 'root'
@@ -12,102 +13,111 @@ export class AuthService {
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     if (isPlatformBrowser(this.platformId)) {
-    this.checkAuthStatus().subscribe();
+      this.checkAuthStatus().subscribe();
     }
   }
-  
+
   private http = inject(HttpClient);
   private readonly baseUrl: string = environment.baseUrlAuth;
   private readonly tokenRol: string = environment.rolForToken;
 
-  private _currentUser = signal(null);
+  private _currentUser = signal<Customer | null>(null);
   private _authStatus = signal(AuthStatus.checking);
   private _currentUserRole = signal(null);
 
-  //VARIABLE QUE SE PUEDE LLAMAR EN CUALQUIERO OTRO COMPONENTE
   public currentUser = computed(() => this._currentUser());
   public authStatusRead = computed(() => this._authStatus());
   public currentUserRole = computed(() => this._currentUserRole());
 
-  setAuthentication(email: any, token: any): boolean {
+  setAuthentication(taxIdentificationNumber: any, token: any): boolean {
+    const user: Customer = {
+      taxIdentificationNumber,
+      id: '',
+      lastSyncTime: 0,
+      name: '',
+      partySiteNumber: '',
+      address: '',
+      city: '',
+      country: '',
+      buyingPartyId: 0,
+      accountNumber: '',
+      billToPartyName: '',
+      billToAccountNumber: '',
+      billToAddress: '',
+      billToCity: '',
+      billToCountry: '',
+      shipToPartyName: '',
+      shipToAddress: '',
+      shipToCity: '',
+      shipToCountry: ''
+    };
 
-    this._currentUser.set(email);
+    console.log('NIT guardado en el servicio:', taxIdentificationNumber);
+    this._currentUser.set(user);
     this._authStatus.set(AuthStatus.authenticated);
     localStorage.setItem('token', token);
-
     return true;
   }
 
 
-  //PARA MANDARA ROLES EN EL MOMENTO DE HACER CHECK DEL ESTADO DE AUTENTICACION
-
   checkAuthStatus(): Observable<any> {
-
     const url = `${this.baseUrl}/testingToken`;
-    let token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
     if (!token) {
       this.logout();
       return of(false);
     }
 
-    const headers = new HttpHeaders()
-      .set('Authorization', `Bearer ${token}`);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    return this.http.get(url, { headers })
-      .pipe(
-        switchMap((resp: any) => {
-          this.setAuthentication(resp.user, token);
-          return this.decodeAuth(token).pipe(
-            map((response: any) => {
-              this._currentUserRole.set(response.roles);
-              return { response, resp };
-            }),
-            catchError(() => {
-              this.logout();
-              localStorage.removeItem('token');
-              this._authStatus.set(AuthStatus.notAuthenticated);
-              return of(false);
-            })
-          )
-        })
-      );
+    return this.http.get(url, { headers }).pipe(
+      switchMap((resp: any) => {
+        this.setAuthentication(resp.user, token);
+        return this.decodeAuth(token).pipe(
+          map((response: any) => {
+            this._currentUserRole.set(response.roles);
+            console.log('NIT decodificado desde el token:', resp.user?.taxIdentificationNumber);
+            return { response, resp };
+          }),
+          catchError(() => {
+            this.logout();
+            localStorage.removeItem('token');
+            this._authStatus.set(AuthStatus.notAuthenticated);
+            return of(false);
+          })
+        );
+      })
+    );
   }
 
 
-  //PARA MANDAR ROLES DESDE EL MOMENTO DE HACER EL LOGUEO
+  login(userNit: string, password: string): Observable<any> {
+    const url = `${this.baseUrl}/loginClient`;
+    const body = { userNit, password };
 
-  login(email: string, password: string, tokenMFA: string) {
-
-    const url = tokenMFA === "000000" ? `${this.baseUrl}/login` : `${this.baseUrl}/loginMFA`;
-    const body = tokenMFA === "000000" ? { email, password } : { email, password, tokenMFA };
-
-    return this.http.post(url, body)
-      .pipe(
-        switchMap((response: any) => {
-          this.setAuthentication(response.email, response.token);
-          return this.decodeAuth(response.token).pipe(
-            map((decodedResponse: any) => {
-              this._currentUserRole.set(decodedResponse.roles);
-              return { response, decodedResponse };
-            }),
-            catchError(err => {
-              console.error("Error al decodificar el token:", err);
-              return throwError(() => err);
-            }))
-        }),
-
-        catchError(err => throwError(() => {
-          return err
-        }))
-      );
+    return this.http.post(url, body).pipe(
+      switchMap((response: any) => {
+        this.setAuthentication(response.userNit, response.token);
+        return this.decodeAuth(response.token).pipe(
+          map((decodedResponse: any) => {
+            this._currentUserRole.set(decodedResponse.roles);
+            return { response, decodedResponse };
+          }),
+          catchError(err => {
+            console.error("Error al decodificar el token:", err);
+            return throwError(() => err);
+          })
+        );
+      }),
+      catchError(err => throwError(() => err))
+    );
   }
 
   decodeAuth(data: any) {
-    const headers = new HttpHeaders()
-      .set('Authorization', `Bearer ${this.tokenRol}`);
-    const url = `${this.baseUrl}/decodeAuth`;
-    return this.http.post(url, { data }, { headers })
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.tokenRol}`);
+    const url = `${this.baseUrl}/decodeAuthClient`;
+    return this.http.post(url, { data }, { headers });
   }
 
   logout() {
@@ -115,5 +125,4 @@ export class AuthService {
     this._currentUser.set(null);
     this._authStatus.set(AuthStatus.notAuthenticated);
   }
-
 }
