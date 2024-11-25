@@ -12,8 +12,7 @@
             <li>
               <button class="dropdown-item" type="button">{{ address }}</button>
             </li>
-          }
-          
+          }          
         </ul>
       </div>
 
@@ -43,14 +42,14 @@
               <div class="card-body d-flex flex-column">
                 <h5 class="card-title">{{ article.description }}</h5>
                 <p class="card-text text-success">{{ article.itemNumber }}</p>
-                <div class="mt-auto d-flex flex-wrap gap-2">
-                  <button class="btn btn-sm btn-nuvant flex-grow-1 mb-1" (click)="addToCart(article)">
+                <div class="mt-auto d-flex flex-wrap gap-1 justify-content-between">
+                  <button class="btn btn-sm btn-nuvant" (click)="addToCart(article)">
                     Agregar al carrito
                   </button>
-                  <button class="btn btn-sm btn-nuvant flex-grow-1" [routerLink]="['/home/article-detail', article.id]">
+                  <button class="btn btn-sm btn-nuvant" [routerLink]="['/home/article-detail', article.id]">
                     Ver Detalle
                   </button>
-                </div>
+                </div>                
               </div>
             </div>
           </div>  

@@ -13,7 +13,7 @@ export class AuthService {
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     if (isPlatformBrowser(this.platformId)) {
-      this.checkAuthStatus().subscribe();
+      this.loadAuthFromStorage();
     }
   }
 
@@ -52,45 +52,55 @@ export class AuthService {
       shipToCountry: ''
     };
 
-    console.log('NIT guardado en el servicio:', taxIdentificationNumber);
     this._currentUser.set(user);
     this._authStatus.set(AuthStatus.authenticated);
     localStorage.setItem('token', token);
+    localStorage.setItem('currentUser', JSON.stringify(user));
     return true;
   }
-
+  
+  private loadAuthFromStorage(): void {
+    const token = localStorage.getItem('token');
+    const storedUser = localStorage.getItem('currentUser');
+    if (token && storedUser) {
+      const parsedUser: Customer = JSON.parse(storedUser);
+      this._currentUser.set(parsedUser);
+      this._authStatus.set(AuthStatus.authenticated);
+    } else {
+      this.logout();
+    }
+  }  
 
   checkAuthStatus(): Observable<any> {
-    const url = `${this.baseUrl}/testingToken`;
-    const token = localStorage.getItem('token');
+    const url = `${this.baseUrl}/testingTokenClient`;
+    let token = localStorage.getItem('token');
 
     if (!token) {
       this.logout();
       return of(false);
     }
 
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    return this.http.get(url, { headers }).pipe(
-      switchMap((resp: any) => {
-        this.setAuthentication(resp.user, token);
-        return this.decodeAuth(token).pipe(
-          map((response: any) => {
-            this._currentUserRole.set(response.roles);
-            console.log('NIT decodificado desde el token:', resp.user?.taxIdentificationNumber);
-            return { response, resp };
-          }),
-          catchError(() => {
-            this.logout();
-            localStorage.removeItem('token');
-            this._authStatus.set(AuthStatus.notAuthenticated);
-            return of(false);
-          })
-        );
-      })
-    );
+    const headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${token}`);
+    return this.http.get(url, { headers })
+      .pipe(
+        switchMap((resp: any) => {
+          this.setAuthentication(resp.user, token);
+          return this.decodeAuth(token).pipe(
+            map((response: any) => {
+              this._currentUserRole.set(response.roles);
+              return { response, resp };
+            }),
+            catchError(() => {
+              this.logout();
+              localStorage.removeItem('token');
+              this._authStatus.set(AuthStatus.notAuthenticated);
+              return of(false);
+            })
+          )
+        })
+      );
   }
-
 
   login(userNit: string, password: string): Observable<any> {
     const url = `${this.baseUrl}/loginClient`;

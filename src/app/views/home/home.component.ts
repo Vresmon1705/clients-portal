@@ -8,8 +8,7 @@ import { HelpComponent } from '../../shared/help/help.component';
   standalone: true,
   imports: [
     CommonModule,
-    SidebarComponent,
-    HelpComponent
+    SidebarComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',

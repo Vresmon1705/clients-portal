@@ -16,7 +16,6 @@
     g_qPackingUnit?: number;
     g_itemClassCode: string;
     g_itemType: string;
-
     quantity: number;
     price: number;
     images: string;

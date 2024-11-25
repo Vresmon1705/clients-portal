@@ -15,7 +15,6 @@ import { HelpComponent } from '../../../shared/help/help.component';
   standalone: true,
   imports: [
     CommonModule,
-    SidebarComponent,
     FormsModule,
     MatIconModule,
     RouterModule,
@@ -123,7 +122,6 @@ export class ShoppingCartComponent implements OnInit {
     this.cartService.updateQuantity(articleId.toString(), quantity);
 
   }
-
 
   getTotal(): number {
     return this.cart.reduce((total, article) => total + article.price * article.quantity, 0);

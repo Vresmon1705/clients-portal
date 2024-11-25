@@ -9,9 +9,7 @@ import { AuthStatus } from './auth/interfaces/auth.status.enum';
   selector: 'app-root',
   standalone: true,
   imports: [
-    RouterOutlet,
-    SidebarComponent,
-    
+    RouterOutlet    
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

@@ -57,26 +57,36 @@ h1.title-login {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-/* Limita la cantidad de líneas de texto en el título */
+.card-body .btn-nuvant {
+  flex: 1;
+  max-width: 48%;
+  height: 2.5rem;
+  margin: 0 auto;
+  padding: 0.3rem 0.5rem;
+  font-size: 12px;
+  text-align: center;
+  line-height: 15px;
+  vertical-align: middle;
+}
+
 .card-title {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  -webkit-line-clamp: 2; /* Limita a 2 líneas */
-  line-clamp: 2; /* Propiedad estándar */
-  height: 3em; /* Ajusta según el número de líneas */
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  height: 3em;
 }
 
-/* Limita la cantidad de líneas de texto en el contenido */
 .card-text {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  -webkit-line-clamp: 1; /* Limita a 1 línea */
-  line-clamp: 1; /* Propiedad estándar */
-  height: 1.5em; /* Ajusta según el número de líneas */
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  height: 1.5em;
 }
 .card{
   background-color: white;

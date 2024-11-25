@@ -45,7 +45,7 @@ export class ArticleDetailComponent implements OnInit {
         this.articleService.getProductById(productId).subscribe(
           (product) => {
             this.article = product;
-            console.log("Producto cargado:", this.article); // Verifica que los datos del artículo sean correctos
+            console.log("Producto cargado:", this.article);
             this.loadSimilarArticles();
             this.cdr.detectChanges();
           },
@@ -60,7 +60,7 @@ export class ArticleDetailComponent implements OnInit {
       this.articleService.getArticlesByCatPrice(this.article.catPrice).subscribe(
         (similarArticles) => {
           this.similarArticles = similarArticles.filter(
-            article => article.id !== this.article!.id // Excluye el artículo actual
+            article => article.id !== this.article!.id
           );
           this.cdr.detectChanges();
         },
@@ -69,7 +69,6 @@ export class ArticleDetailComponent implements OnInit {
     }
   }
   
-  // Añadir el artículo al carrito
   addToCart(): void {
     if (this.article) {
       const articleToAdd = { ...this.article, quantity: this.quantity };

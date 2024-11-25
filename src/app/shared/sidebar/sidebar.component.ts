@@ -10,7 +10,6 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../auth/services/auth.service';
 import { ShoppingCartService } from '../../auth/services/shopping-cart.service';
 import { IArticle } from '../../auth/interfaces/article';
-import { SidebarCartComponent } from '../../views/home/shopping/sidebar-cart/sidebar-cart.component';
 
 @Component({
   selector: 'app-sidebar',
@@ -24,7 +23,6 @@ import { SidebarCartComponent } from '../../views/home/shopping/sidebar-cart/sid
     MatListModule,
     RouterModule,
     MatToolbarModule,
-    SidebarCartComponent
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
@@ -79,7 +77,6 @@ export class SidebarComponent {
     return name && name.length >= 2 ? name.substring(0, 2).toUpperCase() : '';
   }
   
-
   isDarkMode = false;
 
   toggleDarkMode() {
@@ -115,5 +112,4 @@ export class SidebarComponent {
     this.closeCart();
     this.router.navigate(['/home/shopping-cart']);
   }
-
 }

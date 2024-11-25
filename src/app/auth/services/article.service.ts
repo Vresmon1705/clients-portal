@@ -18,9 +18,9 @@ export class ArticleService {
       .set('limit', '7834');
   
     return this.http.get<{ data: IArticle[] }>(`${this.apiUrl}`, { params }).pipe(
-      map(response => response.data)
+      map(response => response.data.filter(article => !article.description.startsWith('QB')))
     );
-  }
+  }  
   
   getProductById(id: string): Observable<IArticle> {
     return this.http.get<IArticle>(`${this.apiUrl}/${id}`);
@@ -33,7 +33,6 @@ export class ArticleService {
     );
   }
 
-  //Revisar
   getArticlesByCatPrice(catPrice: string): Observable<IArticle[]> {
     const params = new HttpParams().set('catPrice', catPrice);
     return this.http.get<{ data: IArticle[] }>(`${this.apiUrl}`, { params }).pipe(

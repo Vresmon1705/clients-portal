@@ -51,8 +51,7 @@ export class ShoppingCartService{
       return total + (article.quantity || 0);
     }, 0);
     return totalItems;
-  }
-  
+  }  
 
   getTotal(): number {
     return this.cart.reduce((total, article) => total + article.price * article.quantity, 0);

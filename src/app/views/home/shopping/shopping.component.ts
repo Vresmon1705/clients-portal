@@ -5,7 +5,6 @@ import { IArticle } from '../../../auth/interfaces/article';
 import Swal from 'sweetalert2';
 import { MatIconModule } from '@angular/material/icon';
 import { SidebarCartComponent } from "./sidebar-cart/sidebar-cart.component";
-import { ArticleDetailComponent } from '../article-detail/article-detail.component';
 import { ArticleService } from '../../../auth/services/article.service';
 import { FormsModule } from '@angular/forms';
 import { HelpComponent } from '../../../shared/help/help.component';
@@ -22,7 +21,6 @@ import { AuthStatus } from '../../../auth/interfaces/auth.status.enum';
     CommonModule,
     MatIconModule,
     SidebarCartComponent,
-    ArticleDetailComponent,
     FormsModule,
     HelpComponent,
     RouterModule
@@ -57,20 +55,30 @@ export class ShoppingComponent implements OnInit {
 
   ngOnInit(): void {
     const authStatus = this.authService.authStatusRead();
-
+  
     if (authStatus === AuthStatus.authenticated) {
       const currentUser = this.authService.currentUser();
       this.taxId = currentUser?.taxIdentificationNumber ?? null;
-
-      console.log('Tax ID desde el AuthService:', this.taxId);
-
+  
       if (this.taxId) {
         this.fetchCustomerData();
       } else {
         console.error('No se encontró el NIT del usuario');
       }
+    } else {
+      this.authService.checkAuthStatus().subscribe((isAuthenticated) => {
+        if (isAuthenticated) {
+          const user = this.authService.currentUser();
+          this.taxId = user?.taxIdentificationNumber ?? null;
+          if (this.taxId) {
+            this.fetchCustomerData();
+          }
+        } else {
+          console.error('Usuario no autenticado.');
+        }
+      });
     }
-  }
+  }  
 
   private fetchCustomerData(): void {
     if (this.taxId) {
