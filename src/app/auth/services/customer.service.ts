@@ -16,7 +16,6 @@ export class CustomerService {
   getCustomerByTaxId(taxIdentificationNumber: string): Observable<Customer[]> {
     return this.http.get<{ data: any[] }>(`${this.apiUrl}?taxIdentificationNumber=${taxIdentificationNumber}&fields=name,address`).pipe(
       map(response => {
-        console.log('Respuesta de la API:', response);
         return response.data.map(item => ({
           id: item.id,
           name: item.name,

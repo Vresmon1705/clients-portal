@@ -49,6 +49,12 @@
           placeholder="Ingrese su contraseña" required>
       </div>
 
+      <div class="form-group mb-3">
+        <label for="MFA" class="form-label">Código de verificación {{myForm.value.tokenMFA.length}}/6</label>
+        <input type="text" formControlName="tokenMFA" class="form-control" id="tokenMFA" name="tokenMFA"
+          placeholder="Ingrese el código MFA" required maxlength="6" pattern="\d{6}">
+      </div>
+
       @if (!spinnerLogin) {
         <div class="d-flex justify-content-between mb-3">
           <button type="submit" [disabled]="myForm.invalid" class="btn btn-primary btn-login w-100">Login</button>

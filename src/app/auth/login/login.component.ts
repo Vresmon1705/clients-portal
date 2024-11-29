@@ -27,24 +27,27 @@ export class LoginComponent {
 
   public myForm: FormGroup = this.fb.group({
     userNit: ['', [Validators.required]],
-    password: ['', [Validators.required, Validators.minLength(4)]]
+    password: ['', [Validators.required, Validators.minLength(4)]],    
+    tokenMFA: ['', [Validators.required, Validators.minLength(6)]]
   });
 
   login() {
-    const { userNit, password } = this.myForm.value;
-
+    const { userNit, password, tokenMFA } = this.myForm.value;
+  
     if (this.myForm.valid) {
+  
       this.spinnerLogin = true;
-
-      this.authService.login(userNit, password)
+      setTimeout(() => {
+        this.spinnerLogin = false;
+      }, 2500);
+  
+      this.authService.login(userNit, password, tokenMFA)
         .subscribe({
+          
           next: () => {
-            this.spinnerLogin = false;
             this.router.navigateByUrl('/home/shopping');
           },
           error: (err) => {
-            this.spinnerLogin = false;
-
             let errorMessage = 'Error al iniciar sesión, vuelve a intentarlo';
 
             console.error('Error:', err);
@@ -55,10 +58,13 @@ export class LoginComponent {
               showConfirmButton: true,
               confirmButtonColor: "#157347"
             });
-
-            this.myForm.reset();
+  
+            this.myForm.get('userNit')?.setValue('');
+            this.myForm.get('password')?.setValue('');
+            this.myForm.get('tokenMFA')?.setValue('');
           }
         });
+  
     } else {
       Swal.fire({
         icon: "error",
@@ -69,5 +75,3 @@ export class LoginComponent {
     }
   }
 }
-
-

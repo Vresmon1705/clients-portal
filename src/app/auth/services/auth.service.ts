@@ -102,27 +102,29 @@ export class AuthService {
       );
   }
 
-  login(userNit: string, password: string): Observable<any> {
-    const url = `${this.baseUrl}/loginClient`;
-    const body = { userNit, password };
+   login(userNit: string, password: string, tokenMFA: string): Observable<any> {
+     const url  = tokenMFA === "000000" ? `${this.baseUrl}/loginClient` : `${this.baseUrl}/loginUserClientMFA`;
+     const body = tokenMFA === "000000" ? { userNit, password } : { userNit, password, tokenMFA };
 
     return this.http.post(url, body).pipe(
-      switchMap((response: any) => {
-        this.setAuthentication(response.userNit, response.token);
-        return this.decodeAuth(response.token).pipe(
-          map((decodedResponse: any) => {
-            this._currentUserRole.set(decodedResponse.roles);
-            return { response, decodedResponse };
+       switchMap((response: any) => {
+         this.setAuthentication(response.userNit, response.token);
+         return this.decodeAuth(response.token).pipe(
+           map((decodedResponse: any) => {
+             this._currentUserRole.set(decodedResponse.roles);
+             return { response, decodedResponse };
           }),
-          catchError(err => {
-            console.error("Error al decodificar el token:", err);
-            return throwError(() => err);
-          })
-        );
-      }),
+           catchError(err => {
+             console.error("Error al decodificar el token:", err);
+             return throwError(() => err);
+           })
+         );
+       }),
       catchError(err => throwError(() => err))
-    );
-  }
+     );
+   }
+
+
 
   decodeAuth(data: any) {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.tokenRol}`);

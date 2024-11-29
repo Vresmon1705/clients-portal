@@ -84,7 +84,6 @@ export class ShoppingComponent implements OnInit {
     if (this.taxId) {
       this.customerService.getCustomerByTaxId(this.taxId).subscribe(
         (data: Customer[]) => {
-          console.log('Datos del cliente recibidos:', data);
           if (data.length > 0) {
             this.customer = data[0];
             this.addresses = this.extractAddresses(data);
