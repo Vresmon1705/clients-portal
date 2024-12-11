@@ -37,6 +37,7 @@ export class ShoppingComponent implements OnInit {
   taxId: string | null = null;
   articles: IArticle[] = [];
   searchTerm: string = '';
+  accountNumber: string | null = null;
 
   currentPage: number = 1;
   itemsPerPage: number = 8;
@@ -59,6 +60,7 @@ export class ShoppingComponent implements OnInit {
     if (authStatus === AuthStatus.authenticated) {
       const currentUser = this.authService.currentUser();
       this.taxId = currentUser?.taxIdentificationNumber ?? null;
+      this.accountNumber = currentUser?.accountNumber ?? null;
   
       if (this.taxId) {
         this.fetchCustomerData();
@@ -70,6 +72,7 @@ export class ShoppingComponent implements OnInit {
         if (isAuthenticated) {
           const user = this.authService.currentUser();
           this.taxId = user?.taxIdentificationNumber ?? null;
+          this.accountNumber = user?.accountNumber ?? null;
           if (this.taxId) {
             this.fetchCustomerData();
           }
@@ -87,7 +90,9 @@ export class ShoppingComponent implements OnInit {
           if (data.length > 0) {
             this.customer = data[0];
             this.addresses = this.extractAddresses(data);
+            this.accountNumber = this.customer?.accountNumber ?? null;
             this.cdr.markForCheck();
+            this.searchArticles();
           } else {
             console.warn('No se encontraron datos para este NIT');
           }
@@ -98,7 +103,7 @@ export class ShoppingComponent implements OnInit {
       );
     }
   }
-
+  
   private extractAddresses(customers: Customer[]): string[] {
     return customers
       .map((customer) => customer.address)
@@ -107,15 +112,15 @@ export class ShoppingComponent implements OnInit {
 
   searchArticles(): void {
     const description = this.searchTerm.trim();
-
-    if (!description) {
+  
+    if (!description || !this.accountNumber) {
       this.articles = [];
       this.filteredArticles = [];
       this.totalItems = 0;
       return;
     }
-
-    this.articleService.searchArticlesByDescription(description).subscribe(
+  
+    this.articleService.searchArticlesByDescription(description, this.accountNumber).subscribe(
       (data: IArticle[]) => {
         this.articles = data;
         this.totalItems = data.length;

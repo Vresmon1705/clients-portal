@@ -8,8 +8,8 @@ import { BehaviorSubject } from 'rxjs';
 export class ShoppingCartService{
  
   private cartSubject = new BehaviorSubject<IArticle[]>([]);
-  cart$ = this.cartSubject.asObservable();
   private cart: IArticle[] = [];
+  cart$ = this.cartSubject.asObservable();
 
   getCart(): IArticle[] {
     return this.cart;

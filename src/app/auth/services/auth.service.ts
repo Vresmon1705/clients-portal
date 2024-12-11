@@ -29,9 +29,10 @@ export class AuthService {
   public authStatusRead = computed(() => this._authStatus());
   public currentUserRole = computed(() => this._currentUserRole());
 
-  setAuthentication(taxIdentificationNumber: any, token: any): boolean {
+  setAuthentication(taxIdentificationNumber: any, token: any, accountNumber: string): boolean {
     const user: Customer = {
       taxIdentificationNumber,
+      accountNumber,
       id: '',
       lastSyncTime: 0,
       name: '',
@@ -40,7 +41,6 @@ export class AuthService {
       city: '',
       country: '',
       buyingPartyId: 0,
-      accountNumber: '',
       billToPartyName: '',
       billToAccountNumber: '',
       billToAddress: '',
@@ -51,13 +51,13 @@ export class AuthService {
       shipToCity: '',
       shipToCountry: ''
     };
-
+  
     this._currentUser.set(user);
     this._authStatus.set(AuthStatus.authenticated);
     localStorage.setItem('token', token);
     localStorage.setItem('currentUser', JSON.stringify(user));
     return true;
-  }
+  }  
   
   private loadAuthFromStorage(): void {
     const token = localStorage.getItem('token');
@@ -85,7 +85,7 @@ export class AuthService {
     return this.http.get(url, { headers })
       .pipe(
         switchMap((resp: any) => {
-          this.setAuthentication(resp.user, token);
+          this.setAuthentication(resp.user, token, resp.accountNumber);
           return this.decodeAuth(token).pipe(
             map((response: any) => {
               this._currentUserRole.set(response.roles);
@@ -102,30 +102,28 @@ export class AuthService {
       );
   }
 
-   login(userNit: string, password: string, tokenMFA: string): Observable<any> {
-     const url  = tokenMFA === "000000" ? `${this.baseUrl}/loginClient` : `${this.baseUrl}/loginUserClientMFA`;
-     const body = tokenMFA === "000000" ? { userNit, password } : { userNit, password, tokenMFA };
-
+  login(userNit: string, password: string, tokenMFA: string): Observable<any> {
+    const url  = tokenMFA === "000000" ? `${this.baseUrl}/loginClient` : `${this.baseUrl}/loginUserClientMFA`;
+    const body = tokenMFA === "000000" ? { userNit, password } : { userNit, password, tokenMFA };
+  
     return this.http.post(url, body).pipe(
-       switchMap((response: any) => {
-         this.setAuthentication(response.userNit, response.token);
-         return this.decodeAuth(response.token).pipe(
-           map((decodedResponse: any) => {
-             this._currentUserRole.set(decodedResponse.roles);
-             return { response, decodedResponse };
+      switchMap((response: any) => {
+        this.setAuthentication(response.userNit, response.token, response.accountNumber);
+        return this.decodeAuth(response.token).pipe(
+          map((decodedResponse: any) => {
+            this._currentUserRole.set(decodedResponse.roles);
+            return { response, decodedResponse };
           }),
-           catchError(err => {
-             console.error("Error al decodificar el token:", err);
-             return throwError(() => err);
-           })
-         );
-       }),
+          catchError(err => {
+            console.error("Error al decodificar el token:", err);
+            return throwError(() => err);
+          })
+        );
+      }),
       catchError(err => throwError(() => err))
-     );
-   }
-
-
-
+    );
+  }
+  
   decodeAuth(data: any) {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.tokenRol}`);
     const url = `${this.baseUrl}/decodeAuthClient`;

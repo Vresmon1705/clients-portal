@@ -26,17 +26,17 @@ import { HelpComponent } from '../../../shared/help/help.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArticleDetailComponent implements OnInit {
-  cart: IArticle[] = [];
-  article!: IArticle;
-  similarArticles: IArticle[] = [];
-  quantity: number = 1;
 
   constructor(
     private route: ActivatedRoute,
     private articleService: ArticleService,
     private cartService: ShoppingCartService,
-    private cdr: ChangeDetectorRef
-  ) { }
+    private cdr: ChangeDetectorRef ) { }
+
+  cart: IArticle[] = [];
+  article!: IArticle;
+  similarArticles: IArticle[] = [];
+  quantity: number = 1;
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -68,7 +68,7 @@ export class ArticleDetailComponent implements OnInit {
       );
     }
   }
-  
+
   addToCart(): void {
     if (this.article) {
       const articleToAdd = { ...this.article, quantity: this.quantity };

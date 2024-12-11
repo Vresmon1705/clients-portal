@@ -1,0 +1,63 @@
+:host {
+  height: 100%;
+  display: block;
+}
+
+h1.title-login {
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 900px;
+  color: #fff;
+  background: linear-gradient(90deg, #ff7e5f, #feb47b);
+  padding: 1rem 2rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  h1.title-login {
+    font-size: 2rem;
+  }
+}
+
+.mat-icon {
+  font-size: 1.5rem; 
+  transition: transform 0.3s ease;
+}
+
+.mat-icon:hover {
+  transform: scale(1.1);
+}
+
+.btn-nuvant{  
+  border: none;
+  background-color: #ff6647;
+  color: white;
+}
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+  margin-top: 1rem;  
+  background-color: #ff6647;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+label {
+  flex: 0 0 auto; /* Evita que el label se estire */
+  margin-right: 10px;
+  white-space: nowrap; /* Evita que el texto del label haga saltos de línea */
+}
+
+input.form-control {
+  flex: 1; /* Asegura que el input ocupe todo el espacio restante */
+}

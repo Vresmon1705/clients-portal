@@ -12,9 +12,10 @@ export class ArticleService {
 
   constructor(private http: HttpClient) { }
 
-  searchArticlesByDescription(description: string): Observable<IArticle[]> {
+  searchArticlesByDescription(description: string, accountNumber: string): Observable<IArticle[]> {
     const params = new HttpParams()
       .set('description', description)
+      .set('accountNumber', accountNumber) 
       .set('limit', '7834');
   
     return this.http.get<{ data: IArticle[] }>(`${this.apiUrl}`, { params }).pipe(

@@ -8,6 +8,7 @@ import { PurchaseStatusComponent } from './views/home/purchase-status/purchase-s
 import { PortfolioStatusComponent } from './views/home/portfolio-status/portfolio-status.component';
 import { ShoppingCartComponent } from './views/home/shopping-cart/shopping-cart.component';
 import { ArticleDetailComponent } from './views/home/article-detail/article-detail.component';
+import { UpdateDataComponent } from './views/home/update-data/update-data.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent, canActivate: [isNotAuthenticatedGuard] },
@@ -21,6 +22,7 @@ export const routes: Routes = [
             { path: 'portfolio-status', component: PortfolioStatusComponent },
             { path: 'shopping-cart', component: ShoppingCartComponent },
             { path: 'article-detail/:id', component: ArticleDetailComponent },
+            { path: 'update-data', component: UpdateDataComponent}
         ]
     },
     { path: '**', redirectTo: 'login' },

@@ -30,14 +30,14 @@ import { IArticle } from '../../auth/interfaces/article';
 })
 export class SidebarComponent {
 
-  TwoLetters: string = '';
-  isCartOpen = false;
-  cart: IArticle[] = [];
-
   constructor(
     private authService: AuthService,
     private cartService: ShoppingCartService,
-    private router: Router) {}
+    private router: Router) { }
+
+  TwoLetters: string = '';
+  isCartOpen = false;
+  cart: IArticle[] = [];
 
   public user = computed(() => this.authService.currentUser());
 
@@ -76,7 +76,7 @@ export class SidebarComponent {
     let name = user?.name || '';
     return name && name.length >= 2 ? name.substring(0, 2).toUpperCase() : '';
   }
-  
+
   isDarkMode = false;
 
   toggleDarkMode() {

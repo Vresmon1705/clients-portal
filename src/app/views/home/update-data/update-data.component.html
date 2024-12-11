@@ -1,0 +1,57 @@
+<div class="container">
+    <div class="row">
+        <h1 class="text-center mb-4 title-login">{{ customer?.name }}</h1>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <form>
+                <div class="form-group mb-4 d-flex flex-column flex-md-row align-items-md-center">
+                    <label for="currentPassword" class="form-label me-md-3">Contraseña actual:</label>
+                    <input
+                        type="password"
+                        id="currentPassword"
+                        class="form-control"
+                        formControlName="currentPassword"
+                        placeholder="Contraseña actual"
+                    />
+                </div>
+                <div *ngIf="changePasswordForm.get('currentPassword')?.invalid && changePasswordForm.get('currentPassword')?.touched" class="text-danger mb-3">
+                    La contraseña actual es requerida.
+                </div>
+
+                <div class="form-group mb-4 d-flex flex-column flex-md-row align-items-md-center">
+                    <label for="newPassword" class="form-label me-md-3">Nueva contraseña:</label>
+                    <input
+                        type="password"
+                        id="newPassword"
+                        class="form-control"
+                        formControlName="newPassword"
+                        placeholder="Nueva contraseña"
+                    />
+                </div>
+                <div *ngIf="changePasswordForm.get('newPassword')?.invalid && changePasswordForm.get('newPassword')?.touched" class="text-danger mb-3">
+                    La nueva contraseña debe tener al menos 6 caracteres.
+                </div>
+
+                <div class="form-group mb-4 d-flex flex-column flex-md-row align-items-md-center">
+                    <label for="confirmPassword" class="form-label me-md-3">Confirmar contraseña:</label>
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        class="form-control"
+                        formControlName="confirmPassword"
+                        placeholder="Confirmar contraseña"
+                    />
+                </div>
+                <div *ngIf="changePasswordForm.get('confirmPassword')?.invalid && changePasswordForm.get('confirmPassword')?.touched" class="text-danger mb-3">
+                    Las contraseñas no coinciden.
+                </div>
+
+                <button type="submit" class="btn btn-nuvant w-100">
+                    Cambiar contraseña
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<app-help></app-help>

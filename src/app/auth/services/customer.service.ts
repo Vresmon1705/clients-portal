@@ -9,17 +9,18 @@ import { Customer } from '../interfaces/customer';
 })
 export class CustomerService {
 
-  private apiUrl = `${environment.baseUrlCustomers}`;
-
   constructor(private http: HttpClient) {}
 
+  private apiUrl = `${environment.baseUrlCustomers}`;
+
   getCustomerByTaxId(taxIdentificationNumber: string): Observable<Customer[]> {
-    return this.http.get<{ data: any[] }>(`${this.apiUrl}?taxIdentificationNumber=${taxIdentificationNumber}&fields=name,address`).pipe(
+    return this.http.get<{ data: any[] }>(`${this.apiUrl}?taxIdentificationNumber=${taxIdentificationNumber}&fields=name,address,accountNumber`).pipe(
       map(response => {
         return response.data.map(item => ({
           id: item.id,
           name: item.name,
-          address: item.address
+          address: item.address,
+          accountNumber: item.accountNumber
         } as Customer));
       })
     );

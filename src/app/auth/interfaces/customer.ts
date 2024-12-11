@@ -16,7 +16,7 @@ export interface Customer {
     codSeller?: number;
     creditLimit?: number;
     buyingPartyId: number;
-    accountNumber: string;
+    accountNumber?: string;
     billToPartyName: string;
     billToAccountNumber: string;
     billToAddress: string;
