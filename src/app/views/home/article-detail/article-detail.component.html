@@ -57,7 +57,7 @@
                 <p> Diseñado con un sistema completo de protección del vinilo ADVANPROTECH, que le
                     proporciona resistencia mejorada al manchado. Adicionalmente genera mayor facilidad de
                     limpieza en manchas comunes y suciedad. </p>
-                <h4>{{ article.price | currency }}</h4>
+                <h4>{{ article.basePrice | currency }}</h4>
 
                 <img src="../../../../assets/images/botones.jpg" alt="" style="width: 100%; max-width: 300px;">
 
@@ -85,7 +85,7 @@
                                     alt="{{ similarArticle.description }}">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ similarArticle.description }}</h5>
-                                    <p class="card-text">{{ similarArticle.price | currency }}</p>
+                                    <p class="card-text">{{ similarArticle.basePrice | currency }}</p>
                                     <button class="btn btn-nuvant"
                                         [routerLink]="['/home/product-detail', similarArticle.id]">
                                         Ver Producto

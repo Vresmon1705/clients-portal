@@ -54,6 +54,6 @@ export class ShoppingCartService{
   }  
 
   getTotal(): number {
-    return this.cart.reduce((total, article) => total + article.price * article.quantity, 0);
+    return this.cart.reduce((total, article) => total + article.basePrice * article.quantity, 0);
   }
 }

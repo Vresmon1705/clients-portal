@@ -17,7 +17,8 @@
     g_itemClassCode: string;
     g_itemType: string;
     quantity: number;
-    price: number;
+    basePrice: number;
+    currency: string;
     images: string;
     }
   

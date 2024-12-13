@@ -9,10 +9,10 @@
         </button>
         <ul class="dropdown-menu">
           @for (address of addresses; track $index) {
-            <li>
-              <button class="dropdown-item" type="button">{{ address }}</button>
-            </li>
-          }          
+          <li>
+            <button class="dropdown-item" type="button">{{ address }}</button>
+          </li>
+          }
         </ul>
       </div>
 
@@ -28,50 +28,48 @@
     </div>
 
     @if (articles.length === 0 && searchTerm.trim() === '') {
-      <div>
-        <div class="alert alert-info empty-cart">
-          <p>Ingresa un articulo para comenzar la búsqueda.</p>
+    <div>
+      <div class="alert alert-info empty-cart">
+        <p>Ingresa un articulo para comenzar la búsqueda.</p>
+      </div>
+    </div>
+    }@else {
+    <div class="row d-flex flex-wrap align-items-start mt-3">
+      @for (article of filteredArticles; track $index) {
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+        <div class="card h-100">
+          <img src="../../../../assets/images/image1.png" class="card-img-top" alt="{{ article.description }}">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">{{ article.description }}</h5>
+            <p class="card-text text-success">{{ article.basePrice }} {{ article.currency }}</p>
+            <div class="mt-auto d-flex flex-wrap gap-1 justify-content-between">
+              <button class="btn btn-sm btn-nuvant" (click)="addToCart(article)">
+                Agregar al carrito
+              </button>
+              <button class="btn btn-sm btn-nuvant" [routerLink]="['/home/article-detail', article.id]">
+                Ver Detalle
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-    }@else {
-      <div class="row d-flex flex-wrap align-items-start mt-3">
-        @for (article of filteredArticles; track $index) {
-          <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-            <div class="card h-100">
-              <img src="../../../../assets/images/image1.png" class="card-img-top" alt="{{ article.description }}">
-              <div class="card-body d-flex flex-column">
-                <h5 class="card-title">{{ article.description }}</h5>
-                <p class="card-text text-success">{{ article.itemNumber }}</p>
-                <div class="mt-auto d-flex flex-wrap gap-1 justify-content-between">
-                  <button class="btn btn-sm btn-nuvant" (click)="addToCart(article)">
-                    Agregar al carrito
-                  </button>
-                  <button class="btn btn-sm btn-nuvant" [routerLink]="['/home/article-detail', article.id]">
-                    Ver Detalle
-                  </button>
-                </div>                
-              </div>
-            </div>
-          </div>  
-        }              
-      </div>
-    }    
+      }
+    </div>
+    }
 
     @if (articles.length === 0 && searchTerm.trim()) {
-      <div>
-        <div class="alert alert-info empty-cart">
-          <p>No se encontraron articulos. Intenta con otra búsqueda.</p>
-        </div>
+    <div>
+      <div class="alert alert-info empty-cart">
+        <p>No se encontraron articulos. Intenta con otra búsqueda.</p>
       </div>
-    }    
+    </div>
+    }
 
     <div class="d-flex justify-content-center mt-4">
-      <button class="btn btn-secondary me-2" (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
-      <span class="align-self-center">Página {{ currentPage }} de {{ totalPages }}</span>
-      <button class="btn btn-secondary ms-2" (click)="nextPage()" [disabled]="currentPage * itemsPerPage >= totalItems">Siguiente</button>
+      <mat-paginator style="color: gray; background-color: rgba(0, 0, 0, 0);" [pageSize]="pageSize" [pageIndex]="pageIndex" [showFirstLastButtons]="showFirstLastButtons"
+        [hidePageSize]="hidePageSize" [length]="filterDataArticlesTotal" (page)="Paginate($event)">
+      </mat-paginator>
     </div>
-    
-    
   </div>
 </div>
 <app-help></app-help>

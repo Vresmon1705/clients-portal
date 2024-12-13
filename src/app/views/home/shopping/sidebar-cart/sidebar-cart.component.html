@@ -18,13 +18,13 @@
         </div>
         <div class="offcanvas-body">
             <div class="cart-items px-3">
-                @for (product of cart; track $index; let i = $index) {
+                @for (article of cart; track $index; let i = $index) {
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div class="d-flex align-items-center">
                         <!-- <img src={{product.images}} class="img-thumbnail me-3" alt="{{ product.description }}" style="width: 50px;"> -->
                         <div>
-                            <h6>{{ product.description }} {{'(X' + product.quantity + ')'}}</h6>
-                            <!-- <p class="text-muted">{{ product.price * product.quantity | currency:'USD' }}</p> -->
+                            <h6>{{ article.description }} {{'(X' + article.quantity + ')'}}</h6>
+                            <p class="text-muted">{{ article.basePrice * article.quantity }} {{ article.currency }}</p>
                         </div>
                     </div>
                     <div>
@@ -38,8 +38,8 @@
             </div>
             @if (cart.length > 0) {
             <div class="cart-total px-3 py-2 d-flex justify-content-between align-items-center">
-                <!-- <h5>Total:</h5>
-                <h5 class="text-success">{{ getTotal() | currency:'USD' }}</h5> -->
+                <h5>Total:</h5>
+                <h5 class="text-success">{{ getTotal() }}</h5>
             </div>
             <div class="cart-footer p-3 text-center">
                 <button class="btn btn-next mx-3" (click)="clearCart()">Vaciar</button>

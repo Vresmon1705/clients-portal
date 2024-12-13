@@ -51,14 +51,14 @@ export class AuthService {
       shipToCity: '',
       shipToCountry: ''
     };
-  
+
     this._currentUser.set(user);
     this._authStatus.set(AuthStatus.authenticated);
     localStorage.setItem('token', token);
     localStorage.setItem('currentUser', JSON.stringify(user));
     return true;
-  }  
-  
+  }
+
   private loadAuthFromStorage(): void {
     const token = localStorage.getItem('token');
     const storedUser = localStorage.getItem('currentUser');
@@ -69,7 +69,14 @@ export class AuthService {
     } else {
       this.logout();
     }
-  }  
+  }
+
+  
+  getAccountNumber(): string | null {
+    const currentUser = this._currentUser();
+    return currentUser && currentUser.accountNumber ? currentUser.accountNumber : null;
+  }
+  
 
   checkAuthStatus(): Observable<any> {
     const url = `${this.baseUrl}/testingTokenClient`;
@@ -103,9 +110,9 @@ export class AuthService {
   }
 
   login(userNit: string, password: string, tokenMFA: string): Observable<any> {
-    const url  = tokenMFA === "000000" ? `${this.baseUrl}/loginClient` : `${this.baseUrl}/loginUserClientMFA`;
+    const url = tokenMFA === "000000" ? `${this.baseUrl}/loginClient` : `${this.baseUrl}/loginUserClientMFA`;
     const body = tokenMFA === "000000" ? { userNit, password } : { userNit, password, tokenMFA };
-  
+
     return this.http.post(url, body).pipe(
       switchMap((response: any) => {
         this.setAuthentication(response.userNit, response.token, response.accountNumber);
@@ -123,7 +130,7 @@ export class AuthService {
       catchError(err => throwError(() => err))
     );
   }
-  
+
   decodeAuth(data: any) {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.tokenRol}`);
     const url = `${this.baseUrl}/decodeAuthClient`;

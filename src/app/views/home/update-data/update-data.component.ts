@@ -9,7 +9,6 @@ import { AuthStatus } from '../../../auth/interfaces/auth.status.enum';
   selector: 'app-update-data',
   standalone: true,
   imports: [
-    HelpComponent
   ],
   templateUrl: './update-data.component.html',
   styleUrl: './update-data.component.scss',
