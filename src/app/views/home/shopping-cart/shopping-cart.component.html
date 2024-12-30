@@ -1,14 +1,7 @@
 <div class="container mt-4">
-    @if (cart.length > 0) {
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="text-center">Carrito de Compras</h2>
-        <button class="btn btn-sm btn-back" [routerLink]="['/home/shopping']">
-            <mat-icon>arrow_back</mat-icon>
-            Volver
-        </button>
-    </div>
-    }@else{
-    <div class="alert alert-info empty-cart">
+    <!-- Mensaje para carrito vacío -->
+    @if (cart.length === 0) {
+    <div class="alert alert-info text-center empty-cart">
         <p>Tu carrito está vacío.</p>
         <button class="btn btn-back" [routerLink]="['/home/shopping']">
             <mat-icon>arrow_back</mat-icon>
@@ -17,62 +10,116 @@
     </div>
     }
 
-    @for (article of cart; track $index; let i = $index) {
-    <div class="row mb-3 align-items-center">
-        <div class="col-12 col-sm-4 col-md-3 col-lg-2 mb-2">
-            <img class="img-fluid img-thumbnail" alt="{{ article.description }}">
-        </div>
-        <div class="col-12 col-sm-8 col-md-6 col-lg-4 mb-2">
-            <h5>{{ article.description }}</h5>
-            <p class="text-success">{{ article.basePrice * article.quantity | currency:'USD' }}</p>
-        </div>
-        <div class="col-12 col-sm-4 col-md-3 col-lg-2 mb-2">
-            <input type="number" class="form-control" [(ngModel)]="article.quantity"
-                (change)="updateQuantity(article.id, article.quantity)" min="1" />
-        </div>
-
-        <div class="col-12 col-sm-8 col-md-12 col-lg-4 text-end mb-2">
-            <button class="btn btn-back" (click)="removeFromCart(i)">
-                <mat-icon class="text-white d-flex justify-content-center align-items-center">
-                    remove_shopping_cart
-                </mat-icon>
+    <!-- Carrito con productos -->
+    @if (cart.length > 0) {
+    <div>
+        <!-- Título y botón de volver -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="text-center mb-0 fw-bold">Carrito de Compras</h2>
+            <button class="btn btn-sm btn-back" [routerLink]="['/home/shopping']">
+                <mat-icon class="icon-back">arrow_back</mat-icon> Volver
             </button>
         </div>
+
+        <!-- Tabla responsiva -->
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered align-middle">
+                <thead class="table-light">
+                    <tr class="thead">
+                        <th>N°</th>
+                        <th>Nombre</th>
+                        <th>Código</th>
+                        <th>Categoría</th>
+                        <th>Clase</th>
+                        <th>Presentación m/rollo</th>
+                        <th>Cantidad m/rollo</th>
+                        <th>Precio unitario {{ cart[0].currency }}</th>
+                        <th>Subtotal {{ cart[0].currency }}</th>
+                        <th>Impuesto {{ cart[0].currency }}</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (article of cart; let i = $index; track i) {
+                    <tr>
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ article.description }}</td>
+                        <td>{{ article.itemNumber }}</td>
+                        <td>{{ article.catPrice }}</td>
+                        <td>{{ article.g_class }}</td>
+                        <td>{{ article.staticPackingUnit }}</td>
+                        <td>
+                            <input type="number" class="form-control text-center mx-auto" style="max-width: 80px;"
+                                [(ngModel)]="article.g_qPackingUnit"
+                                (change)="updateQuantity(article.id, article.g_qPackingUnit)" min="1" />
+                        </td>
+                        @if ( article.basePrice > 0) {
+                        <td>{{ article.basePrice | number: '1.0-2' }}</td>
+                        }@else {
+                        <p class="card-text text-danger text-center">No tiene precio</p>
+                        }
+                        <td>{{ (article.basePrice * article.g_qPackingUnit) | number: '1.0-2' }}</td>
+                        <td>{{ (article.taxPercentage * article.basePrice * article.g_qPackingUnit) / 100 | number:
+                            '1.0-2' }}</td>
+                        <td>
+                            <div class="text-center">
+                                <mat-icon class="text-danger" (click)="removeFromCart(i)">delete_forever</mat-icon>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Resumen -->
+        <!-- <div class="summary-container mt-4">
+            <div class="summary-left">
+                <label for="delivery-date">Fecha de entrega al cliente:</label>
+                <input type="date" id="delivery-date" [(ngModel)]="order.deliveryDate" />
+                <div class="d-flex justify-content-between mt-2">
+                    <span>Impuestos:</span>
+                    <span class="value">{{ totalTax() | currency: cart[0].currency }}</span>
+                </div>
+            </div>
+            <div class="summary-right">
+                <label>Orden:</label>
+
+                <span class="fw-bold">TOTAL A PAGAR:</span>
+                <span class="total">{{ finalAmount() | currency: cart[0].currency }}</span>
+                <button class="btn btn-back" (click)="processOrder()">Procesar pedido</button>
+
+            </div>
+        </div> -->
+
+        <div class="summary-container">
+            <!-- Parte izquierda -->
+            <div class="summary-left">
+                <label for="delivery-date" class="label">Fecha de entrega al cliente:</label>
+                <input type="date" id="delivery-date" class="form-control" [(ngModel)]="order.deliveryDate" />
+                
+                <div class="total-to-pay">
+                    <span class="label">TOTAL A PAGAR:</span>
+                    <span class="fw-bold">{{ finalAmount() | currency: cart[0].currency }}</span>
+                </div>
+                <button class="btn btn-process" (click)="createOrder()">Procesar pedido</button>
+            </div>
+            <!-- Parte derecha -->
+            <div class="summary-right">
+                <div class="order-summary">
+                    <div class="row">
+                        <span class="label">Total + Impuestos:</span>
+                        <span class="value">{{ finalAmount() | currency: cart[0].currency }}</span>
+                    </div>
+                    <div class="taxes">
+                        <span class="label">Impuestos:</span>
+                        <span class="value">{{ totalTaxes() | currency: cart[0].currency }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
     }
-    @if (cart.length > 0) {
-    <div class="mt-4">
-        <h3 class="text-center">Factura</h3>
-        <table class="table table-bordered table-responsive">
-            <thead>
-                <tr>
-                    <th>Article</th>
-                    <th>Cantidad</th>
-                    <th>Precio Unitario</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (article of cart; track $index) {
-                <tr>
-                    <td>{{ article.description }}</td>
-                    <td>{{ article.quantity }}</td>
-                    <td>{{ article.basePrice | currency:'USD' }}</td>
-                    <td>{{ article.basePrice * article.quantity | currency:'USD' }}</td>
-                </tr>
-                }
-                <tr>
-                    <td colspan="4" class="text-end"><strong>Total General:</strong></td>
-                    <td><strong>{{ getTotal() | currency:'USD' }}</strong></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    
-    <div class="d-flex justify-content-center align-items-center mb-3">
-        <button class="btn btn-back mx-2" (click)="clearCart()">Vaciar</button>
-        <button class="btn btn-back mx-2">Pagar</button>
-    </div>    
-    }
-</div>
-<app-help></app-help>
+
+    <app-help></app-help>

@@ -23,8 +23,12 @@
                     <div class="d-flex align-items-center">
                         <!-- <img src={{product.images}} class="img-thumbnail me-3" alt="{{ product.description }}" style="width: 50px;"> -->
                         <div>
-                            <h6>{{ article.description }} {{'(X' + article.quantity + ')'}}</h6>
-                            <p class="text-muted">{{ article.basePrice * article.quantity }} {{ article.currency }}</p>
+                            <h6 class="card-title">{{ article.description }} {{'(X' + article.g_qPackingUnit+ ')'}}</h6>
+                            @if (article.basePrice > 0) {
+                                <p class="text-success">{{( article.basePrice * article.g_qPackingUnit) | number: '1.0-2' }} {{ article.currency }}</p>
+                            }@else {
+                                <p class="card-text text-danger">No tiene precio</p>
+                            }                            
                         </div>
                     </div>
                     <div>
@@ -39,7 +43,7 @@
             @if (cart.length > 0) {
             <div class="cart-total px-3 py-2 d-flex justify-content-between align-items-center">
                 <h5>Total:</h5>
-                <h5 class="text-success">{{ getTotal() }}</h5>
+                <h5 class="text-success">{{ getTotal() | number: '1.0-2' }}</h5>
             </div>
             <div class="cart-footer p-3 text-center">
                 <button class="btn btn-next mx-3" (click)="clearCart()">Vaciar</button>

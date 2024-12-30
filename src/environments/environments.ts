@@ -11,7 +11,10 @@ export const environment = {
     baseUrlCustomers: 'https://ccwhqcbjae.execute-api.us-east-1.amazonaws.com/api/sales-app-seller/customers',
 
     //ARTICLES
-    baseUrlArticles: 'https://ccwhqcbjae.execute-api.us-east-1.amazonaws.com/api/sales-app-seller/articles'
+    baseUrlArticles: 'https://ccwhqcbjae.execute-api.us-east-1.amazonaws.com/api/sales-app-seller/articles',
+
+    //ORDERS
+    baseUrlOrders: 'https://ccwhqcbjae.execute-api.us-east-1.amazonaws.com/api/sales-app-seller/orders',
 
     // // KPI
     // baseUrlIndicators: 'https://ccwhqcbjae.execute-api.us-east-1.amazonaws.com/api/kpi',

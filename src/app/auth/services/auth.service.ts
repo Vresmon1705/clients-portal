@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, throwError, of, Observable, switchMap } from 'rxjs';
 import { environment } from '../../../environments/environments';
 import { isPlatformBrowser } from '@angular/common';
-import { Customer } from '../interfaces/customer';
+import { ICustomer } from '../interfaces/customer';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,7 @@ export class AuthService {
   private readonly baseUrl: string = environment.baseUrlAuth;
   private readonly tokenRol: string = environment.rolForToken;
 
-  private _currentUser = signal<Customer | null>(null);
+  private _currentUser = signal<ICustomer | null>(null);
   private _authStatus = signal(AuthStatus.checking);
   private _currentUserRole = signal(null);
 
@@ -29,14 +29,14 @@ export class AuthService {
   public authStatusRead = computed(() => this._authStatus());
   public currentUserRole = computed(() => this._currentUserRole());
 
-  setAuthentication(taxIdentificationNumber: any, token: any, accountNumber: string): boolean {
-    const user: Customer = {
+  setAuthentication(taxIdentificationNumber: any, token: any, accountNumber: string, partySiteNumber: string): boolean {
+    const user: ICustomer = {
       taxIdentificationNumber,
       accountNumber,
+      partySiteNumber,
       id: '',
       lastSyncTime: 0,
       name: '',
-      partySiteNumber: '',
       address: '',
       city: '',
       country: '',
@@ -49,7 +49,15 @@ export class AuthService {
       shipToPartyName: '',
       shipToAddress: '',
       shipToCity: '',
-      shipToCountry: ''
+      shipToCountry: '',
+      category: '',
+      paymentCondition: '',
+      orderLimit: 0,
+      seller: '',
+      state: '',
+      paymentConditionId: 0,
+      codSeller: 0,
+      shipToState: ''
     };
 
     this._currentUser.set(user);
@@ -63,20 +71,18 @@ export class AuthService {
     const token = localStorage.getItem('token');
     const storedUser = localStorage.getItem('currentUser');
     if (token && storedUser) {
-      const parsedUser: Customer = JSON.parse(storedUser);
+      const parsedUser: ICustomer = JSON.parse(storedUser);
       this._currentUser.set(parsedUser);
       this._authStatus.set(AuthStatus.authenticated);
     } else {
       this.logout();
     }
   }
-
   
   getAccountNumber(): string | null {
     const currentUser = this._currentUser();
     return currentUser && currentUser.accountNumber ? currentUser.accountNumber : null;
-  }
-  
+  }  
 
   checkAuthStatus(): Observable<any> {
     const url = `${this.baseUrl}/testingTokenClient`;
@@ -92,7 +98,7 @@ export class AuthService {
     return this.http.get(url, { headers })
       .pipe(
         switchMap((resp: any) => {
-          this.setAuthentication(resp.user, token, resp.accountNumber);
+          this.setAuthentication(resp.user, token, resp.accountNumber, resp.partySiteNumber);
           return this.decodeAuth(token).pipe(
             map((response: any) => {
               this._currentUserRole.set(response.roles);
@@ -115,7 +121,7 @@ export class AuthService {
 
     return this.http.post(url, body).pipe(
       switchMap((response: any) => {
-        this.setAuthentication(response.userNit, response.token, response.accountNumber);
+        this.setAuthentication(response.userNit, response.token, response.accountNumber, response.partySiteNumber);
         return this.decodeAuth(response.token).pipe(
           map((decodedResponse: any) => {
             this._currentUserRole.set(decodedResponse.roles);

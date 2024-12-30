@@ -105,7 +105,7 @@ export class SidebarComponent {
   }
 
   getTotal(): number {
-    return this.cart.reduce((total, article) => total + article.basePrice * article.quantity, 0);
+    return this.cart.reduce((total, article) => total + article.basePrice * article.g_qPackingUnit, 0);
   }
 
   goToCart() {

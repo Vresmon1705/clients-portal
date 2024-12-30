@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { HelpComponent } from '../../../shared/help/help.component';
-import { Customer } from '../../../auth/interfaces/customer';
+import { ICustomer } from '../../../auth/interfaces/customer';
 import { CustomerService } from '../../../auth/services/customer.service';
 import { AuthService } from '../../../auth/services/auth.service';
 import { AuthStatus } from '../../../auth/interfaces/auth.status.enum';
@@ -16,7 +16,7 @@ import { AuthStatus } from '../../../auth/interfaces/auth.status.enum';
 })
 export class UpdateDataComponent {
   
-  customer: Customer | null = null;
+  customer: ICustomer | null = null;
   taxId: string | null = null;
 
   constructor(
@@ -55,7 +55,7 @@ export class UpdateDataComponent {
   private fetchCustomerData(): void {
     if (this.taxId) {
       this.customerService.getCustomerByTaxId(this.taxId).subscribe(
-        (data: Customer[]) => {
+        (data: ICustomer[]) => {
           if (data.length > 0) {
             this.customer = data[0];
             this.cdr.markForCheck();

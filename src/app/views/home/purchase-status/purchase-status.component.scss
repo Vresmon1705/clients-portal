@@ -13,14 +13,14 @@
 .order-details {
   background-color: #f1f1f1;
   border-radius: 5px;
-  padding: 15px;
+  padding: 20px;
   height: 150px;
 }
 
 .progress-container {
   background-color: #f1f1f1;
   border-radius: 5px;
-  padding: 15px;  
+  padding: 20px;  
   height: 150px;
 }
 
@@ -63,6 +63,10 @@
 
 .timeline-icons li.pending p {
   color: #6c757d;
+}
+
+.card-title {
+  font-size: 20px;
 }
 
 .status-label {

@@ -8,7 +8,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem;  
+  padding: 2rem;
   background-color: #ef806a6e;
   color: white;
 }
@@ -19,9 +19,23 @@
   justify-content: center;
   padding: 0.60rem 1rem;
   font-size: 1rem;
-  margin-top: 0.5rem;  
+  margin-top: 0.5rem;
   background-color: #ff6647;
   color: white;
+  border-radius: 4px;
+}
+
+.btn-back:hover {
+  background-color: #e0543a;
+  color: white;
+}
+
+.btn-nuvant {
+  border: none;
+  background-color: #ff6647;
+  margin-bottom: 1rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
 }
 
 .icon-back {
@@ -29,9 +43,160 @@
   font-size: 1.2rem;
 }
 
-.btn-nuvant {
-  border: none;
-  background-color: #ff6647;
-  margin-bottom: 1rem;
+/* Tabla */
+.table {
+  width: 100%;
+  border-collapse: separate;
+  /* Permite bordes redondeados */
+  border-spacing: 0;
+  /* Elimina espacios entre celdas */
+  border-radius: 15px;
+  overflow: hidden;
+  /* Aplica redondeo correctamente */
 }
 
+th {
+  color: var(--header-text-color, #e0543a !important);
+  /* Mismo color en ambos modos */
+  background-color: var(--header-background-color, #f5f5f5 !important);
+  /* Fondo claro */
+}
+
+.table th,
+.table td {
+  vertical-align: middle;
+  text-align: center;
+  padding: 0.8rem;
+  background-color: var(--row-background-color, #ffffff);
+  border: 1px solid var(--border-color, #ddd);
+}
+
+/* Estilos para modo oscuro */
+:host-context(.dark-mode) {
+  .table {
+    background-color: var(--background-color, #282c3f);
+    border-radius: 15px;
+    /* Bordes redondeados en modo oscuro */
+  }
+
+  th {
+    color: var(--header-text-color, #e0543a !important);
+    /* Mismo color del modo claro */
+    background-color: var(--header-background-color, #f5f5f5 !important);
+    /* Fondo oscuro */
+  }
+
+  .table th,
+  .table td {
+    background-color: var(--row-background-color, #343a40);
+    border: 1px solid var(--border-color, #444b5a);
+  }
+
+  .table tbody tr:hover {
+    background-color: var(--row-highlight-color, #444b5a);
+  }
+}
+
+/* Input cantidad */
+input[type="number"] {
+  width: 80px;
+  margin: 0 auto;
+  text-align: center;
+  border: 1px solid var(--border-color, #ced4da);
+  background-color: rgba(0, 0, 0, 0);
+  border-radius: 4px;
+}
+
+/* Mat-icon ajustes */
+mat-icon {
+  vertical-align: middle;
+  font-size: 1.2rem;
+}
+
+/* Ajustes de pantalla pequeña */
+@media (max-width: 576px) {
+  .table-responsive {
+    border: none;
+  }
+
+  .empty-cart {
+    font-size: 0.9rem;
+  }
+
+  .btn-back {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .btn-nuvant {
+    padding: 0.4rem;
+    font-size: 0.9rem;
+  }
+}
+
+.summary-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+.summary-left,
+.summary-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 48%;
+}
+
+.label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ff6647;
+}
+
+.value {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.taxes,
+.order-summary,
+.total-to-pay {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.order-summary .row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.total-to-pay {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.total-to-pay .value {
+  font-size: 1.5rem;
+  color: #ff6647;
+}
+
+.btn-process {
+  padding: 0.8rem 1.5rem;
+  background-color: #ff6647;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  align-self: center;
+}
+
+.btn-process:hover {
+  background-color: #e0543a;
+}

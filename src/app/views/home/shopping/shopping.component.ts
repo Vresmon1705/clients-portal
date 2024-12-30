@@ -7,7 +7,7 @@ import { ArticleService } from '../../../auth/services/article.service';
 import { FormsModule } from '@angular/forms';
 import { HelpComponent } from '../../../shared/help/help.component';
 import { CustomerService } from '../../../auth/services/customer.service';
-import { Customer } from '../../../auth/interfaces/customer';
+import { ICustomer } from '../../../auth/interfaces/customer';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../auth/services/auth.service';
 import { AuthStatus } from '../../../auth/interfaces/auth.status.enum';
@@ -15,6 +15,7 @@ import { BehaviorSubject, debounceTime, switchMap, catchError } from 'rxjs';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
+import { OrderService } from '../../../auth/services/order.service';
 
 @Component({
   selector: 'app-shopping',
@@ -33,13 +34,16 @@ import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginato
 })
 export class ShoppingComponent implements OnInit {
   cart: IArticle[] = [];
-  customer: Customer | null = null;
+  customer: ICustomer | null = null;
   addresses: string[] = [];
   taxId: string | null = null;
+  partySiteNumber: string | null = null;
   articles: IArticle[] = [];
   filteredArticles: IArticle[] = [];
   searchTerm: string = '';
-  accountNumber: string | null = null;
+  accountNumber: string | null = null;  
+  selectedAddress: string = '';
+  selectedPartySiteNumber: string = '';
 
   pageSize = 8;
   pageIndex = 0;
@@ -52,6 +56,7 @@ export class ShoppingComponent implements OnInit {
     private cartService: ShoppingCartService,
     private articleService: ArticleService,
     private customerService: CustomerService,
+    private orderService: OrderService,
     private authService: AuthService,
     private cdr: ChangeDetectorRef,
     private readonly paginator: MatPaginatorIntl
@@ -80,6 +85,7 @@ export class ShoppingComponent implements OnInit {
       const currentUser = this.authService.currentUser();
       this.taxId = currentUser?.taxIdentificationNumber ?? null;
       this.accountNumber = currentUser?.accountNumber ?? null;
+      this.partySiteNumber = currentUser?.partySiteNumber ?? null;
 
       if (this.taxId) {
         this.fetchCustomerData();
@@ -92,6 +98,7 @@ export class ShoppingComponent implements OnInit {
           const user = this.authService.currentUser();
           this.taxId = user?.taxIdentificationNumber ?? null;
           this.accountNumber = user?.accountNumber ?? null;
+          this.partySiteNumber = user?.partySiteNumber ?? null;
           if (this.taxId) {
             this.fetchCustomerData();
           }
@@ -102,14 +109,22 @@ export class ShoppingComponent implements OnInit {
     }
   }
 
+  selectAddress(address: string, partySiteNumber: string): void {
+    this.selectedAddress = address;
+    this.selectedPartySiteNumber = partySiteNumber;
+    this.orderService.setSelectedAddress(address, partySiteNumber);
+    console.log(`Address selected: ${address}, ${partySiteNumber}`);
+  }
+
   private fetchCustomerData(): void {
     if (this.taxId) {
       this.customerService.getCustomerByTaxId(this.taxId).subscribe(
-        (data: Customer[]) => {
+        (data: ICustomer[]) => {
           if (data.length > 0) {
             this.customer = data[0];
             this.addresses = this.extractAddresses(data);
             this.accountNumber = this.customer?.accountNumber ?? null;
+            this.partySiteNumber = this.customer?.partySiteNumber ?? null;
             this.cdr.markForCheck();
             this.searchArticles();
           } else {
@@ -123,7 +138,7 @@ export class ShoppingComponent implements OnInit {
     }
   }
 
-  private extractAddresses(customers: Customer[]): string[] {
+  private extractAddresses(customers: ICustomer[]): string[] {
     return customers
       .map((customer) => customer.address)
       .filter((address, index, self) => address && self.indexOf(address) === index);

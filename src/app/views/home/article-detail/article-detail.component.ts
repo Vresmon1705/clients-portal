@@ -40,16 +40,15 @@ export class ArticleDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      const productId = params.get('id');
-      if (productId) {
-        this.articleService.getProductById(productId).subscribe(
-          (product) => {
-            this.article = product;
-            console.log("Producto cargado:", this.article);
-            this.loadSimilarArticles();
-            this.cdr.detectChanges();
+      const id = params.get('id');
+      if (id) {
+        this.articleService.getArticleById(id).subscribe(
+          (data: IArticle) => {
+            this.article = data;
           },
-          (error) => console.error('Error loading product:', error)
+          (error) => {
+            console.error('Error fetching article details', error);
+          }
         );
       }
     });

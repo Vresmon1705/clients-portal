@@ -3,14 +3,19 @@ import { IArticle } from '../interfaces/article';
 import { environment } from '../../../environments/environments';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, map, Observable, throwError } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArticleService {
+
   private apiUrl = `${environment.baseUrlArticles}`;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) { }
 
   searchArticlesByDescription(description: string, accountNumber: string, limit?: number, offset?: number): Observable<IArticle[]> {
     const url = `${this.apiUrl}?description=${description}&limit=${limit}&offset=${offset}&accountNumber=${accountNumber}`;
@@ -25,15 +30,19 @@ export class ArticleService {
       })
     );
   }
-  
-  getProductById(id: string): Observable<IArticle> {
-    return this.http.get<IArticle>(`${this.apiUrl}/${id}`);
-  }
 
-  getAllArticles(): Observable<IArticle[]> {
-    const params = new HttpParams().set('limit', '7834');
-    return this.http.get<{ data: IArticle[] }>(`${this.apiUrl}`, { params }).pipe(
-      map(response => response.data)
+  getArticleById(id: string): Observable<IArticle> {
+    const url = `${this.apiUrl}/${id}`;
+    const currentUser = this.authService.currentUser();
+    const accountNumber = currentUser ? currentUser.accountNumber : '';
+
+    console.log('Getting article by id:', accountNumber);
+
+    return this.http.post<IArticle>(url, { accountNumber }).pipe(
+      catchError(err => {
+        console.error("Error:", err);
+        return throwError(() => err);
+      })
     );
   }
 
@@ -43,6 +52,5 @@ export class ArticleService {
       map(response => response.data.filter(article => !article.description.startsWith('QB')))
     );
   }
-
 
 }

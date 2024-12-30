@@ -1,6 +1,6 @@
 import { IArticle } from "./article";
 
 export interface PaginatedResponse { 
-        data: IArticle[];
+        data:         IArticle[];
         totalRecords: number;      
 }
