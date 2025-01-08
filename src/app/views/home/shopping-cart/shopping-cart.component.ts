@@ -49,7 +49,12 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private cdr: ChangeDetectorRef
   ) {
-    this.loadCart();
+    const authStatus = this.authService.authStatusRead();
+    if (authStatus === 'authenticated') {
+      this.loadCart();
+    } else {
+      this.cartService.clearCart();
+    }
   }
 
   ngOnInit(): void {
@@ -59,7 +64,6 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
 
     this.addressSubscription = this.orderService.partySiteNumber$.subscribe(partySiteNumber => {
       this.selectedPartySiteNumber = partySiteNumber || '';
-      console.log('Selected party site number:', this.selectedPartySiteNumber);
     });
   }
 
@@ -113,9 +117,6 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
         currency: article.currency,
       })),
     };
-
-    console.log('Order payload:', orderPayload);
-
     this.orderService.createOrder(orderPayload).subscribe(
       (response) => {
         Swal.fire('Éxito', 'Order processed successfully', 'success');

@@ -18,9 +18,6 @@ export class OrderService {
   constructor(private http: HttpClient) { }
 
   createOrder(orderPayload: IOrder): Observable<IOrder> {
-    console.log('Sending order payload to:', `${this.apiUrl}/create`);
-    console.log('Order payload:', orderPayload);
-
     return this.http.post<IOrder>(`${this.apiUrl}/create`, orderPayload).pipe(
       catchError((err) => {
         console.error('Error al crear la orden:', err);

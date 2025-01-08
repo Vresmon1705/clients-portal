@@ -33,8 +33,7 @@ export class ArticleService {
 
   getArticleById(id: string): Observable<IArticle> {
     const url = `${this.apiUrl}/${id}`;
-    const currentUser = this.authService.currentUser();
-    const accountNumber = currentUser ? currentUser.accountNumber : '';
+    const accountNumber = this.authService.getAccountNumber();
 
     console.log('Getting article by id:', accountNumber);
 

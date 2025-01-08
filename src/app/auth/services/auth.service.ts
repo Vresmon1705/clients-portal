@@ -1,17 +1,20 @@
-import { Injectable, computed, inject, signal, PLATFORM_ID, Inject } from '@angular/core';
+import { Injectable, computed, inject, signal, PLATFORM_ID, Inject, Injector } from '@angular/core';
 import { AuthStatus } from '../interfaces/auth.status.enum';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, throwError, of, Observable, switchMap } from 'rxjs';
 import { environment } from '../../../environments/environments';
 import { isPlatformBrowser } from '@angular/common';
 import { ICustomer } from '../interfaces/customer';
+import { ShoppingCartService } from './shopping-cart.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(
+    private injector: Injector,
+    @Inject(PLATFORM_ID) private platformId: Object) {
     if (isPlatformBrowser(this.platformId)) {
       this.loadAuthFromStorage();
     }
@@ -64,6 +67,9 @@ export class AuthService {
     this._authStatus.set(AuthStatus.authenticated);
     localStorage.setItem('token', token);
     localStorage.setItem('currentUser', JSON.stringify(user));
+
+    const shoppingCartService = this.injector.get(ShoppingCartService);
+    shoppingCartService.loadCart();
     return true;
   }
 
@@ -78,11 +84,11 @@ export class AuthService {
       this.logout();
     }
   }
-  
+
   getAccountNumber(): string | null {
     const currentUser = this._currentUser();
     return currentUser && currentUser.accountNumber ? currentUser.accountNumber : null;
-  }  
+  }
 
   checkAuthStatus(): Observable<any> {
     const url = `${this.baseUrl}/testingTokenClient`;
@@ -144,8 +150,11 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('token');
+    localStorage.removeItem('token');    
+    localStorage.removeItem('currentUser');
     this._currentUser.set(null);
-    this._authStatus.set(AuthStatus.notAuthenticated);
+    this._authStatus.set(AuthStatus.notAuthenticated);    
+    const shoppingCartService = this.injector.get(ShoppingCartService);
+    shoppingCartService.clearCart();
   }
 }

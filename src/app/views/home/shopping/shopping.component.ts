@@ -113,7 +113,6 @@ export class ShoppingComponent implements OnInit {
     this.selectedAddress = address;
     this.selectedPartySiteNumber = partySiteNumber;
     this.orderService.setSelectedAddress(address, partySiteNumber);
-    console.log(`Address selected: ${address}, ${partySiteNumber}`);
   }
 
   private fetchCustomerData(): void {
@@ -174,7 +173,6 @@ export class ShoppingComponent implements OnInit {
               this.filteredArticles = [];
             }
             this.cdr.detectChanges();
-            console.log(respuesta)
           },
           error: (err) => {
             console.error('Error al buscar artículos', err);
