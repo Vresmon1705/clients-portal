@@ -1,6 +1,5 @@
-import { IArticle } from "./article";
 
-export interface PaginatedResponse { 
-        data:         IArticle[];
+export interface PaginatedResponse<T> { 
+        data:         T[];
         totalRecords: number;      
 }

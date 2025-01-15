@@ -12,7 +12,7 @@ import { HelpComponent } from '../../../shared/help/help.component';
 import { OrderService } from '../../../auth/services/order.service';
 import { ICustomer } from '../../../auth/interfaces/customer';
 import { CustomerService } from '../../../auth/services/customer.service';
-import { IOrder } from '../../../auth/interfaces/order';
+import { IOrder } from '../../../auth/interfaces/order-create';
 import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
@@ -34,7 +34,9 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
   customer: ICustomer | null = null;
   private cartSubscription: Subscription | undefined;  
   private addressSubscription: Subscription | undefined;
+  purchaseCompleted: boolean = false; 
   selectedPartySiteNumber: string = '';
+  isLoading: boolean = false;
   order = {
     deliveryDate: '',
     purchaseOrder: '',
@@ -68,11 +70,7 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
   }
 
   loadCart() {
-    this.cart = this.cartService.getCart().map(article => ({
-      ...article,
-      quantity: article.g_qPackingUnit || 1,
-      staticPackingUnit: article.g_qPackingUnit      
-    }));
+    this.cartService.loadCart();
   }
 
   loadCustomer(taxIdentificationNumber: string): void {
@@ -117,13 +115,18 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
         currency: article.currency,
       })),
     };
+    this.isLoading = true; 
     this.orderService.createOrder(orderPayload).subscribe(
       (response) => {
         Swal.fire('Éxito', 'Order processed successfully', 'success');
         this.cartService.clearCart();
+        this.purchaseCompleted = true;
+        this.isLoading = false; 
+        this.cdr.detectChanges();
       },
       (error) => {
         Swal.fire('Error', 'Hubo un problema al procesar el pedido.', 'error');
+        this.isLoading = false; 
       }
     );
   }

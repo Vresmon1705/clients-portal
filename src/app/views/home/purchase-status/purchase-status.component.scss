@@ -80,8 +80,31 @@
   color: white;
 }
 
-h5,p{
+p{
   color: black;
+}
+
+.order-list-container {
+  .table-responsive {
+    overflow-x: auto;
+  }
+
+  .table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+
+    th, td {
+      white-space: nowrap;
+    }
+  }
+
+  .btn-rounded {
+    border-radius: 20px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+  }
 }
 
 @media (max-width: 576px) {
@@ -110,5 +133,9 @@ h5,p{
   .timeline-icons li {
     margin: 0 15px;
   }
+}
+
+::ng-deep .mat-paginator-page-size-label {
+  display: none;
 }
 

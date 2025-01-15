@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, input, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, input, Input, OnInit, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { IArticle } from '../../../../auth/interfaces/article';
 import { ShoppingCartService } from '../../../../auth/services/shopping-cart.service';
@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs';
-import { HelpComponent } from '../../../../shared/help/help.component';
+import { OrderService } from '../../../../auth/services/order.service';
 
 @Component({
   selector: 'app-sidebar-cart',
@@ -25,13 +25,15 @@ import { HelpComponent } from '../../../../shared/help/help.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarCartComponent implements OnInit {
-  
   @Input()cart: IArticle[] = [];
   private cartSubscription: Subscription | undefined;
+  private addressSubscription: Subscription | undefined;
   totalItems: number = 0;
-
+  selectedPartySiteNumber: string = '';
+  
   constructor(
     private cartService: ShoppingCartService,
+    private orderService: OrderService,
     private router: Router,
     private cdr: ChangeDetectorRef
   ) {
@@ -43,6 +45,11 @@ export class SidebarCartComponent implements OnInit {
       this.cart = updatedCart;
       this.totalItems = this.cartService.getTotalItems();
       this.cdr.markForCheck(); 
+    });
+
+    this.addressSubscription = this.orderService.partySiteNumber$.subscribe(partySiteNumber => {
+      this.selectedPartySiteNumber = partySiteNumber || '';
+      this.cdr.markForCheck();
     });
   }
 
@@ -130,6 +137,23 @@ export class SidebarCartComponent implements OnInit {
   }
 
   goToCart() {
+    if (!this.selectedPartySiteNumber) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Debes elegir una dirección antes de continuar!",
+        confirmButtonText: 'OK',
+        customClass: {
+          confirmButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.router.navigate(['/home/shopping']);
+        }
+      });
+      return;
+    }
     this.router.navigate(['/home/shopping-cart']);
   }
 

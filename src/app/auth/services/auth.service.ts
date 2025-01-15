@@ -67,7 +67,6 @@ export class AuthService {
     this._authStatus.set(AuthStatus.authenticated);
     localStorage.setItem('token', token);
     localStorage.setItem('currentUser', JSON.stringify(user));
-
     const shoppingCartService = this.injector.get(ShoppingCartService);
     shoppingCartService.loadCart();
     return true;

@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { environment } from '../../../environments/environments';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { catchError, map, Observable, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, tap, throwError } from 'rxjs';
 import { ICustomer } from '../interfaces/customer';
+import { AuthStatus } from '../interfaces/auth.status.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,15 @@ export class CustomerService {
   constructor(private http: HttpClient) { }
 
   private apiUrl = `${environment.baseUrlCustomers}`;
+
+  private _currentUser = signal<ICustomer | null>(null);
+  private _authStatus = signal(AuthStatus.checking);
+  private _currentUserRole = signal(null);
+
+  public currentUser = computed(() => this._currentUser());
+  public authStatusRead = computed(() => this._authStatus());
+  public currentUserRole = computed(() => this._currentUserRole());
+
 
   getCustomerByTaxId(taxIdentificationNumber: string): Observable<ICustomer[]> {
     const url = `${this.apiUrl}?taxIdentificationNumber=${taxIdentificationNumber}&fields=name,address,accountNumber,partySiteNumber`;
@@ -31,6 +41,11 @@ export class CustomerService {
         return throwError(() => err);
       })
     );
+  }
+
+  getAccountNumber(): string | null {
+    const currentUser = this._currentUser();
+    return currentUser && currentUser.accountNumber ? currentUser.accountNumber : null;
   }
 
 

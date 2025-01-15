@@ -1,5 +1,14 @@
 <div class="container mt-4">
-    @if (cart.length === 0) {
+    @if (purchaseCompleted) {
+    <div class="alert alert-success text-center empty-cart">
+        <p>Gracias por su compra.</p>
+        <button class="btn btn-back" [routerLink]="['/home/shopping']">
+            <mat-icon>arrow_back</mat-icon>
+            Volver a comprar
+        </button>
+    </div>
+    }
+    @if (cart.length === 0 && !purchaseCompleted) {
     <div class="alert alert-info text-center empty-cart">
         <p>Tu carrito está vacío.</p>
         <button class="btn btn-back" [routerLink]="['/home/shopping']">
@@ -70,12 +79,17 @@
             <div class="summary-left">
                 <label for="delivery-date" class="label">Fecha de entrega al cliente:</label>
                 <input type="date" id="delivery-date" class="form-control" [(ngModel)]="order.deliveryDate" />
-                
+
                 <div class="total-to-pay">
                     <span class="label">TOTAL A PAGAR:</span>
                     <span class="fw-bold">{{ finalAmount() | currency: cart[0].currency }}</span>
                 </div>
+                @if (!isLoading) {
                 <button class="btn btn-process" (click)="createOrder()">Procesar pedido</button>
+                }@else {<button class="btn btn-process" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                    Cargando orden...
+                </button>}
             </div>
             <div class="summary-right">
                 <div class="order-summary">

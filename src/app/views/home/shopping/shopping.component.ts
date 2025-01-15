@@ -48,7 +48,6 @@ export class ShoppingComponent implements OnInit {
   pageSize = 8;
   pageIndex = 0;
   hidePageSize = true;
-  totalItemLogData = 0;
   showFirstLastButtons = true;
   filterDataArticlesTotal= 0;
 
