@@ -14,6 +14,9 @@ import { ICustomer } from '../../../auth/interfaces/customer';
 import { CustomerService } from '../../../auth/services/customer.service';
 import { IOrder } from '../../../auth/interfaces/order-create';
 import { AuthService } from '../../../auth/services/auth.service';
+import { PromptPaymentService } from '../../../auth/services/prompt-payment.service';
+import { PaginatedResponse } from '../../../auth/interfaces/PaginatedResponse';
+import { DiscountPromptPayment } from '../../../auth/interfaces/discount-prompt-payment';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -32,9 +35,9 @@ import { AuthService } from '../../../auth/services/auth.service';
 export class ShoppingCartComponent implements OnInit, OnDestroy {
   cart: IArticle[] = [];
   customer: ICustomer | null = null;
-  private cartSubscription: Subscription | undefined;  
+  private cartSubscription: Subscription | undefined;
   private addressSubscription: Subscription | undefined;
-  purchaseCompleted: boolean = false; 
+  purchaseCompleted: boolean = false;
   selectedPartySiteNumber: string = '';
   isLoading: boolean = false;
   order = {
@@ -42,6 +45,7 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
     purchaseOrder: '',
     discountNumberPP: 0,
     notes: '',
+    discountPP: ''
   };
 
   constructor(
@@ -49,7 +53,8 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
     private orderService: OrderService,
     private customerService: CustomerService,
     private authService: AuthService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private promptPaymentService: PromptPaymentService
   ) {
     const authStatus = this.authService.authStatusRead();
     if (authStatus === 'authenticated') {
@@ -66,6 +71,15 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
 
     this.addressSubscription = this.orderService.partySiteNumber$.subscribe(partySiteNumber => {
       this.selectedPartySiteNumber = partySiteNumber || '';
+    });
+
+    this.promptPaymentService.getPromptPayments().subscribe((response: PaginatedResponse<DiscountPromptPayment>) => {
+      if (response && response.data && response.data.length > 0) {
+        const promptPayment = response.data[0];
+        this.order.discountPP = promptPayment.namePP;
+        this.order.discountNumberPP = promptPayment.discount;
+        console.log(promptPayment)
+      }
     });
   }
 
@@ -84,21 +98,21 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
     );
   }
 
- createOrder(): void {
+  createOrder(): void {
 
-  const currentUser = this.authService.currentUser();
+    const currentUser = this.authService.currentUser();
     if (!currentUser || !currentUser.taxIdentificationNumber) {
       Swal.fire('Error', 'Los datos del cliente no están disponibles.', 'error');
       return;
     }
 
-    const orderPayload: IOrder = {      
+    const orderPayload: IOrder = {
       author: currentUser.taxIdentificationNumber,
       partySiteNumber: this.selectedPartySiteNumber,
       deliveryDate: this.order.deliveryDate,
       notes: this.order.notes,
-      discountPP: '0-4 días',
-      discountNumberPP: 5.5,
+      discountPP: this.order.discountPP,
+      discountNumberPP: this.order.discountNumberPP,
       paymentCondition: 'CREDITO A 8 DIAS',
       purchaseOrder: this.order.purchaseOrder,
       articles: this.cart.map((article) => ({
@@ -115,18 +129,19 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
         currency: article.currency,
       })),
     };
-    this.isLoading = true; 
+    this.isLoading = true;
     this.orderService.createOrder(orderPayload).subscribe(
       (response) => {
         Swal.fire('Éxito', 'Order processed successfully', 'success');
         this.cartService.clearCart();
         this.purchaseCompleted = true;
-        this.isLoading = false; 
+        this.isLoading = false;
         this.cdr.detectChanges();
+        console.log(orderPayload)
       },
       (error) => {
         Swal.fire('Error', 'Hubo un problema al procesar el pedido.', 'error');
-        this.isLoading = false; 
+        this.isLoading = false;
       }
     );
   }
@@ -214,10 +229,17 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
     }, 0);
   }
 
-  finalAmount(): number {
-    return this.cart.reduce((total, article) => total + (article.basePrice * article.g_qPackingUnit) + ((article.taxPercentage * article.basePrice * article.g_qPackingUnit) / 100), 0);
+  amountWithTaxes(): number {
+    return this.cart.reduce((total, article) => total + (article.basePrice * article.g_qPackingUnit) + this.totalTaxes(), 0);
   }
-  
+
+  totalAmount(): number {
+    const amount = this.cart.reduce((total, article) => total + (article.basePrice * article.g_qPackingUnit), 0);
+    const taxes = this.totalTaxes();
+    const amountWithTaxes = amount + taxes;
+    const discountAmount = (amountWithTaxes * this.order.discountNumberPP) / 100;
+    return amountWithTaxes - discountAmount;
+  }
   ngOnDestroy(): void {
     if (this.cartSubscription) {
       this.cartSubscription.unsubscribe();

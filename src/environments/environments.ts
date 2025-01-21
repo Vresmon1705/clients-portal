@@ -16,6 +16,9 @@ export const environment = {
     //ORDERS
     baseUrlOrders: 'https://ccwhqcbjae.execute-api.us-east-1.amazonaws.com/api/sales-app-seller/orders',
 
+    //PROMPT PAYMENT
+    baseUrlPayment: 'https://ccwhqcbjae.execute-api.us-east-1.amazonaws.com/api/sales-app-seller/prompt-payment',
+
     // // KPI
     // baseUrlIndicators: 'https://ccwhqcbjae.execute-api.us-east-1.amazonaws.com/api/kpi',
  

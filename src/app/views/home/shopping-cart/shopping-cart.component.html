@@ -82,7 +82,7 @@
 
                 <div class="total-to-pay">
                     <span class="label">TOTAL A PAGAR:</span>
-                    <span class="fw-bold">{{ finalAmount() | currency: cart[0].currency }}</span>
+                    <span class="fw-bold">{{ totalAmount() | currency: cart[0].currency }}</span>
                 </div>
                 @if (!isLoading) {
                 <button class="btn btn-process" (click)="createOrder()">Procesar pedido</button>
@@ -95,11 +95,20 @@
                 <div class="order-summary">
                     <div class="row">
                         <span class="label">Total + Impuestos:</span>
-                        <span class="value">{{ finalAmount() | currency: cart[0].currency }}</span>
+                        <span class="value">{{ amountWithTaxes() | currency: cart[0].currency }}</span>
                     </div>
                     <div class="taxes">
                         <span class="label">Impuestos:</span>
                         <span class="value">{{ totalTaxes() | currency: cart[0].currency }}</span>
+                    </div>
+                    <div class="taxes">
+                        @if (order.deliveryDate) {
+                            <span class="label">Descuento PP(%):</span>
+                            <span class="value">{{ order.discountPP }} = {{ order.discountNumberPP }}%</span>
+                        }@else {
+                            <span class="label">Descuento PP(%):</span>
+                            <span class="value">Elegir fecha</span>`
+                        }
                     </div>
                 </div>
             </div>

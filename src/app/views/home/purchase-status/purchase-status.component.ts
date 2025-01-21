@@ -31,7 +31,7 @@ export class PurchaseStatusComponent implements OnInit {
   customer: ICustomer | null = null;
   orderDetails: IOrderDetails[] = [];
 
-  pageSize = 5;
+  pageSize = 10;
   pageIndex = 0;
   hidePageSize = true;
   totalItemLogData = 0;
@@ -90,35 +90,53 @@ export class PurchaseStatusComponent implements OnInit {
     );
   }
 
-  Paginate(event: any) {
+  Paginate(event: PageEvent) {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
  
     this.loadOrders(false);
+    this.cdr.markForCheck();
   }
-  
   showOrderDetails(order: IOrderSummary, resetPage: boolean = true): void {
     this.selectedOrder = order;
     this.showDetails = true;
 
     if (resetPage) {
+      this.pageSize = 10;
       this.pageIndex = 0;
+      this.cdr.markForCheck();
     }
 
+    this.loadOrderDetails();
+  }
+
+  loadOrderDetails(): void {
     const offset = this.pageIndex * this.pageSize;
     const limit = this.pageSize;
 
-    this.orderService.getOrderDetails(order.internalOrderNumber, limit, offset).subscribe(      
+    if (!this.selectedOrder) {
+      console.error('No order selected');
+      return;
+    }
+    this.orderService.getOrderDetails(this.selectedOrder.internalOrderNumber, limit, offset).subscribe(      
       (response: PaginatedResponse<IOrderDetails>) => {
         this.orderDetails = response.data;
         this.totalItems = response.totalRecords;
         this.cdr.markForCheck();
+        console.log('Detalles de la orden:', this.orderDetails, this.totalItems);
       },
       (error) => {
         console.error('Error al obtener los detalles de la orden:', error);
       }
     );
   }
+
+  PaginateOrderDetails(event: PageEvent): void {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.loadOrderDetails();
+  }
+
   showPurchaseOrder(order: IOrderSummary): void {
     this.selectedOrder = order;    
     this.orderDetails = [];
@@ -128,9 +146,12 @@ export class PurchaseStatusComponent implements OnInit {
   
   hideOrderDetails(): void {
     this.selectedOrder = null;
-    
+    this.orderDetails = [];
+    this.showDetails = false;
+    this.loadOrders(false); // Recargar las órdenes para asegurar que la paginación se restablezca correctamente
     this.cdr.markForCheck();
   }
 
+  
 
 }

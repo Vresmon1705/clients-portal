@@ -79,7 +79,7 @@
                 Pedidos</button>
         </div>
         <mat-paginator style="color: gray; background-color: rgba(0, 0, 0, 0);" [pageSize]="pageSize" [pageIndex]="pageIndex" [showFirstLastButtons]="showFirstLastButtons"
-        [hidePageSize]="hidePageSize" [length]="totalItems" (page)="Paginate($event)">
+        [hidePageSize]="hidePageSize" [length]="totalItems" (page)="PaginateOrderDetails($event)">
       </mat-paginator>
     }
 

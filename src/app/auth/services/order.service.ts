@@ -19,8 +19,7 @@ export class OrderService {
   private partySiteNumberSubject = new BehaviorSubject<string | null>(null);
   partySiteNumber$ = this.partySiteNumberSubject.asObservable();
 
-  constructor(private http: HttpClient,
-    private authService: AuthService
+  constructor(private http: HttpClient
   ) { }
 
   createOrder(orderPayload: IOrder): Observable<IOrder> {
@@ -64,5 +63,7 @@ export class OrderService {
       })
     );
   }
+
+  
 }
 
