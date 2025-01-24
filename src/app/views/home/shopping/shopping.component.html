@@ -10,7 +10,8 @@
         <ul class="dropdown-menu">
           @for (address of addresses; track $index) {
           <li>
-            <button class="dropdown-item" type="button" (click)="selectAddress(address, partySiteNumber!)">{{ address }}</button>
+            <button class="dropdown-item" type="button" (click)="selectAddress(address, partySiteNumber!)">{{ address
+              }}</button>
           </li>
           }
         </ul>
@@ -37,16 +38,28 @@
     <div class="row d-flex flex-wrap align-items-start mt-3">
       @for (article of filteredArticles; track $index) {
       <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+        @if (article.basePrice === null) {
         <div class="card h-100">
           <img src="../../../../assets/images/image1.png" class="card-img-top" alt="{{ article.description }}">
           <div class="card-body d-flex flex-column">
             <h5 class="card-title">{{ article.description }}</h5>
-            @if (article.basePrice > 0) {              
-            <p class="card-text text-success">{{ article.basePrice |  number: '1.0-2' }} {{ article.currency }}</p>
-            }@else {              
             <p class="card-text text-danger">No tiene precio</p>
-            }
-            
+            <div class="mt-auto d-flex flex-wrap gap-1 justify-content-between">
+              <button class="btn btn-sm btn-nuvant" style="background-color: #25d366;" (click)="addToCart(article)">
+                Contactar al vendedor
+              </button>
+              <button class="btn btn-sm btn-nuvant" [routerLink]="['/home/article-detail', article.id]">
+                Ver Detalle
+              </button>
+            </div>
+          </div>
+        </div>
+        }@else {
+        <div class="card h-100">
+          <img src="../../../../assets/images/image1.png" class="card-img-top" alt="{{ article.description }}">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">{{ article.description }}</h5>
+            <p class="card-text text-success">{{ article.basePrice | number: '1.0-2' }} {{ article.currency }}</p>
             <div class="mt-auto d-flex flex-wrap gap-1 justify-content-between">
               <button class="btn btn-sm btn-nuvant" (click)="addToCart(article)">
                 Agregar al carrito
@@ -57,6 +70,8 @@
             </div>
           </div>
         </div>
+        }
+
       </div>
       }
     </div>
@@ -71,8 +86,9 @@
     }
 
     <div class="d-flex justify-content-center mt-4">
-      <mat-paginator style="color: gray; background-color: rgba(0, 0, 0, 0);" [pageSize]="pageSize" [pageIndex]="pageIndex" [showFirstLastButtons]="showFirstLastButtons"
-        [hidePageSize]="hidePageSize" [length]="filterDataArticlesTotal" (page)="Paginate($event)">
+      <mat-paginator style="color: gray; background-color: rgba(0, 0, 0, 0);" [pageSize]="pageSize"
+        [pageIndex]="pageIndex" [showFirstLastButtons]="showFirstLastButtons" [hidePageSize]="hidePageSize"
+        [length]="filterDataArticlesTotal" (page)="Paginate($event)">
       </mat-paginator>
     </div>
   </div>

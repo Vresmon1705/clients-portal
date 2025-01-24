@@ -40,9 +40,9 @@ export class ArticleDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      if (id) {
-        this.articleService.getArticleById(id).subscribe(
+      const itemNumber = params.get('itemNumber');
+      if (itemNumber) {
+        this.articleService.getArticleById(itemNumber).subscribe(
           (data: IArticle) => {
             this.article = data;
           },

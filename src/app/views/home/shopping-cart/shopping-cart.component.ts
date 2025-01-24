@@ -39,7 +39,9 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
   private addressSubscription: Subscription | undefined;
   purchaseCompleted: boolean = false;
   selectedPartySiteNumber: string = '';
+  address: string = '';
   isLoading: boolean = false;
+  breadcrumbItems: { label: string, url?: string }[] = [];
   order = {
     deliveryDate: '',
     purchaseOrder: '',
@@ -73,6 +75,10 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
       this.selectedPartySiteNumber = partySiteNumber || '';
     });
 
+    this.addressSubscription = this.orderService.selectedAddress$.subscribe(address => {
+      this.address = address || '';
+    });
+
     this.promptPaymentService.getPromptPayments().subscribe((response: PaginatedResponse<DiscountPromptPayment>) => {
       if (response && response.data && response.data.length > 0) {
         const promptPayment = response.data[0];
@@ -81,6 +87,11 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
         console.log(promptPayment)
       }
     });
+
+    this.breadcrumbItems = [
+      { label: 'Shopping', url: '/home/shopping' },
+      { label: 'Shopping Cart' }
+    ];
   }
 
   loadCart() {

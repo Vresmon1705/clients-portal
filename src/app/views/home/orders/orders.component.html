@@ -1,0 +1,79 @@
+@if (!selectedOrder) {
+    <div class="container mt-5">
+      <h2 class="text-center">Ordenes realizadas</h2>
+      <div class="order-list-container mt-4">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered align-middle">
+            <thead class="table-light">
+              <tr class="thead">
+                <th>#</th>
+                <th>Número orden</th>
+                <th>Estado</th>
+                <th>Total Amount</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (order of orders; track order.internalOrderNumber; let i = $index) {
+                <tr>
+                  <td>{{ pageIndex * pageSize + i + 1 }}</td>
+                  <td>{{ order.internalOrderNumber }}</td>
+                  <td>{{ order.status }}</td>
+                  <td>{{ order.totalAmount | currency }}</td>
+                  <td>
+                    <button class="btn btn-nuvant btn-rounded" (click)="showOrderDetails(order)">
+                      Detalle
+                    </button>
+                    <button class="btn btn-nuvant btn-rounded" (click)="showPurchaseOrder(order)">
+                      Seguimiento
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <mat-paginator 
+          [pageSize]="pageSize"
+          [pageIndex]="pageIndex"
+          [showFirstLastButtons]="showFirstLastButtons"
+          [hidePageSize]="hidePageSize"
+          [length]="totalItems"
+          (page)="onPageChange($event)">
+        </mat-paginator>
+      </div>
+    </div>
+  }
+
+  @if (selectedOrder && !showDetails) {
+    <app-purchase-status
+      [selectedOrder]="selectedOrder"
+      [orderDetails]="orderDetails"
+      (backClicked)="hideOrderDetails()">
+    </app-purchase-status>
+  }
+
+  @if (selectedOrder && showDetails) {
+    <nav aria-label="breadcrumb" class="d-flex align-items-center mb-3 mt-5">
+      <ol class="breadcrumb mb-0">
+          <mat-icon style="color: #ff6647;" (click)="hideOrderDetails()" >arrow_back</mat-icon>
+          <li class="breadcrumb-item">
+              <a href="javascript:void(0)" (click)="hideOrderDetails()" >Ordenes</a>
+          </li>
+          <li class="breadcrumb-item active" style="color: gray;" aria-current="page">Detalles</li>
+      </ol>
+  </nav>
+    <app-details-orders
+      [orderDetails]="orderDetails"
+      [selectedOrder]="selectedOrder"
+      [pageIndex]="pageIndex"
+      [pageSize]="pageSize"
+      [showFirstLastButtons]="showFirstLastButtons"
+      [hidePageSize]="hidePageSize"
+      [totalItems]="totalItems"
+      (backClicked)="hideOrderDetails()"
+      (pageChange)="onOrderDetailsPageChange($event)">
+    </app-details-orders>
+  }
+
+  <app-help></app-help>

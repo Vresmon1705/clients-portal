@@ -1,132 +1,59 @@
 <div class="container mt-5">
-    @if (!selectedOrder) {        
-    <h2 class="text-center">Ordenes realizadas</h2>
-    <div class="order-list-container mt-4">
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Número orden</th>
-                        <th>Estado</th>
-                        <th>Total Amount</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (order of orders; track $index; let i = $index) {
-                        <tr>
-                            <td>{{ pageIndex * pageSize + i + 1 }}</td>
-                            <td>{{ order.internalOrderNumber }}</td>
-                            <td>{{ order.status }}</td>
-                            <td>{{ order.totalAmount | currency }}</td>
-                            <td>
-                                <button class="btn btn-nuvant btn-rounded"
-                                    (click)="showOrderDetails(order)">Detalle</button>
-                                <button class="btn btn-nuvant btn-rounded"
-                                    (click)="showPurchaseOrder(order)">Seguimiento</button>
-                            </td>
-                        </tr>
-                    }                    
-                </tbody>
-            </table>
-        </div>
-        <mat-paginator style="color: gray; background-color: rgba(0, 0, 0, 0);" [pageSize]="pageSize" [pageIndex]="pageIndex" [showFirstLastButtons]="showFirstLastButtons"
-        [hidePageSize]="hidePageSize" [length]="totalItems" (page)="Paginate($event)">
-      </mat-paginator>
-    </div>
-    }
-
-    @if (selectedOrder && showDetails) {
-        <div class="mt-4">
-            <h5 class="text-center">Detalles de los Artículos de la orden</h5>
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Artículo</th>
-                            <th>Descripción</th>
-                            <th>Precio Unitario</th>
-                            <th>Precio Total</th>
-                            <th>Moneda</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (detail of orderDetails; track $index; let i = $index) {
-                        <tr>
-                            <td>{{ pageIndex * pageSize + i + 1 }}</td>
-                            <td>{{ detail.articleItemNumber }}</td>
-                            <td>{{ detail.articleDescription }}</td>
-                            <td>{{ detail.unitPrice | currency }}</td>
-                            <td>{{ detail.totalUnitPrice | currency }}</td>
-                            <td>{{ detail.currency }}</td>
-                        </tr>
-                        }
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="3"></td>
-                            <td><strong>Total:</strong></td>
-                            <td>{{ selectedOrder.totalAmount | currency }}</td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-        </div>
-        <div class="mt-4 text-center">
-            <button class="btn btn-nuvant btn-rounded" (click)="hideOrderDetails()">Volver a la Lista de
-                Pedidos</button>
-        </div>
-        <mat-paginator style="color: gray; background-color: rgba(0, 0, 0, 0);" [pageSize]="pageSize" [pageIndex]="pageIndex" [showFirstLastButtons]="showFirstLastButtons"
-        [hidePageSize]="hidePageSize" [length]="totalItems" (page)="PaginateOrderDetails($event)">
-      </mat-paginator>
-    }
-
-    @if (selectedOrder && !showDetails) {
-    <div class="mt-4">
+    <nav aria-label="breadcrumb" class="d-flex align-items-center mb-3 mt-5">
+        <ol class="breadcrumb mb-0">
+          <mat-icon style="color: #ff6647;" (click)="onBackClick()">arrow_back</mat-icon>
+          <li class="breadcrumb-item">
+            <a href="javascript:void(0)" (click)="onBackClick()">Ordenes</a>
+          </li>
+          <li class="breadcrumb-item active" style="color: gray;" aria-current="page">Seguimiento</li>
+        </ol>
+      </nav>
+    
+      <div class="mt-4">
         <h5 class="text-center">Seguimiento de Pedido</h5>
         <div class="row">
-            <div class="col-md-6 col-sm-12 mb-3">
-                <div class="order-details p-1 ml-2">
-                    <h5 class="text-center card-title"><strong>Detalles del Pedido</strong></h5>
-                    <p class="status-label"><strong>Número de pedido:</strong> {{ selectedOrder.internalOrderNumber }}
-                    </p>
-                    <p class="status-label"><strong>Fecha:</strong> {{ selectedOrder.orderDate | date }}</p>
-                    <p class="status-label"><strong>Estado:</strong> {{ selectedOrder.status }}</p>
-                </div>
+          <div class="col-md-6 col-sm-12 mb-3">
+            <div class="order-details p-1 ml-2">
+              <h5 class="text-center card-title"><strong style="color: black;">Detalles del Pedido</strong></h5>
+              <p class="status-label"><strong>Número de pedido:</strong> {{ selectedOrder.internalOrderNumber }}</p>
+              <p class="status-label"><strong>Fecha:</strong> {{ selectedOrder.orderDate | date }}</p>
+              <p class="status-label"><strong>Estado:</strong> {{ selectedOrder.status }}</p>
             </div>
-            <div class="col-md-6 col-sm-12 mb-3">
-                <div class="progress-container p-1">
-                    <h5 class="text-center card-title"><strong>Estado del Pedido</strong></h5>
-                    <ul class="timeline-icons d-flex justify-content-between">
-                        <li [class.active]="selectedOrder.status === 'Pedido realizado'">
-                            <mat-icon>check_circle</mat-icon>
-                            <p class="status-label">Pedido realizado</p>
-                        </li>
-                        <li [class.active]="selectedOrder.status === 'Procesando'">
-                            <mat-icon>schedule</mat-icon>
-                            <p class="status-label">Procesando</p>
-                        </li>
-                        <li [class.active]="selectedOrder.status === 'En camino'">
-                            <mat-icon>local_shipping</mat-icon>
-                            <p class="status-label">En camino</p>
-                        </li>
-                        <li [class.active]="selectedOrder.status === 'Entregado'">
-                            <mat-icon>check</mat-icon>
-                            <p class="status-label">Entregado</p>
-                        </li>
-                    </ul>
-                </div>
+          </div>
+          <div class="col-md-6 col-sm-12 mb-3">
+            <div class="progress-container p-1">
+              <h5 class="text-center card-title"><strong style="color: black;">Estado del Pedido</strong></h5>
+              <ul class="timeline-icons d-flex justify-content-between">
+                <li [class.active]="selectedOrder.status === 'Pedido realizado'">
+                  <mat-icon>check_circle</mat-icon>
+                  <p class="status-label">Pedido realizado</p>
+                </li>
+                <li [class.active]="selectedOrder.status === 'Procesando'">
+                  <mat-icon>schedule</mat-icon>
+                  <p class="status-label">Procesando</p>
+                </li>
+                <li [class.active]="selectedOrder.status === 'En camino'">
+                  <mat-icon>local_shipping</mat-icon>
+                  <p class="status-label">En camino</p>
+                </li>
+                <li [class.active]="selectedOrder.status === 'Entregado'">
+                  <mat-icon>check</mat-icon>
+                  <p class="status-label">Entregado</p>
+                </li>
+              </ul>
             </div>
+          </div>
         </div>
-
-        <div class="mt-4 text-center">
-            <button class="btn btn-nuvant btn-rounded" (click)="hideOrderDetails()">Volver a la Lista de
-                Pedidos</button>
-        </div>
-    </div>
-    }
+        <app-details-orders
+      [orderDetails]="orderDetails"
+      [selectedOrder]="selectedOrder"
+      [pageIndex]="pageIndex"
+      [pageSize]="pageSize"
+      [showFirstLastButtons]="showFirstLastButtons"
+      [hidePageSize]="hidePageSize"
+      [totalItems]="totalItems"
+      (backClicked)="hideOrderDetails()"
+      (pageChange)="onOrderDetailsPageChange($event)">
+    </app-details-orders>
+      </div>
 </div>
-
-<app-help></app-help>

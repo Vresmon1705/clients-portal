@@ -9,36 +9,36 @@
       <span class="spacer"></span>
 
     </mat-toolbar>
-    <div routerLinkActive="active" class="d-flex p-2 mb-3 m-2 item-content-menu">
+    <div routerLinkActive="active" class="d-flex item-content-menu">
       <h2 class="mb-1">
-        <button class="accordion-button accordion-button-menu-dark px-3 py-2 collapsed" type="button"
+        <button class="accordion-button accordion-button-menu-dark collapsed" type="button"
           data-bs-toggle="collapse" aria-expanded="true" [routerLink]="['/home/shopping']">
           Compras
         </button>
       </h2>
     </div>
 
-    <div routerLinkActive="active" class="d-flex p-2 mb-3 m-2 item-content-menu">
+    <div routerLinkActive="active" class="d-flex item-content-menu">
       <h2 class="mb-1">
-        <button class="accordion-button accordion-button-menu-dark px-3 py-2 collapsed" type="button"
-          data-bs-toggle="collapse" aria-expanded="true" [routerLink]="['/home/purchase-status']">
+        <button class="accordion-button accordion-button-menu-dark collapsed" type="button"
+          data-bs-toggle="collapse" aria-expanded="true" [routerLink]="['/home/orders']">
           Ordenes
         </button>
       </h2>
     </div>
 
-    <div routerLinkActive="active" class="d-flex p-2 mb-3 m-2 item-content-menu">
+    <div routerLinkActive="active" class="d-flex item-content-menu">
       <h2 class="mb-1">
-        <button class="accordion-button accordion-button-menu-dark px-3 py-2 collapsed" type="button"
+        <button class="accordion-button accordion-button-menu-dark collapsed" type="button"
           data-bs-toggle="collapse" aria-expanded="true" [routerLink]="['/home/portfolio-status']">
           Estado de cartera
         </button>
       </h2>
     </div>
 
-    <div routerLinkActive="active" class="d-flex p-2 mb-3 m-2 item-content-menu">
+    <div routerLinkActive="active" class="d-flex item-content-menu">
       <h2 class="mb-1">
-        <button class="accordion-button accordion-button-menu-dark px-3 py-2 collapsed" type="button"
+        <button class="accordion-button accordion-button-menu-dark collapsed" type="button"
           data-bs-toggle="collapse" aria-expanded="true" [routerLink]="['/home/update-data']">
           Actualización de datos
         </button>
@@ -108,6 +108,12 @@
             <p class="m-0 pe-1">Cerrar Sesión</p>
             <div class="align-items-center d-grid">
               <mat-icon>exit_to_app</mat-icon>
+            </div>
+          </div>
+          <div class="dropdown-item text-center d-flex justify-content-center" (click)="onLogout()">
+            <p class="m-0 pe-1">Cambiar clave</p>
+            <div class="align-items-center d-grid">
+              <mat-icon>edit</mat-icon>
             </div>
           </div>
         </div>

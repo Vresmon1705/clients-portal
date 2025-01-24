@@ -19,11 +19,29 @@
     }
     @if (cart.length > 0) {
     <div>
+        <nav aria-label="breadcrumb" class="d-flex align-items-center mb-3">
+            <ol class="breadcrumb mb-0">
+                <mat-icon style="color: #ff6647;">arrow_back</mat-icon>
+                @for (item of breadcrumbItems; let last = $last; track $index) {
+                <li class="breadcrumb-item" style="color: gray; background-color: rgba(0, 0, 0, 0);" [ngClass]="{ 'active': last }" [attr.aria-current]="last ? 'page' : null">
+                    @if (last) {
+                    <ng-container >
+                        {{ item.label }}
+                    </ng-container>
+                    }@else {
+                    <ng-container>
+                        <a [routerLink]="item.url">{{ item.label }}</a>
+                    </ng-container>
+                    }
+                </li>
+                }
+            </ol>
+        </nav>
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="text-center mb-0 fw-bold">Carrito de Compras</h2>
-            <button class="btn btn-sm btn-back" [routerLink]="['/home/shopping']">
-                <mat-icon class="icon-back">arrow_back</mat-icon> Volver
-            </button>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mb-3">            
+            <h6 class="text-center mb-0">{{address}}</h6>
         </div>
 
         <div class="table-responsive">
@@ -103,11 +121,11 @@
                     </div>
                     <div class="taxes">
                         @if (order.deliveryDate) {
-                            <span class="label">Descuento PP(%):</span>
-                            <span class="value">{{ order.discountPP }} = {{ order.discountNumberPP }}%</span>
+                        <span class="label">Descuento PP(%):</span>
+                        <span class="value">{{ order.discountPP }} = {{ order.discountNumberPP }}%</span>
                         }@else {
-                            <span class="label">Descuento PP(%):</span>
-                            <span class="value">Elegir fecha</span>`
+                        <span class="label">Descuento PP(%):</span>
+                        <span class="value">Elegir fecha</span>`
                         }
                     </div>
                 </div>

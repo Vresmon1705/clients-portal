@@ -31,13 +31,12 @@ export class ArticleService {
     );
   }
 
-  getArticleById(id: string): Observable<IArticle> {
-    const url = `${this.apiUrl}/${id}`;
-    const accountNumber = this.authService.getAccountNumber();
+  getArticleById(itemNumber: string): Observable<IArticle> {
+    const url = `${this.apiUrl}/item-number/${itemNumber}`;
 
-    console.log('Getting article by id:', accountNumber);
+    console.log('Getting article by id:', itemNumber);
 
-    return this.http.post<IArticle>(url, { accountNumber }).pipe(
+    return this.http.post<IArticle>(url, { itemNumber }).pipe(
       catchError(err => {
         console.error("Error:", err);
         return throwError(() => err);
