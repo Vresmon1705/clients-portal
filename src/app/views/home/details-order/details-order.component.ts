@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { IOrderSummary } from '../../../auth/interfaces/order-summary';
 import { IOrderDetails } from '../../../auth/interfaces/order-details';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-details-orders',
@@ -11,7 +12,8 @@ import { IOrderDetails } from '../../../auth/interfaces/order-details';
   imports: [
     CommonModule,
     MatIconModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    RouterLink
   ],
   templateUrl: './details-order.component.html',
   styleUrls: ['./details-order.component.scss'],
@@ -25,9 +27,25 @@ export class DetailsOrdersComponent {
   @Input() showFirstLastButtons = true;
   @Input() hidePageSize = true;
   @Input() totalItems = 0;
+  selectedStatus: string = '';
+  filteredOrders: any[] = [];
+  orders: IOrderSummary[] = [];
 
   @Output() backClicked = new EventEmitter<void>();
   @Output() pageChange = new EventEmitter<PageEvent>();
+
+  constructor(
+      private cdr: ChangeDetectorRef) {
+    }
+
+  filterOrders() {
+    if (this.selectedStatus) {
+      this.filteredOrders = this.orders.filter(order => order.status === this.selectedStatus);
+    } else {
+      this.filteredOrders = this.orders;
+    }
+    this.cdr.markForCheck();
+  }
 
   onBackClick(): void {
     this.backClicked.emit();

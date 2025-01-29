@@ -1,59 +1,56 @@
 <div class="container mt-5">
-    <nav aria-label="breadcrumb" class="d-flex align-items-center mb-3 mt-5">
-        <ol class="breadcrumb mb-0">
-          <mat-icon style="color: #ff6647;" (click)="onBackClick()">arrow_back</mat-icon>
-          <li class="breadcrumb-item">
-            <a href="javascript:void(0)" (click)="onBackClick()">Ordenes</a>
-          </li>
-          <li class="breadcrumb-item active" style="color: gray;" aria-current="page">Seguimiento</li>
-        </ol>
-      </nav>
-    
-      <div class="mt-4">
-        <h5 class="text-center">Seguimiento de Pedido</h5>
-        <div class="row">
-          <div class="col-md-6 col-sm-12 mb-3">
-            <div class="order-details p-1 ml-2">
-              <h5 class="text-center card-title"><strong style="color: black;">Detalles del Pedido</strong></h5>
-              <p class="status-label"><strong>Número de pedido:</strong> {{ selectedOrder.internalOrderNumber }}</p>
-              <p class="status-label"><strong>Fecha:</strong> {{ selectedOrder.orderDate | date }}</p>
-              <p class="status-label"><strong>Estado:</strong> {{ selectedOrder.status }}</p>
-            </div>
-          </div>
-          <div class="col-md-6 col-sm-12 mb-3">
-            <div class="progress-container p-1">
-              <h5 class="text-center card-title"><strong style="color: black;">Estado del Pedido</strong></h5>
-              <ul class="timeline-icons d-flex justify-content-between">
-                <li [class.active]="selectedOrder.status === 'Pedido realizado'">
-                  <mat-icon>check_circle</mat-icon>
-                  <p class="status-label">Pedido realizado</p>
-                </li>
-                <li [class.active]="selectedOrder.status === 'Procesando'">
-                  <mat-icon>schedule</mat-icon>
-                  <p class="status-label">Procesando</p>
-                </li>
-                <li [class.active]="selectedOrder.status === 'En camino'">
-                  <mat-icon>local_shipping</mat-icon>
-                  <p class="status-label">En camino</p>
-                </li>
-                <li [class.active]="selectedOrder.status === 'Entregado'">
-                  <mat-icon>check</mat-icon>
-                  <p class="status-label">Entregado</p>
-                </li>
-              </ul>
-            </div>
-          </div>
+  <nav aria-label="breadcrumb" class="d-flex align-items-center mb-3 mt-5">
+    <ol class="breadcrumb mb-0">
+      <mat-icon style="color: #ff6647;" (click)="onBackClick()">arrow_back</mat-icon>
+      <li class="breadcrumb-item">
+        <a href="javascript:void(0)" (click)="onBackClick()">Ordenes</a>
+      </li>
+      <li class="breadcrumb-item active" style="color: gray;" aria-current="page">Seguimiento</li>
+    </ol>
+  </nav>
+
+  @if ( selectedOrder.status === 'Cancelada') {
+    <div class="alert alert-success text-center empty-cart">
+        <mat-icon style="width: 500px;">highlight_off</mat-icon>
+        <p style="color: white;">Su orden ha sido cancelada.</p>
+    </div>
+}
+
+  <div class="mt-4">
+    <h5 class="text-center">Seguimiento de Pedido</h5>
+    <div class="row">
+      <div class="col-md-6 col-sm-12">
+        <div class="order-details p-1 mb-5">
+          <h5 class="text-center card-title"><strong style="color: black;">Detalles del Pedido</strong></h5>
+          <p class="status-label"><strong>Número de pedido:</strong>{{ selectedOrder.internalOrderNumber }}</p>
+          <p class="status-label"><strong>Fecha creación:</strong>{{ selectedOrder.orderDate | date }}</p>
+          <p class="status-label"><strong>Dirección de envio:</strong></p>
+          <p class="status-label"><strong>Estado:</strong>{{ selectedOrder.status }}</p>
         </div>
-        <app-details-orders
-      [orderDetails]="orderDetails"
-      [selectedOrder]="selectedOrder"
-      [pageIndex]="pageIndex"
-      [pageSize]="pageSize"
-      [showFirstLastButtons]="showFirstLastButtons"
-      [hidePageSize]="hidePageSize"
-      [totalItems]="totalItems"
-      (backClicked)="hideOrderDetails()"
-      (pageChange)="onOrderDetailsPageChange($event)">
-    </app-details-orders>
       </div>
+      <div class="col-md-6 col-sm-12">
+        <div class="progress-container p-1 mb-5">
+          <h5 class="text-center card-title"><strong style="color: black;">Estado del Pedido</strong></h5>
+          <ul class="timeline-icons d-flex justify-content-between">
+            <li [class.active]="selectedOrder.status === 'Pedido realizado'">
+              <mat-icon>check_circle</mat-icon>
+              <p class="status-label">Pedido realizado</p>
+            </li>
+            <li [class.active]="selectedOrder.status === 'Procesando'">
+              <mat-icon>schedule</mat-icon>
+              <p class="status-label">Procesando</p>
+            </li>
+            <li [class.active]="selectedOrder.status === 'En camino'">
+              <mat-icon>local_shipping</mat-icon>
+              <p class="status-label">En camino</p>
+            </li>
+            <li [class.active]="selectedOrder.status === 'Entregado'">
+              <mat-icon>check</mat-icon>
+              <p class="status-label">Entregado</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

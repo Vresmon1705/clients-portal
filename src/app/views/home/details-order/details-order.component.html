@@ -1,43 +1,50 @@
 <div class="container mt-5">
-    
-    <div class="mt-4">
-        <h5 class="text-center">Detalles de los Artículos de la orden</h5>
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Artículo</th>
-                        <th>Descripción</th>
-                        <th>Precio Unitario</th>
-                        <th>Precio Total</th>
-                        <th>Moneda</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (detail of orderDetails; track $index; let i = $index) {
-                    <tr>
-                        <td>{{ pageIndex * pageSize + i + 1 }}</td>
-                        <td>{{ detail.articleItemNumber }}</td>
-                        <td>{{ detail.articleDescription }}</td>
-                        <td>{{ detail.unitPrice | currency }}</td>
-                        <td>{{ detail.totalUnitPrice | currency }}</td>
-                        <td>{{ detail.currency }}</td>
-                    </tr>
-                    }
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="3"></td>
-                        <td><strong>Total:</strong></td>
-                        <td>{{ selectedOrder.totalAmount | currency }}</td>
-                    </tr>
-                </tfoot>
-            </table>
+    @if ( selectedOrder.status === 'Cancelada') {
+        <div class="alert alert-success text-center empty-cart">
+            <mat-icon style="width: 500px;">highlight_off</mat-icon>
+            <p style="color: white;">Su orden ha sido cancelada.</p>
         </div>
-    </div>
-    <mat-paginator style="color: gray; background-color: rgba(0, 0, 0, 0);" [pageSize]="pageSize" [pageIndex]="pageIndex"
-        [showFirstLastButtons]="showFirstLastButtons" [hidePageSize]="hidePageSize" [length]="totalItems"
-        (page)="onPageChange($event)">
-    </mat-paginator>
+    }@else {
+        <h2 class="text-center">Ordenes realizadas</h2>
+        <div class="order-list-container mt-4">
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered align-middle">
+                    <thead class="table-light">
+                        <tr class="thead">
+                            <th>#</th>
+                            <th>Artículo</th>
+                            <th>Descripción</th>
+                            <th>Precio Unitario</th>
+                            <th>Precio Total</th>
+                            <th>Moneda</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (detail of orderDetails; track $index; let i = $index) {
+                        <tr>
+                            <td>{{ pageIndex * pageSize + i + 1 }}</td>
+                            <td>{{ detail.articleItemNumber }}</td>
+                            <td>{{ detail.articleDescription }}</td>
+                            <td>{{ detail.unitPrice | currency }}</td>
+                            <td>{{ detail.totalUnitPrice | currency }}</td>
+                            <td>{{ detail.currency }}</td>
+                        </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3"></td>
+                            <td><strong>Total:</strong></td>
+                            <td>{{ selectedOrder.totalAmount | currency }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <mat-paginator style="color: gray; background-color: rgba(0, 0, 0, 0);" [pageSize]="pageSize"
+            [pageIndex]="pageIndex" [showFirstLastButtons]="showFirstLastButtons" [hidePageSize]="hidePageSize"
+            [length]="totalItems" (page)="onPageChange($event)">
+        </mat-paginator>
+    }
+    
 </div>

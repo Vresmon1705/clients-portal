@@ -10,6 +10,9 @@ import { IOrderDetails } from '../../../auth/interfaces/order-details';
 import { OrderService } from '../../../auth/services/order.service';
 import { AuthService } from '../../../auth/services/auth.service';
 import { PaginatedResponse } from '../../../auth/interfaces/PaginatedResponse';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-orders',
   standalone: true,
@@ -19,7 +22,9 @@ import { PaginatedResponse } from '../../../auth/interfaces/PaginatedResponse';
     MatPaginatorModule,
     PurchaseStatusComponent,
     DetailsOrdersComponent,
-    HelpComponent
+    HelpComponent,
+    FormsModule,
+    RouterLink
   ],
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.scss'],
@@ -30,6 +35,8 @@ export class OrdersComponent implements OnInit {
   selectedOrder: IOrderSummary | null = null;
   orderDetails: IOrderDetails[] = [];
   showDetails = false;
+  selectedStatus: string = '';
+  filteredOrders: any[] = [];
 
   pageSize = 10;
   pageIndex = 0;
@@ -80,6 +87,7 @@ export class OrdersComponent implements OnInit {
       (response) => {
         this.orders = response.data;
         this.totalItems = response.totalRecords;
+        this.filterOrders();
         this.cdr.markForCheck();
       },
       (error) => {
@@ -160,6 +168,15 @@ export class OrdersComponent implements OnInit {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
     this.loadOrderDetails();
+  }
+
+  filterOrders() {
+    if (this.selectedStatus) {
+      this.filteredOrders = this.orders.filter(order => order.status === this.selectedStatus);
+    } else {
+      this.filteredOrders = this.orders;
+    }
+    this.cdr.markForCheck();
   }
 
   @Output() backClicked = new EventEmitter<void>();
