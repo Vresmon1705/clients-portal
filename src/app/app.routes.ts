@@ -26,7 +26,7 @@ export const routes: Routes = [
             { path: 'article-detail/:id', component: ArticleDetailComponent },
             { path: 'update-data', component: UpdateDataComponent},
             { path: 'orders', component: OrdersComponent },
-            { path: 'details-order/:id', component: DetailsOrdersComponent }
+            { path: 'order-details/:id', component: DetailsOrdersComponent }
         ]
     },
     { path: '**', redirectTo: 'login' },

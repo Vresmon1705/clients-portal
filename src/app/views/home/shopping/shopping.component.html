@@ -1,6 +1,16 @@
 <div class="container">
   <div class="row">
-    <h1 class="text-center mb-1 title-login mb-3">{{ customer?.name }}</h1>
+    <h1 class="text-center mb-1 title-login mb-3">{{ customer?.name }}
+
+      @if (!address) {
+      <h6>
+        <mat-icon>warning</mat-icon>
+        Elegir una dirección antes de realizar compra
+        <mat-icon>warning</mat-icon>
+      </h6>
+      }
+      <h6>{{address}}</h6>
+    </h1>
 
     <div class="d-flex align-items-start">
       <div class="dropdown me-2">

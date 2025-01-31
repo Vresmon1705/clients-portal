@@ -30,6 +30,7 @@ export class SidebarCartComponent implements OnInit {
   private addressSubscription: Subscription | undefined;
   totalItems: number = 0;
   selectedPartySiteNumber: string = '';
+  address: string = '';
   
   constructor(
     private cartService: ShoppingCartService,

@@ -14,7 +14,6 @@ import { PaginatedResponse } from '../../../auth/interfaces/PaginatedResponse';
   imports: [
     CommonModule,
     MatIconModule,
-    DetailsOrdersComponent
   ],
   templateUrl: './purchase-status.component.html',
   styleUrls: ['./purchase-status.component.scss'],

@@ -13,7 +13,6 @@ import { RouterLink } from '@angular/router';
     CommonModule,
     MatIconModule,
     MatPaginatorModule,
-    RouterLink
   ],
   templateUrl: './details-order.component.html',
   styleUrls: ['./details-order.component.scss'],

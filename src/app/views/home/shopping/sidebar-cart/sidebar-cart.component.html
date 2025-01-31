@@ -14,8 +14,20 @@
         aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-header">
             <h4 class="mt-2">Carrito</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>            
         </div>
+        @if (!address) {
+            <div class="alert alert-info empty-cart m-2">
+                <h6 class="text-center">
+                    <mat-icon>warning</mat-icon>
+                    Elegir una dirección antes de realizar compra
+                    <mat-icon>warning</mat-icon>
+                </h6>
+            </div>
+            
+            }@else{
+            <h6>{{address}}</h6>    
+            }
         <div class="offcanvas-body">
             <div class="cart-items px-3">
                 @for (article of cart; track $index; let i = $index) {
@@ -25,10 +37,11 @@
                         <div>
                             <h6 class="card-title">{{ article.description }} {{'(X' + article.g_qPackingUnit+ ')'}}</h6>
                             @if (article.basePrice > 0) {
-                                <p class="text-success">{{( article.basePrice * article.g_qPackingUnit) | number: '1.0-2' }} {{ article.currency }}</p>
+                            <p class="text-success">{{( article.basePrice * article.g_qPackingUnit) | number: '1.0-2' }}
+                                {{ article.currency }}</p>
                             }@else {
-                                <p class="card-text text-danger">No tiene precio</p>
-                            }                            
+                            <p class="card-text text-danger">No tiene precio</p>
+                            }
                         </div>
                     </div>
                     <div>
@@ -40,7 +53,7 @@
                 </div>
                 }
             </div>
-            @if (cart.length > 0) {
+            @if (cart.length > 0) {                            
             <div class="cart-total px-3 py-2 d-flex justify-content-between align-items-center">
                 <h5>Total:</h5>
                 <h5 class="text-success">{{ getTotal() | number: '1.0-2' }}</h5>

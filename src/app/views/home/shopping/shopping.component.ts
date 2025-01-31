@@ -11,7 +11,7 @@ import { ICustomer } from '../../../auth/interfaces/customer';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../auth/services/auth.service';
 import { AuthStatus } from '../../../auth/interfaces/auth.status.enum';
-import { BehaviorSubject, debounceTime, switchMap, catchError } from 'rxjs';
+import { BehaviorSubject, debounceTime, switchMap, catchError, Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
@@ -44,6 +44,8 @@ export class ShoppingComponent implements OnInit {
   accountNumber: string | null = null;  
   selectedAddress: string = '';
   selectedPartySiteNumber: string = '';
+  address: string = '';
+  private addressSubscription: Subscription | undefined;
 
   pageSize = 8;
   pageIndex = 0;
@@ -106,6 +108,10 @@ export class ShoppingComponent implements OnInit {
         }
       });
     }
+
+    this.addressSubscription = this.orderService.selectedAddress$.subscribe(address => {
+      this.address = address || '';
+    });
   }
 
   selectAddress(address: string, partySiteNumber: string): void {
